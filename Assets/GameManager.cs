@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI deckSizeText;
     public TextMeshProUGUI discardPileText;
 
+
     public void DrawCards()
     {
         if (deck.Count >= 1)
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
                     randCard.hasBeenPlayed = false;
 
                     availableCardSlots[i] = false;  
+               
                     deck.Remove(randCard);
                     return;
                 }
@@ -39,7 +41,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Shuffle()
+    public void ShuffleCards()
     {
         if (discardPile.Count >= 1)
         {

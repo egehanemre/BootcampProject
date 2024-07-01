@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
+    public int cardIndex;
+
     public bool hasBeenPlayed;
     public int handIndex;
 
@@ -18,14 +20,15 @@ public class Card : MonoBehaviour
     {
         if (!hasBeenPlayed)
         {
-            //change the bullet color on the mag
-
             //destory card
             hasBeenPlayed = true;
             _gameManager.availableCardSlots[handIndex] = true;
+
+            BulletManager.bulletIndex = cardIndex;
             Invoke("MoveToDiscard", 0.2f);
         }
     }
+
 
     void MoveToDiscard()
     {
