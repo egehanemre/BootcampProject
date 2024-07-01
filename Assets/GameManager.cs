@@ -27,12 +27,27 @@ public class GameManager : MonoBehaviour
                 {
                     randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
+
                     randCard.transform.position = cardSlots[i].position;
+                    randCard.hasBeenPlayed = false;
+
                     availableCardSlots[i] = false;  
                     deck.Remove(randCard);
                     return;
                 }
             }
+        }
+    }
+
+    public void Shuffle()
+    {
+        if (discardPile.Count >= 1)
+        {
+            foreach (Card card in discardPile)
+            {
+                deck.Add(card);
+            }
+            discardPile.Clear();
         }
     }
 

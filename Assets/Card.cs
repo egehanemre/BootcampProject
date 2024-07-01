@@ -8,6 +8,7 @@ public class Card : MonoBehaviour
     public int handIndex;
 
     private GameManager _gameManager;
+    private BulletManager bulletManager;
 
     private void Start()
     {
@@ -18,6 +19,8 @@ public class Card : MonoBehaviour
         if (!hasBeenPlayed)
         {
             //change the bullet color on the mag
+
+            //destory card
             hasBeenPlayed = true;
             _gameManager.availableCardSlots[handIndex] = true;
             Invoke("MoveToDiscard", 0.2f);
