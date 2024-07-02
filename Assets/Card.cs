@@ -10,7 +10,6 @@ public class Card : MonoBehaviour
     public int handIndex;
 
     private GameManager _gameManager;
-    private BulletManager bulletManager;
 
     private void Start()
     {
@@ -24,11 +23,11 @@ public class Card : MonoBehaviour
             hasBeenPlayed = true;
             _gameManager.availableCardSlots[handIndex] = true;
 
-            BulletManager.bulletIndex = cardIndex;
+            _gameManager.bulletIndex = cardIndex;
+            _gameManager.AddBullet();
             Invoke("MoveToDiscard", 0.2f);
         }
     }
-
 
     void MoveToDiscard()
     {

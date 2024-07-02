@@ -8,12 +8,21 @@ public class GameManager : MonoBehaviour
 {
     public List<Card> deck = new List<Card>();
     public List<Card> discardPile = new List<Card>();
+    public List<GameObject> bulletObjects = new List<GameObject>();
 
     public Transform[] cardSlots;
+    public Transform[] bulletSlots;
+
     public bool[] availableCardSlots;
+    public bool[] availableBulletSlots;
+
+    public GameObject bulletToAdd;
+    public int bulletIndex;
 
     public TextMeshProUGUI deckSizeText;
     public TextMeshProUGUI discardPileText;
+
+    public Queue<GameObject> bulletQueue = new Queue<GameObject>();
 
 
     public void DrawCards()
@@ -53,9 +62,40 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void UpdateDeckCount()
     {
         deckSizeText.text = "Deck: " + deck.Count;
         discardPileText.text = "Discard: " + discardPile.Count;
+    }
+
+    public void AddBullet()
+    {
+        for (int i = 0; i < availableBulletSlots.Length; i++)
+        {
+            if (availableBulletSlots[i] == true)
+            {
+                bulletToAdd = bulletObjects[bulletIndex];
+                bulletToAdd.SetActive(true);
+                bulletToAdd.transform.position = bulletSlots[i].position;
+                availableBulletSlots[i] = false;
+
+                bulletQueue.Enqueue(bulletToAdd);
+
+                return;
+            }
+        }
+    }
+
+    public void FireBullet()
+    {
+        if (availableBulletSlots[0] != true)
+        {
+            bulletQueue.Dequeue().SetActive(false);
+        }
+        
+    }
+    void Update()
+    {
+        UpdateDeckCount();
     }
 }
