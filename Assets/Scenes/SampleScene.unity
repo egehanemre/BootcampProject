@@ -508,7 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90bd5ca0f846b6468fbc444b154220d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletIndex: 7
+  bulletsIndex: 7
 --- !u!224 &484771388 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3958495741634512885, guid: 64e6482ec0c31ec4ba655c6464517ec2, type: 3}
@@ -1536,7 +1536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90bd5ca0f846b6468fbc444b154220d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletIndex: 6
+  bulletsIndex: 6
 --- !u!1001 &1235156804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4415,7 +4415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90bd5ca0f846b6468fbc444b154220d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletIndex: 0
+  bulletsIndex: 0
 --- !u!114 &6933132177206968370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4428,7 +4428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90bd5ca0f846b6468fbc444b154220d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletIndex: 2
+  bulletsIndex: 2
 --- !u!224 &6990487064118543958 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3296871167401889840, guid: 9836486e21f7a8c4ab4ed26840d37046, type: 3}
@@ -4446,7 +4446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90bd5ca0f846b6468fbc444b154220d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletIndex: 1
+  bulletsIndex: 1
 --- !u!1001 &7556374702832796158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4563,7 +4563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90bd5ca0f846b6468fbc444b154220d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletIndex: 5
+  bulletsIndex: 5
 --- !u!1001 &8181366230608790821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4693,7 +4693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90bd5ca0f846b6468fbc444b154220d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletIndex: 4
+  bulletsIndex: 4
 --- !u!114 &8912926329466655443 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6717785881129625142, guid: 747baf8d26d1ebc45b2b8dec19cd4a3a, type: 3}
@@ -4722,7 +4722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90bd5ca0f846b6468fbc444b154220d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletIndex: 3
+  bulletsIndex: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

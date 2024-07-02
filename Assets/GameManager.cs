@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     private float rotationTime = 1f; // Time to rotate degrees
 
     public int arrayIndex = 0;
+    public int shootIndex = 0;  
 
     public Bullet firedBullet;
 
@@ -125,7 +126,7 @@ public class GameManager : MonoBehaviour
         {
             firedBullet = BulletQueue.Dequeue();
 
-            for (int i = 0; i < bulletSlots.Length; i++)
+            for (int i = 0 + shootIndex; i < bulletSlots.Length; i++)
             {
                 if (bulletSlots[i].sprite == firedBullet.GetComponent<Image>().sprite)
                 {
@@ -141,6 +142,16 @@ public class GameManager : MonoBehaviour
 
             // Rotate the cylinder
             RotateCylinder();
+
+            if (shootIndex < availableBulletSlots.Length - 1)
+            {
+                shootIndex++;
+            }
+            else
+            {
+                shootIndex = 0;
+            }
+
         }
         else
         {
