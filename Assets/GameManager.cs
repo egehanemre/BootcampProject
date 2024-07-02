@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> bulletObjects = new List<GameObject>();
 
     public Transform[] cardSlots;
-    public Transform[] bulletSlots;
+    public Image[] bulletSlots;
 
     public bool[] availableCardSlots;
     public bool[] availableBulletSlots;
@@ -22,8 +22,27 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI deckSizeText;
     public TextMeshProUGUI discardPileText;
 
-    public Queue<GameObject> bulletQueue = new Queue<GameObject>();
+    public Queue<Bullet> BulletQueue = new Queue<Bullet>();
 
+    public GameObject cylinder; // Reference to the cylinder GameObject
+    public float rotationSpeed = 60f; // Degrees per second
+
+    private bool isRotating = false;
+    private Quaternion targetRotation;
+    private float rotationTime = 1f; // Time to rotate degrees
+
+    public int arrayIndex = 0;
+
+    public Bullet firedBullet;
+
+    private void Start()
+    {
+        availableBulletSlots = new bool[bulletSlots.Length];
+        for (int i = 0; i < availableBulletSlots.Length; i++)
+        {
+            availableBulletSlots[i] = true;
+        }
+    }
 
     public void DrawCards()
     {
@@ -41,8 +60,8 @@ public class GameManager : MonoBehaviour
                     randCard.transform.position = cardSlots[i].position;
                     randCard.hasBeenPlayed = false;
 
-                    availableCardSlots[i] = false;  
-               
+                    availableCardSlots[i] = false;
+
                     deck.Remove(randCard);
                     return;
                 }
@@ -70,30 +89,105 @@ public class GameManager : MonoBehaviour
 
     public void AddBullet()
     {
-        for (int i = 0; i < availableBulletSlots.Length; i++)
+        for (int i = arrayIndex; i < availableBulletSlots.Length; i++)
         {
-            if (availableBulletSlots[i] == true)
+            if (availableBulletSlots[i])
             {
                 bulletToAdd = bulletObjects[bulletIndex];
                 bulletToAdd.SetActive(true);
-                bulletToAdd.transform.position = bulletSlots[i].position;
+
+                bulletSlots[i].enabled = true;
+                bulletSlots[i].sprite = bulletToAdd.GetComponent<Image>().sprite;
+                bulletSlots[i].color = bulletToAdd.GetComponent<Image>().color;
+
+                BulletQueue.Enqueue(bulletToAdd.GetComponent<Bullet>());
+
                 availableBulletSlots[i] = false;
-
-                bulletQueue.Enqueue(bulletToAdd);
-
-                return;
+                break;
             }
+        }
+
+        DisplayBulletQueue();
+
+        if (arrayIndex < availableBulletSlots.Length - 1)
+        {
+            arrayIndex++;
+        }
+        else
+        {
+            arrayIndex = 0;
         }
     }
 
     public void FireBullet()
     {
-        if (availableBulletSlots[0] != true)
+        if (BulletQueue.Count > 0)
         {
-            bulletQueue.Dequeue().SetActive(false);
+            firedBullet = BulletQueue.Dequeue();
+
+            for (int i = 0; i < bulletSlots.Length; i++)
+            {
+                if (bulletSlots[i].sprite == firedBullet.GetComponent<Image>().sprite)
+                {
+                    bulletSlots[i].enabled = false;
+                    bulletSlots[i].sprite = null;
+                    bulletSlots[i].color = Color.clear;
+
+                    availableBulletSlots[i] = true;
+
+                    break;
+                }
+            }
+
+            // Rotate the cylinder
+            RotateCylinder();
         }
-        
+        else
+        {
+            Debug.Log("No bullets in queue to fire.");
+        }
+
+        DisplayBulletQueue(); // Display queue contents after firing a bullet
     }
+
+    private void RotateCylinder()
+    {
+        if (cylinder != null && !isRotating)
+        {
+            targetRotation = cylinder.transform.rotation * Quaternion.Euler(0, 0, 60f); // Rotate
+            StartCoroutine(RotateCoroutine());
+        }
+        else
+        {
+            Debug.LogWarning("Cylinder GameObject is not assigned or already rotating.");
+        }
+    }
+
+    private IEnumerator RotateCoroutine()
+    {
+        isRotating = true;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < rotationTime)
+        {
+            cylinder.transform.rotation = Quaternion.RotateTowards(cylinder.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        cylinder.transform.rotation = targetRotation;
+        isRotating = false;
+    }
+
+    public void DisplayBulletQueue()
+    {
+        Debug.Log("Current Bullets in Queue:");
+        foreach (Bullet bullet in BulletQueue)
+        {
+            Debug.Log(bullet.name);
+        }
+    }
+
     void Update()
     {
         UpdateDeckCount();
