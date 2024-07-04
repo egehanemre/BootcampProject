@@ -6,69 +6,75 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    // Card management
     public List<Card> deck = new List<Card>();
     public List<Card> discardPile = new List<Card>();
-    public Transform[] cardSlots;
-    public bool[] availableCardSlots;
-
-    // Bullet management
     public List<GameObject> bulletObjects = new List<GameObject>();
+
+    public Transform[] cardSlots;
     public Image[] bulletSlots;
+
+    public bool[] availableCardSlots;
     public bool[] availableBulletSlots;
+
     public Queue<Bullet> BulletQueue = new Queue<Bullet>();
 
-    // Cylinder and rotation
-    public GameObject cylinder;
-    public Button fireButton;
-    private bool isRotating = false;
-    private Quaternion targetRotation;
-    public float rotationSpeed = 60f;
-    private float rotationTime = 1f;
+    public GameObject cylinder; 
+    public Button fireButton; 
 
-    // Health management
-    public int maxHealth = 10;
-    public int currentHealth;
-    public List<Image> heartImages;
-    public Sprite fullHeart;
-    public Sprite emptyHeart;
-
-    // UI Text elements
     public TextMeshProUGUI deckSizeText;
     public TextMeshProUGUI discardPileText;
 
-    // Index management
-    private int arrayIndex = 0;
-    private int shootIndex = 0;
+    public Image[] heartImages; 
+    public Sprite fullHeart; 
+    public Sprite emptyHeart; 
+
+    public GameObject bulletToAdd;
+    public int bulletIndex;
+
+    public Bullet firedBullet;
+
+    public int maxHealth = 10; 
+    public int currentHealth; 
+
+    public float rotationSpeed = 60f;
+    public bool isRotating = false;
+    public Quaternion targetRotation;
+    public float rotationTime = 1f;
+
+    public int arrayIndex = 0;
+    public int shootIndex = 0;
 
     private void Start()
     {
-        currentHealth = maxHealth; // Set player health to max health
+        currentHealth = maxHealth;
 
-        InitializeCardSlots();
-        InitializeBulletSlots();
+        SetStartSlots();
         UpdateHealthUI();
     }
 
-    private void InitializeCardSlots()
+    void Update()
     {
-        availableCardSlots = new bool[cardSlots.Length];
-        for (int i = 0; i < availableCardSlots.Length; i++)
-        {
-            availableCardSlots[i] = true;
-        }
+        UpdateDeckCount();
+        UpdateHealthUI();
     }
 
-    private void InitializeBulletSlots()
+    public void SetStartSlots()
     {
         availableBulletSlots = new bool[bulletSlots.Length];
         for (int i = 0; i < availableBulletSlots.Length; i++)
         {
             availableBulletSlots[i] = true;
         }
+
+        availableCardSlots = new bool[cardSlots.Length];
+        for (int i = 0; i < availableCardSlots.Length; i++)
+        {
+            availableCardSlots[i] = true;
+        }
+
     }
 
-    // Card methods
+    #region Card Methods
     public void DrawCards()
     {
         if (deck.Count > 0)
@@ -78,14 +84,16 @@ public class GameManager : MonoBehaviour
             bool cardDrawn = false;
             for (int i = 0; i < availableCardSlots.Length; i++)
             {
-                if (availableCardSlots[i])
+                if (availableCardSlots[i] == true)
                 {
                     randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
+
                     randCard.transform.position = cardSlots[i].position;
                     randCard.hasBeenPlayed = false;
 
                     availableCardSlots[i] = false;
+
                     deck.Remove(randCard);
                     cardDrawn = true;
                     break;
@@ -115,7 +123,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Bullet methods
+    public void UpdateDeckCount()
+    {
+        deckSizeText.text = "Deck: " + deck.Count;
+        discardPileText.text = "Discard: " + discardPile.Count;
+    }
+
+    #endregion
+
+    #region bullet Methods
     public bool AddBullet()
     {
         bool bulletAdded = false;
@@ -123,7 +139,7 @@ public class GameManager : MonoBehaviour
         {
             if (availableBulletSlots[i])
             {
-                GameObject bulletToAdd = bulletObjects[arrayIndex];
+                bulletToAdd = bulletObjects[bulletIndex];
                 bulletToAdd.SetActive(true);
 
                 bulletSlots[i].enabled = true;
@@ -131,8 +147,8 @@ public class GameManager : MonoBehaviour
                 bulletSlots[i].color = bulletToAdd.GetComponent<Image>().color;
 
                 BulletQueue.Enqueue(bulletToAdd.GetComponent<Bullet>());
-                availableBulletSlots[i] = false;
 
+                availableBulletSlots[i] = false;
                 bulletAdded = true;
                 break;
             }
@@ -143,24 +159,25 @@ public class GameManager : MonoBehaviour
             Debug.Log("No available slots to add bullet.");
         }
 
-        DisplayBulletQueue();
-        UpdateBulletIndex();
+        if (arrayIndex < availableBulletSlots.Length - 1)
+        {
+            arrayIndex++;
+        }
+        else
+        {
+            arrayIndex = 0;
+        }
 
         return bulletAdded;
-    }
-
-    private void UpdateBulletIndex()
-    {
-        arrayIndex = (arrayIndex < availableBulletSlots.Length - 1) ? arrayIndex + 1 : 0;
     }
 
     public void FireBullet()
     {
         if (!isRotating && BulletQueue.Count > 0)
         {
-            Bullet firedBullet = BulletQueue.Dequeue();
+            firedBullet = BulletQueue.Dequeue();
 
-            for (int i = shootIndex; i < bulletSlots.Length; i++)
+            for (int i = 0 + shootIndex; i < bulletSlots.Length; i++)
             {
                 if (bulletSlots[i].sprite == firedBullet.GetComponent<Image>().sprite)
                 {
@@ -169,36 +186,43 @@ public class GameManager : MonoBehaviour
                     bulletSlots[i].color = Color.clear;
 
                     availableBulletSlots[i] = true;
+
                     break;
                 }
             }
 
+            // Rotate the cylinder
             RotateCylinder();
-            UpdateShootIndex();
+
+            if (shootIndex < availableBulletSlots.Length - 1)
+            {
+                shootIndex++;
+            }
+            else
+            {
+                shootIndex = 0;
+            }
         }
         else
         {
             Debug.Log("No bullets in queue to fire or cylinder is rotating.");
         }
-
-        DisplayBulletQueue();
     }
 
-    private void UpdateShootIndex()
-    {
-        shootIndex = (shootIndex < availableBulletSlots.Length - 1) ? shootIndex + 1 : 0;
-    }
+    #endregion
 
+    #region cylinder animations
     private void RotateCylinder()
     {
         if (cylinder != null && !isRotating)
         {
+            // Disable the fire button
             if (fireButton != null)
             {
                 fireButton.interactable = false;
             }
 
-            targetRotation = cylinder.transform.rotation * Quaternion.Euler(0, 0, 60f);
+            targetRotation = cylinder.transform.rotation * Quaternion.Euler(0, 0, 60f); // Rotate
             StartCoroutine(RotateCoroutine());
         }
         else
@@ -207,6 +231,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DisplayBulletQueue()
+    {
+        Debug.Log("Current Bullets in Queue:");
+        foreach (Bullet bullet in BulletQueue)
+        {
+            Debug.Log(bullet.name);
+        }
+    }
     private IEnumerator RotateCoroutine()
     {
         isRotating = true;
@@ -222,27 +254,28 @@ public class GameManager : MonoBehaviour
         cylinder.transform.rotation = targetRotation;
         isRotating = false;
 
+        // Enable the fire button after rotation is complete
         if (fireButton != null)
         {
             fireButton.interactable = true;
         }
     }
 
-    public void DisplayBulletQueue()
-    {
-        Debug.Log("Current Bullets in Queue:");
-        foreach (Bullet bullet in BulletQueue)
-        {
-            Debug.Log(bullet.name);
-        }
-    }
+    #endregion
 
-    // Health methods
+    #region health methods
     public void UpdateHealthUI()
     {
-        for (int i = 0; i < heartImages.Count; i++)
+        for (int i = 0; i < heartImages.Length; i++)
         {
-            heartImages[i].sprite = (i < currentHealth) ? fullHeart : emptyHeart;
+            if (i < currentHealth)
+            {
+                heartImages[i].sprite = fullHeart;
+            }
+            else
+            {
+                heartImages[i].sprite = emptyHeart;
+            }
         }
     }
 
@@ -255,7 +288,9 @@ public class GameManager : MonoBehaviour
         if (currentHealth <= 0)
         {
             Debug.Log("Player is dead");
-            // Add logic for game over or reset
+            // Add logic
         }
     }
+
+    #endregion
 }
