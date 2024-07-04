@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI deckSizeText;
     public TextMeshProUGUI discardPileText;
 
-    public Image[] heartImages; 
+    public Image[] heartImages;
+    public Image[] enemyHeartImages;
     public Sprite fullHeart; 
     public Sprite emptyHeart; 
 
@@ -32,17 +33,20 @@ public class GameManager : MonoBehaviour
     public int bulletIndex;
 
     public Bullet firedBullet;
+    public Bullet bullet;
 
-    public int maxHealth = 10; 
+    public int maxHealth = 5;
+    public int enemyHealth;
     public int currentHealth; 
 
-    public float rotationSpeed = 60f;
+    public float rotationSpeed = 120f;
     public bool isRotating = false;
     public Quaternion targetRotation;
-    public float rotationTime = 1f;
+    public float rotationTime = 0.5f;
 
     public int arrayIndex = 0;
     public int shootIndex = 0;
+    public int firedIndex = -1; 
 
     private void Start()
     {
@@ -187,6 +191,10 @@ public class GameManager : MonoBehaviour
 
                     availableBulletSlots[i] = true;
 
+                    firedIndex = firedBullet.bulletIndex;
+
+                    TurnShot();
+
                     break;
                 }
             }
@@ -275,6 +283,15 @@ public class GameManager : MonoBehaviour
             else
             {
                 heartImages[i].sprite = emptyHeart;
+                
+            }
+            if(i < enemyHealth)
+            {
+                enemyHeartImages[i].sprite = fullHeart;
+            }
+            else
+            {
+                enemyHeartImages[i].sprite = emptyHeart;
             }
         }
     }
@@ -293,4 +310,45 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    public void TurnShot()
+    {
+        // Add logic for each bullet type
+        switch (firedIndex)
+        {
+            case 0:
+                enemyHealth -= 1;
+                break;
+            case 1:
+                enemyHealth -= 1;
+                break;
+            case 2:
+                enemyHealth -= 1;
+                break;
+            case 3:
+                enemyHealth -= 1;
+
+                break;
+            case 4:
+                enemyHealth -= 1;
+
+                break;
+            case 5:
+                enemyHealth -= 1;
+
+                break;
+            case 6:
+                enemyHealth -= 1;
+
+                break;
+            case 7:
+                enemyHealth -= 1;
+
+                break;
+            case 8:
+                enemyHealth -= 1;
+
+                break;
+        }
+    }
 }
