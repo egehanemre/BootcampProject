@@ -53,6 +53,22 @@ Kartlarınızı çekin, stratejinizi belirleyin ve bu destansı maceraya katıl�
 
 ## Hedef Kitle
 
+Kaderin Kartları: (oyun adı), zihninin sınırlarını zorlayacak ve taktiksel zekanı parlatacak bir oyun. Bu oyun, sıradan oyuncular için değil; her hamlede zaferi tatmayı arzulayanlar için.
+
+Kimler İçin?
+
+•	Strateji Ustaları: Derinlemesine düşünülmüş hamleler sevenler.
+
+•	Kart Oyunu Hayranları: Magic: The Gathering ve Slay the Spire gibi oyunları sevenler.
+
+•	Rekabetçi Ruhlar: Rakipleriyle bire bir düellolara katılmak isteyenler.
+
+•	Maceraperest Oyuncular: Her seferinde farklı bir oyun deneyimi arayanlar.
+
+•	Hızlı Düşünenler: Hızlı karar verme yeteneklerini sınamak isteyenler.
+
+
+
 
 ## Juriye Not
 
