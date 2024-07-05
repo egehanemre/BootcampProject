@@ -72,6 +72,14 @@ Kimler İçin?
 
 ## Juriye Not
 
+Kaderin Kartları: (oyun adı) ile sizleri büyüleyici ve stratejik derinliği olan bir dünyanın kapılarını aralamaya davet ediyoruz. Bu oyunu tasarlarken, her kartın, her hamlenin ve her stratejinin önemini vurgulamak istedik. Hedefimiz, oyunculara her oyunda farklı bir deneyim sunmak ve onları düşünmeye, plan yapmaya teşvik eden bir platform yaratmaktı.
+
+Ekipçe birlikte çalışarak her birimizin yeteneklerini ve fikirlerini birleştirerek (oyun adı)’nı gerçeğe dönüştürdük. Bu yolculuk boyunca öğrendiğimiz her şey ve bu süreçte kazandığımız deneyimler bizi hem birer geliştirici hem de oyuncu olarak büyüttü. Umarız Kaderin Kartları: (oyun adı) ile sizlere de aynı heyecanı ve tutkuyu hissettirebiliriz.
+
+Bu projeye inancınız ve verdiğiniz değerli zaman için şimdiden teşekkür ederiz.
+
+Saygılarımızla
+
 
 # Sprint 1
 
