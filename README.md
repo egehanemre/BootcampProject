@@ -21,18 +21,31 @@ Unity-76
 ## Oyun Açıklaması ve Oyun Özellikleri
 
 Kaderin Kartları: (oyun adı)
+
 Dünyanızı yeniden şekillendirecek bir kart oyunu ile tanışmaya hazır mısınız? Kaderin Kartları: (oyun adı), strateji ve heyecanın sınırlarını zorlayan, bağımlılık yaratacak bir oyun deneyimi sunuyor. Kendinizi kartların büyülü dünyasında bulacak ve her hamlenizde nefes kesen anlar yaşayacaksınız!
+
 Oyun Özellikleri:
+
 •	Benzersiz Kart Destesi: Oyuna başlangıçta 10 kartlık bir deste ile adım atın. Her oyun için rastgele karıştırılan destenizle her seferinde farklı bir strateji geliştirin.
+
 •	1'e 1 Düellolar: Rakibinizle karşı karşıya gelin ve sırayla kartlarınızı oynayarak üstünlük sağlamaya çalışın. Düşmanla taktiksel bir savaş başlayacak.
+
 •	Dinamik Kart Çekme Sistemi: Oyun başında 5 kart çekin, her tur bir kart daha çekerek elinizi güçlendirin
+
 •	Can Sistemi: Hem oyuncunun hem de düşmanın canı olacak. Elinizde oynayacak kart kalmayana veya düşmanı alt edene kadar mücadele edin.
+
 •	Stratejik Haritalar: Düşmanınızı yendikten sonra ilerleyebileceğiniz çeşitli haritalar karşınıza çıkacak. Her galibiyet sizi yeni zorluklara ve maceralara götürecek.
+
 •	Çeşitli Düşmanlar ve Boss: Şimdilik 4 farklı düşman ve zorlu bir boss sizi bekliyor. Her biri farklı stratejiler ve kartlarla karşınıza çıkacak.
+
 •	Tur Bazlı Savaş: Her tur, önce oyuncunun ardından düşmanın şarjörü ateşlenir. oyunun kaderi her an değişebilir.
+
 Neden Kaderin Kartları?
+
 Kaderin Kartları: (oyun adı), sıradan bir kart oyununun ötesinde, derin strateji ve hızlı düşünme yeteneklerinizi sınayan bir macera sunar. Her kartın gücü, her hamlenizin önemi büyük. Şansa mı güveneceksiniz, yoksa zekanızı mı konuşturacaksınız?
+
 Hem kart oyunlarına yeni başlayanlar hem de deneyimli strateji ustaları için mükemmel bir seçenek. Yenilikçi mekanikleri ve dinamik oynanışı ile her seferinde farklı bir deneyim yaşayın.
+
 Kartlarınızı çekin, stratejinizi belirleyin ve bu destansı maceraya katılın. Kaderin Kartları: (oyun adı) sizi bekliyor! Düelloya hazır mısınız?
 
 
