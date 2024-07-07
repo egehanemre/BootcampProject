@@ -708,21 +708,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card6
       objectReference: {fileID: 0}
-    - target: {fileID: 5229332580041227260, guid: 8459654ddb345614294196484968b387, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7115249822477629115, guid: 8459654ddb345614294196484968b387, type: 3}
       propertyPath: hoverScaleSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7115249822477629115, guid: 8459654ddb345614294196484968b387, type: 3}
-      propertyPath: hoverScaleFactor
-      value: 1.4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7115249822477629115, guid: 8459654ddb345614294196484968b387, type: 3}
       propertyPath: hoverForwardOffset
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8087694594754018774, guid: 8459654ddb345614294196484968b387, type: 3}
       propertyPath: m_LocalPosition.x
@@ -767,10 +759,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5229332580041227260, guid: 8459654ddb345614294196484968b387, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1900167599}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8459654ddb345614294196484968b387, type: 3}
 --- !u!1 &380457422 stripped
 GameObject:
@@ -789,21 +778,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card2
       objectReference: {fileID: 0}
-    - target: {fileID: 5229332580041227260, guid: ef7587e65b4b45c41aa081f217a8e006, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7789621724658017819, guid: ef7587e65b4b45c41aa081f217a8e006, type: 3}
       propertyPath: hoverScaleSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7789621724658017819, guid: ef7587e65b4b45c41aa081f217a8e006, type: 3}
-      propertyPath: hoverScaleFactor
-      value: 1.4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7789621724658017819, guid: ef7587e65b4b45c41aa081f217a8e006, type: 3}
       propertyPath: hoverForwardOffset
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8087694594754018774, guid: ef7587e65b4b45c41aa081f217a8e006, type: 3}
       propertyPath: m_LocalPosition.x
@@ -848,10 +829,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5229332580041227260, guid: ef7587e65b4b45c41aa081f217a8e006, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1075851665}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef7587e65b4b45c41aa081f217a8e006, type: 3}
 --- !u!1 &519420028
 GameObject:
@@ -990,11 +968,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &531499929 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5229332580041227260, guid: 8459654ddb345614294196484968b387, type: 3}
-  m_PrefabInstance: {fileID: 347925140}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &538266480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,21 +1090,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card4
       objectReference: {fileID: 0}
-    - target: {fileID: 5229332580041227260, guid: 4b473783c206ad1488fee66d3f32138f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6377982493744439445, guid: 4b473783c206ad1488fee66d3f32138f, type: 3}
       propertyPath: hoverScaleSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6377982493744439445, guid: 4b473783c206ad1488fee66d3f32138f, type: 3}
-      propertyPath: hoverScaleFactor
-      value: 1.4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6377982493744439445, guid: 4b473783c206ad1488fee66d3f32138f, type: 3}
       propertyPath: hoverForwardOffset
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8087694594754018774, guid: 4b473783c206ad1488fee66d3f32138f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1176,10 +1141,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5229332580041227260, guid: 4b473783c206ad1488fee66d3f32138f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2113218761}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b473783c206ad1488fee66d3f32138f, type: 3}
 --- !u!4 &593938188 stripped
 Transform:
@@ -1191,7 +1153,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7789621724658017819, guid: ef7587e65b4b45c41aa081f217a8e006, type: 3}
   m_PrefabInstance: {fileID: 439613401}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1075851662}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56585d2eb68daef4090ebdc17eed203a, type: 3}
@@ -1513,10 +1475,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card5
       objectReference: {fileID: 0}
-    - target: {fileID: 5229332580041227260, guid: 0d9570e171926614689fed3864717021, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8087694594754018774, guid: 0d9570e171926614689fed3864717021, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1559,29 +1517,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8588288768905412712, guid: 0d9570e171926614689fed3864717021, type: 3}
       propertyPath: hoverScaleSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8588288768905412712, guid: 0d9570e171926614689fed3864717021, type: 3}
-      propertyPath: hoverScaleFactor
-      value: 1.4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8588288768905412712, guid: 0d9570e171926614689fed3864717021, type: 3}
       propertyPath: hoverForwardOffset
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5229332580041227260, guid: 0d9570e171926614689fed3864717021, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2129027710}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d9570e171926614689fed3864717021, type: 3}
---- !u!1 &731350836 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5229332580041227260, guid: 0d9570e171926614689fed3864717021, type: 3}
-  m_PrefabInstance: {fileID: 698324010}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &747931839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1632,37 +1578,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6717785881129625142, guid: 747baf8d26d1ebc45b2b8dec19cd4a3a, type: 3}
       propertyPath: hoverScaleSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6717785881129625142, guid: 747baf8d26d1ebc45b2b8dec19cd4a3a, type: 3}
-      propertyPath: hoverScaleFactor
-      value: 1.4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6717785881129625142, guid: 747baf8d26d1ebc45b2b8dec19cd4a3a, type: 3}
       propertyPath: hoverForwardOffset
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6917811601388501331, guid: 747baf8d26d1ebc45b2b8dec19cd4a3a, type: 3}
       propertyPath: m_Name
       value: Card8
       objectReference: {fileID: 0}
-    - target: {fileID: 6917811601388501331, guid: 747baf8d26d1ebc45b2b8dec19cd4a3a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6917811601388501331, guid: 747baf8d26d1ebc45b2b8dec19cd4a3a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1908735505}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 747baf8d26d1ebc45b2b8dec19cd4a3a, type: 3}
---- !u!1 &800916771 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5229332580041227260, guid: b7a3192ea4b9bfc479cefe0f77017ceb, type: 3}
-  m_PrefabInstance: {fileID: 1772640306}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &844274444 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6209321234323238478, guid: 22c600474542d4f4a840959020e1e5c3, type: 3}
@@ -1818,11 +1748,6 @@ RectTransform:
   m_AnchoredPosition: {x: -714, y: 25}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &991768819 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7389406456879431694, guid: 26698ae8b25710f41be744be00810c75, type: 3}
-  m_PrefabInstance: {fileID: 2138503686}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1027497593
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,29 +1999,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22c600474542d4f4a840959020e1e5c3, type: 3}
---- !u!1 &1075851662 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5229332580041227260, guid: ef7587e65b4b45c41aa081f217a8e006, type: 3}
-  m_PrefabInstance: {fileID: 439613401}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1075851665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1075851662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaa658aecebcafe4ca980c41bdfa563d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minHoverAmplitude: 0.05
-  maxHoverAmplitude: 0.15
-  hoverSpeed: 1
-  hoverScaleFactor: 1.2
-  hoverScaleSpeed: 2
-  hoverForwardOffset: 0.2
 --- !u!4 &1078624684 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8087694594754018774, guid: b7a3192ea4b9bfc479cefe0f77017ceb, type: 3}
@@ -2107,30 +2009,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6300893864080805910, guid: b7a3192ea4b9bfc479cefe0f77017ceb, type: 3}
   m_PrefabInstance: {fileID: 1772640306}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 800916771}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56585d2eb68daef4090ebdc17eed203a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1078624690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 800916771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaa658aecebcafe4ca980c41bdfa563d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minHoverAmplitude: 0.05
-  maxHoverAmplitude: 0.15
-  hoverSpeed: 1
-  hoverScaleFactor: 1.2
-  hoverScaleSpeed: 2
-  hoverForwardOffset: 0.2
 --- !u!1 &1161542771
 GameObject:
   m_ObjectHideFlags: 0
@@ -2681,10 +2565,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card1
       objectReference: {fileID: 0}
-    - target: {fileID: 5229332580041227260, guid: f004b0c25eecfac4abc71cacb9cb0985, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8087694594754018774, guid: f004b0c25eecfac4abc71cacb9cb0985, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2767,15 +2647,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8979126971986207728, guid: f004b0c25eecfac4abc71cacb9cb0985, type: 3}
       propertyPath: hoverScaleSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8979126971986207728, guid: f004b0c25eecfac4abc71cacb9cb0985, type: 3}
-      propertyPath: hoverScaleFactor
-      value: 1.4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8979126971986207728, guid: f004b0c25eecfac4abc71cacb9cb0985, type: 3}
       propertyPath: hoverForwardOffset
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3419,7 +3295,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6717785881129625142, guid: 747baf8d26d1ebc45b2b8dec19cd4a3a, type: 3}
   m_PrefabInstance: {fileID: 747931839}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908735502}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56585d2eb68daef4090ebdc17eed203a, type: 3}
@@ -3685,7 +3561,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6377982493744439445, guid: 4b473783c206ad1488fee66d3f32138f, type: 3}
   m_PrefabInstance: {fileID: 558248150}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2113218758}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56585d2eb68daef4090ebdc17eed203a, type: 3}
@@ -4103,21 +3979,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card3
       objectReference: {fileID: 0}
-    - target: {fileID: 5229332580041227260, guid: b7a3192ea4b9bfc479cefe0f77017ceb, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6300893864080805910, guid: b7a3192ea4b9bfc479cefe0f77017ceb, type: 3}
       propertyPath: hoverScaleSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6300893864080805910, guid: b7a3192ea4b9bfc479cefe0f77017ceb, type: 3}
-      propertyPath: hoverScaleFactor
-      value: 1.4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6300893864080805910, guid: b7a3192ea4b9bfc479cefe0f77017ceb, type: 3}
       propertyPath: hoverForwardOffset
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8087694594754018774, guid: b7a3192ea4b9bfc479cefe0f77017ceb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4162,10 +4030,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5229332580041227260, guid: b7a3192ea4b9bfc479cefe0f77017ceb, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1078624690}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7a3192ea4b9bfc479cefe0f77017ceb, type: 3}
 --- !u!1 &1782815090
 GameObject:
@@ -4485,53 +4350,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7115249822477629115, guid: 8459654ddb345614294196484968b387, type: 3}
   m_PrefabInstance: {fileID: 347925140}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531499929}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56585d2eb68daef4090ebdc17eed203a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1900167599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531499929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaa658aecebcafe4ca980c41bdfa563d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minHoverAmplitude: 0.05
-  maxHoverAmplitude: 0.15
-  hoverSpeed: 1
-  hoverScaleFactor: 1.2
-  hoverScaleSpeed: 2
-  hoverForwardOffset: 0.2
---- !u!1 &1908735502 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6917811601388501331, guid: 747baf8d26d1ebc45b2b8dec19cd4a3a, type: 3}
-  m_PrefabInstance: {fileID: 747931839}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1908735505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908735502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaa658aecebcafe4ca980c41bdfa563d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minHoverAmplitude: 0.05
-  maxHoverAmplitude: 0.15
-  hoverSpeed: 1
-  hoverScaleFactor: 1.2
-  hoverScaleSpeed: 2
-  hoverForwardOffset: 0.2
 --- !u!4 &1951067592 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4027088169717926369, guid: 26698ae8b25710f41be744be00810c75, type: 3}
@@ -4542,30 +4366,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1457794396775795488, guid: 26698ae8b25710f41be744be00810c75, type: 3}
   m_PrefabInstance: {fileID: 2138503686}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 991768819}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56585d2eb68daef4090ebdc17eed203a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1951067598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 991768819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaa658aecebcafe4ca980c41bdfa563d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minHoverAmplitude: 0.05
-  maxHoverAmplitude: 0.15
-  hoverSpeed: 1
-  hoverScaleFactor: 1.2
-  hoverScaleSpeed: 2
-  hoverForwardOffset: 0.2
 --- !u!1 &1957738436
 GameObject:
   m_ObjectHideFlags: 0
@@ -4758,29 +4564,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7604505752985957247, guid: 721f6e9e5b90fb441b15a13761de3317, type: 3}
   m_PrefabInstance: {fileID: 1538964322}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2113218758 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5229332580041227260, guid: 4b473783c206ad1488fee66d3f32138f, type: 3}
-  m_PrefabInstance: {fileID: 558248150}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2113218761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2113218758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaa658aecebcafe4ca980c41bdfa563d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minHoverAmplitude: 0.05
-  maxHoverAmplitude: 0.15
-  hoverSpeed: 1
-  hoverScaleFactor: 1.2
-  hoverScaleSpeed: 2
-  hoverForwardOffset: 0.2
 --- !u!4 &2129027704 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8087694594754018774, guid: 0d9570e171926614689fed3864717021, type: 3}
@@ -4791,30 +4574,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8588288768905412712, guid: 0d9570e171926614689fed3864717021, type: 3}
   m_PrefabInstance: {fileID: 698324010}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 731350836}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56585d2eb68daef4090ebdc17eed203a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2129027710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 731350836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaa658aecebcafe4ca980c41bdfa563d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minHoverAmplitude: 0.05
-  maxHoverAmplitude: 0.15
-  hoverSpeed: 1
-  hoverScaleFactor: 1.2
-  hoverScaleSpeed: 2
-  hoverForwardOffset: 0.2
 --- !u!1001 &2138503686
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4825,15 +4590,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1457794396775795488, guid: 26698ae8b25710f41be744be00810c75, type: 3}
       propertyPath: hoverScaleSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1457794396775795488, guid: 26698ae8b25710f41be744be00810c75, type: 3}
-      propertyPath: hoverScaleFactor
-      value: 1.4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1457794396775795488, guid: 26698ae8b25710f41be744be00810c75, type: 3}
       propertyPath: hoverForwardOffset
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4027088169717926369, guid: 26698ae8b25710f41be744be00810c75, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4879,17 +4640,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card7
       objectReference: {fileID: 0}
-    - target: {fileID: 7389406456879431694, guid: 26698ae8b25710f41be744be00810c75, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7389406456879431694, guid: 26698ae8b25710f41be744be00810c75, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1951067598}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26698ae8b25710f41be744be00810c75, type: 3}
 --- !u!1001 &1816543505217614012
 PrefabInstance:

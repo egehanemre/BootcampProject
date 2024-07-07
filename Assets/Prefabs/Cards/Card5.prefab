@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8087694594754018774
 Transform:
   m_ObjectHideFlags: 0
@@ -94,6 +94,14 @@ MonoBehaviour:
   cardIndex: 4
   hasBeenPlayed: 0
   handIndex: 0
+  baseSortingOrder: 0
+  hoverSortingOrder: 100
+  minHoverAmplitude: 0.05
+  maxHoverAmplitude: 0.15
+  hoverSpeed: 1
+  hoverScaleFactor: 1.4
+  hoverScaleSpeed: 0.5
+  hoverForwardOffset: 0.8
 --- !u!212 &7028105797903518321
 SpriteRenderer:
   m_ObjectHideFlags: 0
