@@ -70,10 +70,9 @@ session feels fresh and engaging.
 - **How to complete points**: We have a total of 40 points worth of backlog that need to be completed throughout the project. When divided into 3 sprints, it was decided that the first sprint should start with 13 points.
 
 - **Daily Scrum**: Our Daily Scrum meetings were held on Discord. Examples of Daily Scrum meetings are shared below:
-- 
- ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Discord.PNG)-
- ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Discord2.PNG)
 
+ ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Discord2.PNG)
+ ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/DiscordImg.PNG)-
 
 - **Sprint board update**:
 ![Backlog 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Miro.PNG) 
