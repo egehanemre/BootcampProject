@@ -71,12 +71,12 @@ session feels fresh and engaging.
 
 - **Daily Scrum**: Our Daily Scrum meetings were held on Discord. Examples of Daily Scrum meetings are shared below:
 
- Readme(https://github.com/OyunveUygulamaAkademisi/Bootcamp2022Example/blob/main/ProjectManagement/Sprint1Documents/DailyScrumMeetingNotesSprint1.docx?raw=true)
+ Readme()
 
 - **Sprint board update**:
 ![Backlog 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Miro.PNG) 
 
-- **Ürün Durumu**: Ekran görüntüleri:
+- **State of the game**:
   ![Screenshot 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CurrentState.PNG)
 
 - **Sprint Review**: 
