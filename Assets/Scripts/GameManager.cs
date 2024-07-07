@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
     }
 
     #region Card Methods
+
     public void DrawCards()
     {
         if (deck.Count > 0)
@@ -93,12 +94,15 @@ public class GameManager : MonoBehaviour
                     randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
 
+                    randCard.baseSortingOrder = i;
                     randCard.transform.position = cardSlots[i].position;
+                    randCard.transform.rotation = cardSlots[i].rotation;
                     randCard.hasBeenPlayed = false;
 
                     availableCardSlots[i] = false;
 
-                    deck.Remove(randCard);
+                    deck.Remove(randCard);                
+
                     cardDrawn = true;
                     break;
                 }
