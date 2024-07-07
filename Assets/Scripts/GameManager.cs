@@ -46,7 +46,10 @@ public class GameManager : MonoBehaviour
 
     public int arrayIndex = 0;
     public int shootIndex = 0;
-    public int firedIndex = -1; 
+    public int firedIndex = -1;
+
+    public GameObject selectedEnemy;
+    public GameObject selectedEnemyContainerImage;
 
     private void Start()
     {
@@ -354,5 +357,11 @@ public class GameManager : MonoBehaviour
 
                 break;
         }
+    }
+
+    public void EnemySelection()
+    {
+        selectedEnemyContainerImage.SetActive(true);
+        
     }
 }
