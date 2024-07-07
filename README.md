@@ -71,7 +71,7 @@ session feels fresh and engaging.
 
 - **Daily Scrum**: Our Daily Scrum meetings were held on Discord. Examples of Daily Scrum meetings are shared below:
 
- https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Game.PNG
+ ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Game.PNG)
 
 - **Sprint board update**:
 ![Backlog 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Miro.PNG) 
