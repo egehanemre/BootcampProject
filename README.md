@@ -65,26 +65,24 @@ session feels fresh and engaging.
 # Sprint Overview
 ## Sprint 1
 
-- **Sprint içinde tamamlanması tahmin edilen puan**: 100 Puan
+- **Estimated Points to Complete in the Sprint**: 13 Points
 
+- **How to complete points**: We have a total of 40 points worth of backlog that need to be completed throughout the project. When divided into 3 sprints, it was decided that the first sprint should start with 13 points.
 
-- **Puan tamamlama mantığı**: Toplamda proje boyunca tamamlanması gereken 340 puanlık backlog bulunmaktadır. 3 sprint'e bölündüğünde ilk sprint'in en azından 100 ile başlaması gerektiğine karar verildi.
+- **Daily Scrum**: Our Daily Scrum meetings were held on Discord. Examples of Daily Scrum meetings are shared below:
 
+ Readme(https://github.com/OyunveUygulamaAkademisi/Bootcamp2022Example/blob/main/ProjectManagement/Sprint1Documents/DailyScrumMeetingNotesSprint1.docx?raw=true)
 
-- **Daily Scrum**: Daily Scrum toplantılarımız discord üzerinde gerçekleşti. Daily Scrum toplantısı örneği jpeg veya word olarak Readme'de tarafımızdan paylaşılmaktadır: [Sprint 1 Daily Scrum Chats](https://github.com/OyunveUygulamaAkademisi/Bootcamp2022Example/blob/main/ProjectManagement/Sprint1Documents/DailyScrumMeetingNotesSprint1.docx?raw=true)
-
-- **Sprint board update**: Sprint board screenshotları: 
-![Backlog 1](https://raw.githubusercontent.com/OyunveUygulamaAkademisi/Bootcamp2022Example/main/ProjectManagement/Sprint1Documents/backlog1.png) 
-
+- **Sprint board update**:
+![Backlog 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Miro.PNG) 
 
 - **Ürün Durumu**: Ekran görüntüleri:
-  ![Screenshot 1](https://github.com/OyunveUygulamaAkademisi/Bootcamp2022Example/blob/main/ProjectManagement/Sprint1Documents/product1.png)
-  ![Screenshot 2](https://github.com/OyunveUygulamaAkademisi/Bootcamp2022Example/blob/main/ProjectManagement/Sprint1Documents/product2.png)
-  ![Screenshot 3](https://github.com/OyunveUygulamaAkademisi/Bootcamp2022Example/blob/main/ProjectManagement/Sprint1Documents/product4.gif)
+  ![Screenshot 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CurrentState.PNG)
+
 - **Sprint Review**: 
-Alınan kararlar: Kullanıcı temel sayfaları oluşturulmuş, bazıları kodlanmış, arduino kurulumu ve firebase'e bağlanması sağlanmış, uygulama için veritabanı olarak firebase servisleri aktif edilmiş ve eksiklikler değerlendirilmiştir. Sprint Review katılımcıları: Mustafa Aksoy
+We finished the most of the playable prototype, mechanics are mostly working as intended on the coding side of things, we haven't done much on the art side since it was in the prototyping stage. 
 
 - **Sprint Retrospective:**
-  - Roller ile ilgili düzenleme yapılmış, scrum master değişmiştir.
-  - Takım içindeki görev dağılımıyla ilgili düzenleme yapılması kararı alınmıştır.
-  - Takım üyelerinin gelecek sprintlerde aktif olması gerektiğine vurgu yapılmıştır.
+  - Team Changes and Role Adjustments: We experienced team changes with 2 members leaving and 1 new member joining. Accordingly, roles were adjusted, and the Scrum Master was changed.
+  - Task Distribution Reorganization: It was decided to reorganize the task distribution within the team for the upcoming sprint to ensure more effective collaboration and workload balance.
+ 
