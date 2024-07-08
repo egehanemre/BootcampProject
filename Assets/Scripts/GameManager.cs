@@ -19,15 +19,13 @@ public class GameManager : MonoBehaviour
     public Queue<Bullet> BulletQueue = new Queue<Bullet>();
 
     public GameObject cylinder; 
-    public Button fireButton; 
+    public Button fireButton;
+
+    public Image healthBar;
+    public float healthAmount = 100f;
 
     public TextMeshProUGUI deckSizeText;
     public TextMeshProUGUI discardPileText;
-
-    public Image[] heartImages;
-    public Image[] enemyHeartImages;
-    public Sprite fullHeart; 
-    public Sprite emptyHeart; 
 
     public GameObject bulletToAdd;
     public int bulletIndex;
@@ -55,6 +53,7 @@ public class GameManager : MonoBehaviour
     {
         currentHealth = maxHealth;
 
+        TakeDamage(45);
         SetStartSlots();
         UpdateHealthUI();
     }
@@ -62,7 +61,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateDeckCount();
-        UpdateHealthUI();
     }
 
     public void SetStartSlots()
@@ -281,39 +279,13 @@ public class GameManager : MonoBehaviour
     #region health methods
     public void UpdateHealthUI()
     {
-        for (int i = 0; i < heartImages.Length; i++)
-        {
-            if (i < currentHealth)
-            {
-                heartImages[i].sprite = fullHeart;
-            }
-            else
-            {
-                heartImages[i].sprite = emptyHeart;
-                
-            }
-            if(i < enemyHealth)
-            {
-                enemyHeartImages[i].sprite = fullHeart;
-            }
-            else
-            {
-                enemyHeartImages[i].sprite = emptyHeart;
-            }
-        }
+        TakeDamage(20);
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int dmgAmount)
     {
-        currentHealth -= amount;
-        if (currentHealth < 0) currentHealth = 0;
-        UpdateHealthUI();
-
-        if (currentHealth <= 0)
-        {
-            Debug.Log("Player is dead");
-            // Add logic
-        }
+        healthAmount -= dmgAmount;
+        healthBar.fillAmount = healthAmount / 100f;
     }
 
     #endregion
