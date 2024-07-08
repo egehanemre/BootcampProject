@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
     private GameManager gameManager;
 
-    public int maxHealth = 5;
-    public int currentHealth;
+    public Image healthBar;
+
+    public float maxHealth = 100;
+    public float currentHealth;
 
     private void Start()
     {
@@ -15,16 +18,20 @@ public class Enemy : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    public void OnMouseDown()
+    public void UpdateHealthBar()
     {
-        gameManager.selectedEnemy = gameObject;
-        gameManager.selectedEnemyContainerImage.transform.position = transform.position;
-        gameManager.selectedEnemyContainerImage.SetActive(true);
+        healthBar.fillAmount = currentHealth / maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void OnMouseDown()
+    {
+        gameManager.EnemySelection(this);  // Pass the current enemy instance
+    }
+
+    public void EnemyTakeDamage(float damage)
     {
         currentHealth -= damage;
+        UpdateHealthBar();
 
         if (currentHealth <= 0)
         {
@@ -34,6 +41,6 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }
