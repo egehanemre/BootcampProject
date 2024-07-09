@@ -5,4 +5,5 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int bulletIndex;
+    public Enemy targetEnemy;
 }

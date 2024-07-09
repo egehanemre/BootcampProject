@@ -27,6 +27,8 @@ public class Card : MonoBehaviour
     private bool isHovering = false;
     private float hoverAmplitude;
 
+    public Enemy targetEnemy;
+
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();

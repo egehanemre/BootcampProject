@@ -17,17 +17,16 @@ public class GameManager : MonoBehaviour
     public bool[] availableBulletSlots;
 
     public Queue<Bullet> BulletQueue = new Queue<Bullet>();
+    public Queue<Enemy> TargetEnemyQueue = new Queue<Enemy>();
 
-    public GameObject cylinder; 
-    public Button fireButton; 
+    public GameObject cylinder;
+    public Button fireButton;
+
+    public Image healthBar;
+    public float healthAmount = 100f;
 
     public TextMeshProUGUI deckSizeText;
     public TextMeshProUGUI discardPileText;
-
-    public Image[] heartImages;
-    public Image[] enemyHeartImages;
-    public Sprite fullHeart; 
-    public Sprite emptyHeart; 
 
     public GameObject bulletToAdd;
     public int bulletIndex;
@@ -36,8 +35,7 @@ public class GameManager : MonoBehaviour
     public Bullet bullet;
 
     public int maxHealth = 5;
-    public int enemyHealth;
-    public int currentHealth; 
+    public int currentHealth;
 
     public float rotationSpeed = 120f;
     public bool isRotating = false;
@@ -46,20 +44,23 @@ public class GameManager : MonoBehaviour
 
     public int arrayIndex = 0;
     public int shootIndex = 0;
-    public int firedIndex = -1; 
+    public int firedIndex = -1;
+
+    public Enemy selectedEnemy;
+    public GameObject selectedEnemyContainerImage;
 
     private void Start()
     {
         currentHealth = maxHealth;
+        EnemySelection(selectedEnemy);
 
         SetStartSlots();
-        UpdateHealthUI();
     }
 
     void Update()
     {
         UpdateDeckCount();
-        UpdateHealthUI();
+        DisplayEnemyQ();
     }
 
     public void SetStartSlots()
@@ -89,7 +90,7 @@ public class GameManager : MonoBehaviour
             bool cardDrawn = false;
             for (int i = 0; i < availableCardSlots.Length; i++)
             {
-                if (availableCardSlots[i] == true)
+                if (availableCardSlots[i] == true) 
                 {
                     randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
 
                     availableCardSlots[i] = false;
 
-                    deck.Remove(randCard);                
+                    deck.Remove(randCard);
 
                     cardDrawn = true;
                     break;
@@ -155,6 +156,7 @@ public class GameManager : MonoBehaviour
                 bulletSlots[i].color = bulletToAdd.GetComponent<Image>().color;
 
                 BulletQueue.Enqueue(bulletToAdd.GetComponent<Bullet>());
+                TargetEnemyQueue.Enqueue(selectedEnemy);
 
                 availableBulletSlots[i] = false;
                 bulletAdded = true;
@@ -179,11 +181,33 @@ public class GameManager : MonoBehaviour
         return bulletAdded;
     }
 
+    public void Fire()
+    {
+        int bulletsToFire = BulletQueue.Count;
+        StartCoroutine(FireMultipleBullets(bulletsToFire));
+    }
+
+    private IEnumerator FireMultipleBullets(int bulletCount)
+    {
+        for (int i = 0; i < bulletCount; i++)
+        {
+            FireBullet();
+
+            // Wait until the rotation is complete before proceeding
+            while (isRotating)
+            {
+                yield return null;
+            }
+        }
+    }
+
+
     public void FireBullet()
     {
-        if (!isRotating && BulletQueue.Count > 0)
+        if (!isRotating && BulletQueue.Count > 0 && selectedEnemy != null)
         {
             firedBullet = BulletQueue.Dequeue();
+            selectedEnemy = TargetEnemyQueue.Peek();
 
             for (int i = 0 + shootIndex; i < bulletSlots.Length; i++)
             {
@@ -198,6 +222,8 @@ public class GameManager : MonoBehaviour
                     firedIndex = firedBullet.bulletIndex;
 
                     TurnShot();
+
+                    TargetEnemyQueue.Dequeue();
 
                     break;
                 }
@@ -251,6 +277,40 @@ public class GameManager : MonoBehaviour
             Debug.Log(bullet.name);
         }
     }
+    public void DisplayEnemyQ()
+    {
+        if (TargetEnemyQueue == null)
+        {
+            Debug.LogError("TargetEnemyQueue is null!");
+            return;
+        }
+
+        if (TargetEnemyQueue.Count == 0)
+        {
+            Debug.Log("TargetEnemyQueue is empty.");
+            return;
+        }
+
+        Debug.Log("Current enemy in Queue:");
+        foreach (Enemy enemy in TargetEnemyQueue)
+        {
+            if (enemy == null)
+            {
+                Debug.LogWarning("An enemy in the queue is null!");
+                continue;
+            }
+
+            if (enemy.gameObject == null)
+            {
+                Debug.LogWarning("An enemy's gameObject is null!");
+                continue;
+            }
+
+            Debug.Log(enemy.gameObject);
+        }
+    }
+
+
     private IEnumerator RotateCoroutine()
     {
         isRotating = true;
@@ -276,83 +336,54 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region health methods
-    public void UpdateHealthUI()
-    {
-        for (int i = 0; i < heartImages.Length; i++)
-        {
-            if (i < currentHealth)
-            {
-                heartImages[i].sprite = fullHeart;
-            }
-            else
-            {
-                heartImages[i].sprite = emptyHeart;
-                
-            }
-            if(i < enemyHealth)
-            {
-                enemyHeartImages[i].sprite = fullHeart;
-            }
-            else
-            {
-                enemyHeartImages[i].sprite = emptyHeart;
-            }
-        }
-    }
-
-    public void TakeDamage(int amount)
-    {
-        currentHealth -= amount;
-        if (currentHealth < 0) currentHealth = 0;
-        UpdateHealthUI();
-
-        if (currentHealth <= 0)
-        {
-            Debug.Log("Player is dead");
-            // Add logic
-        }
-    }
 
     #endregion
 
     public void TurnShot()
     {
-        // Add logic for each bullet type
         switch (firedIndex)
         {
             case 0:
-                enemyHealth -= 1;
+                selectedEnemy.EnemyTakeDamage(20);
                 break;
             case 1:
-                enemyHealth -= 1;
+                selectedEnemy.EnemyTakeDamage(20);
+
                 break;
             case 2:
-                enemyHealth -= 1;
+                selectedEnemy.EnemyTakeDamage(20);
                 break;
             case 3:
-                enemyHealth -= 1;
+                selectedEnemy.EnemyTakeDamage(20);
 
                 break;
             case 4:
-                enemyHealth -= 1;
+                selectedEnemy.EnemyTakeDamage(20);
 
                 break;
             case 5:
-                enemyHealth -= 1;
+                selectedEnemy.EnemyTakeDamage(20);
 
                 break;
             case 6:
-                enemyHealth -= 1;
+                selectedEnemy.EnemyTakeDamage(20);
 
                 break;
             case 7:
-                enemyHealth -= 1;
+                selectedEnemy.EnemyTakeDamage(20);
 
                 break;
             case 8:
-                enemyHealth -= 1;
+                selectedEnemy.EnemyTakeDamage(20);
 
                 break;
         }
     }
+    public void EnemySelection(Enemy enemy)
+    {
+        selectedEnemy = enemy;
+        selectedEnemyContainerImage.transform.position = enemy.transform.position;
+        selectedEnemyContainerImage.SetActive(true);
+    }
+
 }
