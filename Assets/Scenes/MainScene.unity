@@ -1313,7 +1313,7 @@ MonoBehaviour:
   arrayIndex: 0
   shootIndex: 0
   firedIndex: -1
-  selectedEnemy: {fileID: 0}
+  selectedEnemy: {fileID: 616316155}
   selectedEnemyContainerImage: {fileID: 73723231}
 --- !u!4 &538266482
 Transform:
@@ -1786,7 +1786,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 538266481}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: FireBullet
+        m_MethodName: Fire
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
