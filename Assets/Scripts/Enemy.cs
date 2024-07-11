@@ -23,6 +23,12 @@ public class Enemy : MonoBehaviour
         healthBar.fillAmount = currentHealth / maxHealth;
     }
 
+    public void DoAction()
+    {
+
+        gameManager.PlayerTakeDamage(10);
+    }
+
     public void OnMouseDown()
     {
         gameManager.EnemySelection(this);  // Pass the current enemy instance
