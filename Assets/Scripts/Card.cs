@@ -2,22 +2,14 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    public int cardIndex;
-    public int handIndex;
-
     private GameManager _gameManager;
     private SpriteRenderer spriteRenderer;
 
+    public int cardIndex;
+    public int handIndex;
+
     // Sorting order variables
     public int baseSortingOrder = 0; // Default sorting order
-    public int hoverSortingOrder = 100; // Sorting order when hovered
-
-    private Vector2 initialScale;
-    private Vector2 originalPosition;
-    private Quaternion originalRotation;
-
-    public bool played = false;
-    public bool playedThisTurn = false;
 
     public Enemy targetEnemy;
 
@@ -25,17 +17,6 @@ public class Card : MonoBehaviour
     {
         _gameManager = FindObjectOfType<GameManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-
-        // Randomize hover amplitude
-        //hoverAmplitude = Random.Range(minHoverAmplitude, maxHoverAmplitude);
-
-        // Store initial scale and position
-        initialScale = transform.localScale;
-        originalPosition = transform.position;
-        originalRotation = transform.rotation;
-
-        // Initialize with base sorting order
     }
 
     private void Update()
@@ -47,15 +28,10 @@ public class Card : MonoBehaviour
     {
         PlayCard();
     }
-
     void PlayCard()
     {
-        played = true;
-        playedThisTurn = true;
-
-        _gameManager.hand.Remove(this);
-
         _gameManager.bulletIndex = cardIndex;
+
         bool bulletAdded = _gameManager.AddBullet();
 
         if (bulletAdded)
@@ -72,6 +48,7 @@ public class Card : MonoBehaviour
 
     public void MoveToDiscard()
     {
+        _gameManager.hand.Remove(this);
         _gameManager.discardPile.Add(this);
         transform.position = _gameManager.discardPileTransform.position;
         gameObject.SetActive(false);
@@ -80,8 +57,6 @@ public class Card : MonoBehaviour
 
     public void ResetCardState()
     {
-        // Reset all relevant properties and transforms for the card
-        played = false;
         handIndex = -1; // Reset hand index to an invalid state
         baseSortingOrder = 0;
     }

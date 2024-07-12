@@ -25,7 +25,6 @@ public class Enemy : MonoBehaviour
 
     public void DoAction()
     {
-
         gameManager.PlayerTakeDamage(10);
     }
 
