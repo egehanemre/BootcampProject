@@ -7,6 +7,14 @@ public class Card : MonoBehaviour
 
     public int cardIndex;
     public int handIndex;
+    public string cardName;
+    public CardType cardType;
+    public enum CardType 
+    {
+      Bullet,
+      Spell,
+      Augment 
+    }
 
     // Sorting order variables
     public int baseSortingOrder = 0; // Default sorting order

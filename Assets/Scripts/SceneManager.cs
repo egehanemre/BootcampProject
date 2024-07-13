@@ -7,7 +7,7 @@ public class SceneManager : MonoBehaviour
 {
     public void StartGame() 
     {         
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("BattleScene");
     }
 
     public void QuitGame() 

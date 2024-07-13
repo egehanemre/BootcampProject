@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI deckSizeText;
     public TextMeshProUGUI discardPileText;
+    public TextMeshProUGUI displayTurn;
+
 
     public GameObject bulletToAdd;
     public GameObject closedBulletSlot;
@@ -72,6 +74,7 @@ public class GameManager : MonoBehaviour
         EnemySelection(selectedEnemy);
 
         DrawHand();
+        displayTurn.text = "Player's Turn";
     }
 
     void Update()
@@ -118,6 +121,8 @@ public class GameManager : MonoBehaviour
     {
         EnableAllSlots();
         DrawHand();
+
+        displayTurn.text = "Player's Turn";
     }
     public void StartEnemyTurn()
     {
@@ -136,7 +141,10 @@ public class GameManager : MonoBehaviour
 
         ShootTheMagazine();
 
+        displayTurn.text = "Enemy's Turn";
         Invoke("StartEnemyTurn", 2f);
+
+        Invoke("StartTurn", 4f);
     }
 
     public void ShootTheMagazine()
@@ -180,8 +188,8 @@ public class GameManager : MonoBehaviour
     }
     public void UpdateDeckCount()
     {
-        deckSizeText.text = "Deck: " + deck.Count;
-        discardPileText.text = "Discard: " + discardPile.Count;
+        deckSizeText.text = "" + deck.Count;
+        discardPileText.text = "" + discardPile.Count;
     }
 
     #endregion
@@ -242,7 +250,7 @@ public class GameManager : MonoBehaviour
 
                     firedIndex = firedBullet.bulletIndex;
 
-                    TurnShot();
+                    UseBulletEffect();
 
                     TargetEnemyQueue.Dequeue();
 
@@ -256,7 +264,7 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
-    public void TurnShot()
+    public void UseBulletEffect()
     {
         switch (firedIndex)
         {
@@ -324,8 +332,11 @@ public class GameManager : MonoBehaviour
     public void EnemySelection(Enemy enemy)
     {
         selectedEnemy = enemy;
-        selectedEnemyContainerImage.transform.position = enemy.transform.position;
-        selectedEnemyContainerImage.SetActive(true);
+        if(selectedEnemy != null)
+        {
+            selectedEnemyContainerImage.transform.position = enemy.transform.position;
+            selectedEnemyContainerImage.SetActive(true);
+        }
     }
 
     public void ResetCylinder()
