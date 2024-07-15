@@ -57,7 +57,8 @@ public class GameManager : MonoBehaviour
 
     public int arrayIndex = 0;
     public int shootIndex = 0;
-    public int firedIndex = -1;
+    public string firedName;
+    public GameObject firedBulletObject;
 
     public Enemy selectedEnemy;
     public GameObject selectedEnemyContainerImage;
@@ -68,6 +69,18 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+
+        Card[] cardsInHierarchy = GameObject.Find("Cards").GetComponentsInChildren<Card>(true);
+        deck.AddRange(cardsInHierarchy);
+
+        bulletObjects.Clear(); // Clear the list to ensure it starts empty
+        foreach (Card card in deck)
+        {
+            if (card.bulletPrefab != null && !bulletObjects.Contains(card.bulletPrefab))
+            {
+                bulletObjects.Add(card.bulletPrefab);
+            }
+        }
 
         SetStartSlots();
         SummonEnemies();
@@ -126,7 +139,9 @@ public class GameManager : MonoBehaviour
     }
     public void StartEnemyTurn()
     {
+        
         EnemyAttack();
+
     }
 
     public void EndTurn()
@@ -167,6 +182,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (Enemy enemy in enemies)
         {
+            enemy.UpdateEffects();
             enemy.DoAction();
         }
     }
@@ -248,7 +264,7 @@ public class GameManager : MonoBehaviour
 
                     availableBulletSlots[i] = true;
 
-                    firedIndex = firedBullet.bulletIndex;
+                    firedName = firedBullet.name;
 
                     UseBulletEffect();
 
@@ -266,40 +282,39 @@ public class GameManager : MonoBehaviour
     #endregion
     public void UseBulletEffect()
     {
-        switch (firedIndex)
+        switch (firedName)
         {
-            case 0:
+            case "Pink":
                 selectedEnemy.EnemyTakeDamage(10);
                 break;
-            case 1:
+            case "Red":
                 selectedEnemy.EnemyTakeDamage(25);
 
                 break;
-            case 2:
+            case "Yellow":
                 selectedEnemy.EnemyTakeDamage(10);
                 break;
-            case 3:
+            case "Green":
                 selectedEnemy.EnemyTakeDamage(5);
 
                 break;
-            case 4:
+            case "Blue":
                 selectedEnemy.EnemyTakeDamage(5);
 
                 break;
-            case 5:
+            case "Gray":
                 selectedEnemy.EnemyTakeDamage(1);
 
                 break;
-            case 6:
+            case "Black":
                 selectedEnemy.EnemyTakeDamage(12);
+                selectedEnemy.AddThunder();
 
                 break;
-            case 7:
-                selectedEnemy.EnemyTakeDamage(24);
-
-                break;
-            case 8:
+            case "VioletteDark":
                 selectedEnemy.EnemyTakeDamage(20);
+                selectedEnemy.AddHellfire();
+
 
                 break;
         }
@@ -343,7 +358,7 @@ public class GameManager : MonoBehaviour
     {
         arrayIndex = 0;
         shootIndex = 0;
-        firedIndex = -1;
+        firedName = null;
         bulletToAdd = null;
         cylinder.transform.rotation = Quaternion.Euler(0, 0, 0);
         //make animations for this later

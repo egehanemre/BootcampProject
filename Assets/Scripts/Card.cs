@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
+    public GameObject bulletPrefab;
     private GameManager _gameManager;
     private SpriteRenderer spriteRenderer;
 
@@ -9,11 +10,50 @@ public class Card : MonoBehaviour
     public int handIndex;
     public string cardName;
     public CardType cardType;
+    public Element element;
+    public Rarity rarity;
+    public ElementCombos elementCombo;
     public enum CardType 
     {
-      Bullet,
-      Spell,
-      Augment 
+        Bullet,
+        Spell,
+        Augment 
+    }
+
+    public enum Element
+    {
+        EmptyElement,
+        Hellfire,
+        Soulfire,
+        Thunder,
+        Silver,
+        Blood,
+        Holy,
+        Dark,
+    }
+
+    public enum Rarity
+    {
+        Common,
+        Rare,
+    }
+
+    public enum ElementCombos
+    {
+        EmptyCombo,
+        Inferno,
+        Explosion,
+        HolyFlame,
+        BloodFlame,
+        BlackFlame,
+        Plasma,
+        SpiritStorm,
+        QuickSilver,
+        RedLightning,
+        PureSilver,
+        Sacrifice,
+        Unholy,
+        Curse,
     }
 
     // Sorting order variables
