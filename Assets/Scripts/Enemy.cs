@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,12 +34,12 @@ public class Enemy : MonoBehaviour
         currentHealth = maxHealth;
 
         effectSprites = new Dictionary<EffectType, Sprite>()
-{
-    { EffectType.Hellfire, hellfireSprite },
-    { EffectType.Explosion, explosionSprite },
-    { EffectType.Thunder, thunderSprite },
-    // Add other effects as needed
-};
+        {
+            { EffectType.Hellfire, hellfireSprite },
+            { EffectType.Explosion, explosionSprite },
+            { EffectType.Thunder, thunderSprite },
+            // Add other effects as needed
+        };
 
     }
     public void UpdateEffects()
@@ -52,18 +53,13 @@ public class Enemy : MonoBehaviour
                 effect.ApplyEffect(this);
             }
         }
-    }
 
-    private void Update()
-    {
-        
+        UpdateDebuffDisplays();
     }
-
     public void UpdateHealthBar()
     {
         healthBar.fillAmount = currentHealth / maxHealth;
     }
-
     public void DoAction()
     {
         gameManager.PlayerTakeDamage(10);
@@ -73,7 +69,6 @@ public class Enemy : MonoBehaviour
     {
         gameManager.EnemySelection(this);  // Pass the current enemy instance
     }
-
     public void EnemyTakeDamage(float damage)
     {
         currentHealth -= damage;
@@ -89,49 +84,69 @@ public class Enemy : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public Effect Hellfire = new Effect(EffectType.Hellfire, 3, 10);
-    public Effect Explosion = new Effect(EffectType.Explosion, 3, 10);
-    public Effect Thunder = new Effect(EffectType.Thunder, 5, 20);
-
-    public void AddEffect(Effect effect)
+    #region Effects
+    public void AddEffect(Effect newEffect)
     {
-        activeEffects.Add(effect);
+        // Check if the effect of the same type already exists
+        Effect existingEffect = activeEffects.FirstOrDefault(effect => effect.effectType == newEffect.effectType);
+
+        if (existingEffect != null)
+        {
+            // If the effect exists, update its stack count
+            existingEffect.stackCount += newEffect.stackCount;
+        }
+        else
+        {
+            // If the effect does not exist, add it to the list 
+            activeEffects.Add(newEffect);
+        }
+
+        UpdateDebuffDisplays();
     }
     public void RemoveEffect(Effect effect)
     {
         activeEffects.Remove(effect);
-    }
-
-    public void AddHellfire()
-    {
-        AddEffect(Hellfire);
         UpdateDebuffDisplays();
-
     }
 
-    public void AddThunder()
+    public void AddHellfire(int stackCount)
     {
-        AddEffect(Thunder);
+        for (int i = 0; i < stackCount; i++)
+        {
+            // Create a new instance each time
+            AddEffect(new Effect(EffectType.Hellfire, 1, 10)); // Use the same parameters as the original Hellfire instance
+        }
         UpdateDebuffDisplays();
-
     }
-
+    public void AddThunder(int stackCount)
+    {
+        for (int i = 0; i < stackCount; i++)
+        {
+            // Create a new instance each time
+            AddEffect(new Effect(EffectType.Thunder, 1, 1)); // Use the same parameters as the original Thunder instance
+        }
+        UpdateDebuffDisplays();
+    }
     public void CreateExplosion()
     {
-        bool hasHellfire = activeEffects.Any(effect => effect.effectType == EffectType.Hellfire);
-        bool hasThunder = activeEffects.Any(effect => effect.effectType == EffectType.Thunder);
+        Effect hellfireEffect = activeEffects.FirstOrDefault(e => e.effectType == EffectType.Hellfire);
+        Effect thunderEffect = activeEffects.FirstOrDefault(e => e.effectType == EffectType.Thunder);
 
-        if (hasHellfire && hasThunder)
+        if (hellfireEffect != null && thunderEffect != null)
         {
-            // Assuming you have a way to calculate duration and power for the explosion
-            Effect explosion = new Effect(EffectType.Explosion, 1, 50); // Example values for duration and power
-            AddEffect(explosion);
+            int totalExplosionStacks = hellfireEffect.stackCount * thunderEffect.stackCount;
 
-            // Remove all Hellfire and Thunder effects
-            activeEffects.RemoveAll(effect => effect.effectType == EffectType.Hellfire || effect.effectType == EffectType.Thunder);
+            // Assuming you want to add a single Explosion effect with the total stack count
+            Effect explosionEffect = new Effect(EffectType.Explosion, totalExplosionStacks, 10); // Adjust the damagePerTurn as needed
+            AddEffect(explosionEffect);
 
-            UpdateDebuffDisplays();
+            hellfireEffect.stackCount = 0;
+            thunderEffect.stackCount = 0;
+            // Optionally, remove the Hellfire and Thunder effects after creating the Explosion
+            activeEffects.RemoveAll(e => e.effectType == EffectType.Hellfire || e.effectType == EffectType.Thunder); 
         }
+
+        UpdateDebuffDisplays();
     }
 
     private void UpdateDebuffDisplays()
@@ -142,16 +157,27 @@ public class Enemy : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        // Create new debuff displays for active effects
-        foreach (Effect effect in activeEffects)
+        // Create new debuff displays only for active effects with stackCount > 0
+        foreach (Effect effect in activeEffects.Where(e => e.stackCount > 0))
         {
             GameObject newElement = Instantiate(gridElementPrefab, debuffDisplays.transform);
             Image elementImage = newElement.GetComponent<Image>();
 
+            // Update the sprite for the effect
             if (elementImage != null && effectSprites.ContainsKey(effect.effectType))
             {
                 elementImage.sprite = effectSprites[effect.effectType];
             }
+
+            // Access the TextMeshProUGUI component and update it with the stackCount
+            TextMeshProUGUI stackText = newElement.GetComponentInChildren<TextMeshProUGUI>();
+            if (stackText != null)
+            {
+                stackText.text = effect.stackCount.ToString();
+            }
         }
     }
+
+
+    #endregion
 }

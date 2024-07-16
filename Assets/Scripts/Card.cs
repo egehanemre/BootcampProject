@@ -12,14 +12,12 @@ public class Card : MonoBehaviour
     public CardType cardType;
     public Element element;
     public Rarity rarity;
-    public ElementCombos elementCombo;
     public enum CardType 
     {
         Bullet,
         Spell,
         Augment 
     }
-
     public enum Element
     {
         EmptyElement,
@@ -30,17 +28,6 @@ public class Card : MonoBehaviour
         Blood,
         Holy,
         Dark,
-    }
-
-    public enum Rarity
-    {
-        Common,
-        Rare,
-    }
-
-    public enum ElementCombos
-    {
-        EmptyCombo,
         Inferno,
         Explosion,
         HolyFlame,
@@ -55,9 +42,13 @@ public class Card : MonoBehaviour
         Unholy,
         Curse,
     }
+    public enum Rarity
+    {
+        Common,
+        Rare,
+    }
 
-    // Sorting order variables
-    public int baseSortingOrder = 0; // Default sorting order
+    public int baseSortingOrder = 0;
 
     public Enemy targetEnemy;
 
@@ -93,7 +84,6 @@ public class Card : MonoBehaviour
             Debug.Log("Failed to add bullet. Card will not be played.");
         }
     }
-
     public void MoveToDiscard()
     {
         _gameManager.hand.Remove(this);
@@ -102,7 +92,6 @@ public class Card : MonoBehaviour
         gameObject.SetActive(false);
         ResetCardState();
     }
-
     public void ResetCardState()
     {
         handIndex = -1; // Reset hand index to an invalid state

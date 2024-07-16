@@ -68,12 +68,29 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        InitializeGame();
+    }
+    void Update()
+    {
+        UpdateDeckCount();
+    }
+    #region Initialization
+    private void InitializeGame()
+    {
         currentHealth = maxHealth;
+        InitializeDeck();
+        SetStartSlots();
+        SummonEnemies();
+        EnemySelection(selectedEnemy);
+        DrawHand();
+        displayTurn.text = "Player's Turn";
+    }
 
+    private void InitializeDeck()
+    {
         Card[] cardsInHierarchy = GameObject.Find("Cards").GetComponentsInChildren<Card>(true);
         deck.AddRange(cardsInHierarchy);
-
-        bulletObjects.Clear(); // Clear the list to ensure it starts empty
+        bulletObjects.Clear();
         foreach (Card card in deck)
         {
             if (card.bulletPrefab != null && !bulletObjects.Contains(card.bulletPrefab))
@@ -81,86 +98,123 @@ public class GameManager : MonoBehaviour
                 bulletObjects.Add(card.bulletPrefab);
             }
         }
-
-        SetStartSlots();
-        SummonEnemies();
-        EnemySelection(selectedEnemy);
-
-        DrawHand();
-        displayTurn.text = "Player's Turn";
     }
-
-    void Update()
+    public void ResetCylinder()
     {
-        UpdateDeckCount();
+        arrayIndex = 0;
+        shootIndex = 0;
+        firedName = null;
+        bulletToAdd = null;
+        cylinder.transform.rotation = Quaternion.Euler(0, 0, 0);
+        //make animations for this later
     }
+    public void SetStartSlots()
+    {
+        availableBulletSlots = new bool[bulletSlots.Length];
+        for (int i = 0; i < currentMana; i++)
+        {
+            availableBulletSlots[i] = true;
+        }
 
-    #region Card Methods
+        for (int i = currentMana; i < availableBulletSlots.Length; i++)
+        {
+            closedBulletSlot.SetActive(true);
+            bulletSlots[i].enabled = true;
+            bulletSlots[i].sprite = closedBulletSlot.GetComponent<Image>().sprite;
+            bulletSlots[i].color = closedBulletSlot.GetComponent<Image>().color;
+        }
+
+        availableCardSlots = new bool[cardSlots.Length];
+        for (int i = 0; i < availableCardSlots.Length; i++)
+        {
+            availableCardSlots[i] = true;
+
+        }
+
+    }
+    public void IncreaseManaSlots()
+    {
+        currentMana++;
+        availableBulletSlots[currentMana - 1] = true;
+
+        bulletSlots[currentMana - 1].enabled = false;
+        bulletSlots[currentMana - 1].sprite = null;
+        bulletSlots[currentMana - 1].color = Color.clear;
+    }
+    #endregion
+    #region Card Management
 
     public void DrawHand()
     {
-        DrawCards();
-        DrawCards();
-        DrawCards();
-        DrawCards();
-        DrawCards();
+        for (int i = 0; i < 5; i++)
+        {
+            DrawCard();
+        }
     }
-    public void DrawCards()
+    public void DrawCard()
     {
+        if (deck.Count > 0)
+        {
             Card randCard = deck[Random.Range(0, deck.Count)];
-
             for (int i = 0; i < availableCardSlots.Length; i++)
             {
                 if (availableCardSlots[i])
                 {
                     hand.Add(randCard);
-
                     randCard.gameObject.SetActive(true);
-
                     randCard.handIndex = i;
                     randCard.baseSortingOrder = i;
-
                     randCard.transform.position = cardSlots[i].position;
                     randCard.transform.rotation = cardSlots[i].rotation;
-
                     availableCardSlots[i] = false;
-
                     deck.Remove(randCard);
                     break;
                 }
+            }
         }
     }
     public void StartTurn()
     {
         EnableAllSlots();
         DrawHand();
-
         displayTurn.text = "Player's Turn";
-    }
-    public void StartEnemyTurn()
-    {
-        
-        EnemyAttack();
-
     }
 
     public void EndTurn()
     {
         DiscardHand();
-
         if (deck.Count < 5)
         {
             ShuffleCards();
         }
         shootIndex = 0;
-
         ShootTheMagazine();
-
         displayTurn.text = "Enemy's Turn";
-        Invoke("StartEnemyTurn", 2f);
 
+        Invoke("StartEnemyTurn", 2f);
         Invoke("StartTurn", 4f);
     }
+    public void DiscardHand()
+    {
+        foreach (Card card in hand.ToArray())
+        {
+            card.MoveToDiscard();
+        }
+        hand.Clear();
+    }
+    public void ShuffleCards()
+    {
+        if (discardPile.Count > 0)
+        {
+            deck.AddRange(discardPile);
+            discardPile.Clear();
+        }
+    }
+    public void StartEnemyTurn()
+    {
+        EnemyAction();
+    }
+
 
     public void ShootTheMagazine()
     {
@@ -178,7 +232,7 @@ public class GameManager : MonoBehaviour
             availableCardSlots[i] = true;
         }
     }
-    public void EnemyAttack()
+    public void EnemyAction()
     {
         foreach (Enemy enemy in enemies)
         {
@@ -186,22 +240,7 @@ public class GameManager : MonoBehaviour
             enemy.DoAction();
         }
     }
-    public void DiscardHand()
-    {
-        foreach (Card card in hand.ToArray())
-        {
-            card.MoveToDiscard();
-        }
-        hand.Clear(); // Clear the hand list after moving all cards to discard pile
-    }
-    public void ShuffleCards()
-    {
-        if (discardPile.Count > 0)
-        {
-            deck.AddRange(discardPile);
-            discardPile.Clear();
-        }
-    }
+   
     public void UpdateDeckCount()
     {
         deckSizeText.text = "" + deck.Count;
@@ -209,8 +248,7 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
-
-    #region bullet Methods
+    #region Bullet Managements
     public bool AddBullet()
     {
         bool bulletAdded = false;
@@ -279,7 +317,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("No bullets in queue to fire or cylinder is rotating.");
         }
     }
-    #endregion
     public void UseBulletEffect()
     {
         switch (firedName)
@@ -308,18 +345,19 @@ public class GameManager : MonoBehaviour
                 break;
             case "Black":
                 selectedEnemy.EnemyTakeDamage(12);
-                selectedEnemy.AddThunder();
+                selectedEnemy.AddThunder(2);
 
                 break;
             case "VioletteDark":
                 selectedEnemy.EnemyTakeDamage(20);
-                selectedEnemy.AddHellfire();
+                selectedEnemy.AddHellfire(2);
 
 
                 break;
         }
     }
 
+    #endregion
     public void SummonEnemies()
     {
         // Shuffle the spawn slots list
@@ -343,7 +381,6 @@ public class GameManager : MonoBehaviour
             EnemySelection(enemy);
         }
     }
-
     public void EnemySelection(Enemy enemy)
     {
         selectedEnemy = enemy;
@@ -353,52 +390,6 @@ public class GameManager : MonoBehaviour
             selectedEnemyContainerImage.SetActive(true);
         }
     }
-
-    public void ResetCylinder()
-    {
-        arrayIndex = 0;
-        shootIndex = 0;
-        firedName = null;
-        bulletToAdd = null;
-        cylinder.transform.rotation = Quaternion.Euler(0, 0, 0);
-        //make animations for this later
-    }
-
-    public void SetStartSlots()
-    {
-        availableBulletSlots = new bool[bulletSlots.Length];
-        for (int i = 0; i < currentMana; i++)
-        {
-            availableBulletSlots[i] = true;
-        }
-
-        for (int i = currentMana; i < availableBulletSlots.Length; i++)
-        {
-            closedBulletSlot.SetActive(true);
-            bulletSlots[i].enabled = true;
-            bulletSlots[i].sprite = closedBulletSlot.GetComponent<Image>().sprite;
-            bulletSlots[i].color = closedBulletSlot.GetComponent<Image>().color;
-        }
-
-        availableCardSlots = new bool[cardSlots.Length];
-        for (int i = 0; i < availableCardSlots.Length; i++)
-        {
-            availableCardSlots[i] = true;
-
-        }
-
-    }
-
-    public void IncreaseManaSlots()
-    {
-        currentMana++;
-        availableBulletSlots[currentMana - 1] = true;
-
-        bulletSlots[currentMana - 1].enabled = false;
-        bulletSlots[currentMana - 1].sprite = null;
-        bulletSlots[currentMana - 1].color = Color.clear;
-    }
-
     public void PlayerTakeDamage(int damage)
     {
         healthAmount -= damage;
