@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
@@ -16,6 +17,7 @@ public class Enemy : MonoBehaviour
     public Sprite explosionSprite;
     public Sprite thunderSprite;
 
+    public TextMeshProUGUI healthText;
 
     public GameObject debuffDisplays;
     public GameObject gridElementPrefab;
@@ -27,11 +29,11 @@ public class Enemy : MonoBehaviour
     public float currentHealth;
 
     public List<Effect> activeEffects = new List<Effect>();
-
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         currentHealth = maxHealth;
+        healthText.text = currentHealth + " / " + maxHealth;
 
         effectSprites = new Dictionary<EffectType, Sprite>()
         {
@@ -45,8 +47,9 @@ public class Enemy : MonoBehaviour
     public void UpdateEffects()
     {
         CreateExplosion();
+        UpdateDebuffDisplays();
 
-       foreach (Effect effect in activeEffects)
+        foreach (Effect effect in activeEffects)
         {
             if (effect.IsActive())
             {
@@ -59,6 +62,7 @@ public class Enemy : MonoBehaviour
     public void UpdateHealthBar()
     {
         healthBar.fillAmount = currentHealth / maxHealth;
+        healthText.text = currentHealth + " / " + maxHealth;
     }
     public void DoAction()
     {
@@ -114,7 +118,7 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < stackCount; i++)
         {
             // Create a new instance each time
-            AddEffect(new Effect(EffectType.Hellfire, 1, 10)); // Use the same parameters as the original Hellfire instance
+            AddEffect(new Effect(EffectType.Hellfire, 1, 1)); // Use the same parameters as the original Hellfire instance
         }
         UpdateDebuffDisplays();
     }
@@ -137,7 +141,7 @@ public class Enemy : MonoBehaviour
             int totalExplosionStacks = hellfireEffect.stackCount * thunderEffect.stackCount;
 
             // Assuming you want to add a single Explosion effect with the total stack count
-            Effect explosionEffect = new Effect(EffectType.Explosion, totalExplosionStacks, 10); // Adjust the damagePerTurn as needed
+            Effect explosionEffect = new Effect(EffectType.Explosion, totalExplosionStacks, 5); // Adjust the damagePerTurn as needed
             AddEffect(explosionEffect);
 
             hellfireEffect.stackCount = 0;
@@ -149,7 +153,7 @@ public class Enemy : MonoBehaviour
         UpdateDebuffDisplays();
     }
 
-    private void UpdateDebuffDisplays()
+    public void UpdateDebuffDisplays()
     {
         // Clear existing debuff displays
         foreach (Transform child in debuffDisplays.transform)

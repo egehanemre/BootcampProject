@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI discardPileText;
     public TextMeshProUGUI displayTurn;
 
+    public int maxHealth = 100;
+    public int currentHealth;
+    public TextMeshProUGUI healthText;
 
     public GameObject bulletToAdd;
     public GameObject closedBulletSlot;
@@ -46,9 +49,6 @@ public class GameManager : MonoBehaviour
 
     public Bullet firedBullet;
     public Bullet bullet;
-
-    public int maxHealth = 100;
-    public int currentHealth;
 
     public float rotationSpeed = 120f;
     public bool isRotating = false;
@@ -78,6 +78,8 @@ public class GameManager : MonoBehaviour
     private void InitializeGame()
     {
         currentHealth = maxHealth;
+        healthText.text = healthAmount + " / " + maxHealth;
+
         InitializeDeck();
         SetStartSlots();
         SummonEnemies();
@@ -190,6 +192,9 @@ public class GameManager : MonoBehaviour
         shootIndex = 0;
         ShootTheMagazine();
         displayTurn.text = "Enemy's Turn";
+
+        selectedEnemy.CreateExplosion();
+        selectedEnemy.UpdateDebuffDisplays();
 
         Invoke("StartEnemyTurn", 2f);
         Invoke("StartTurn", 4f);
@@ -344,13 +349,14 @@ public class GameManager : MonoBehaviour
 
                 break;
             case "Black":
-                selectedEnemy.EnemyTakeDamage(12);
                 selectedEnemy.AddThunder(2);
+                selectedEnemy.UpdateDebuffDisplays();
+
 
                 break;
             case "VioletteDark":
-                selectedEnemy.EnemyTakeDamage(20);
                 selectedEnemy.AddHellfire(2);
+                selectedEnemy.UpdateDebuffDisplays();
 
 
                 break;
@@ -394,6 +400,7 @@ public class GameManager : MonoBehaviour
     {
         healthAmount -= damage;
         healthBar.fillAmount = healthAmount / 100f;
+        healthText.text = healthAmount + " / " + maxHealth;
     }
 
 }
