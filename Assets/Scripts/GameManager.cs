@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public List<Card> deck = new List<Card>();
     public List<Card> hand = new List<Card>();
     public List<Card> discardPile = new List<Card>();
+    public List<Card> rewardCards = new List<Card>();
 
     public List<GameObject> bulletObjects = new List<GameObject>();
 
@@ -18,9 +19,11 @@ public class GameManager : MonoBehaviour
     public List<Enemy> enemies = new List<Enemy>();
 
     public Transform[] cardSlots;
+    public Transform[] rewardSlots;
     public Image[] bulletSlots;
 
     public bool[] availableCardSlots;
+    public bool[] availableRewardSlots;
     public bool[] availableBulletSlots;
 
     public Queue<Bullet> BulletQueue = new Queue<Bullet>();
@@ -62,6 +65,9 @@ public class GameManager : MonoBehaviour
 
     public Enemy selectedEnemy;
     public GameObject selectedEnemyContainerImage;
+    public GameObject rewardsContainer;
+    public GameObject cardsContainer;
+
 
     public int maxMana = 6;
     public int currentMana = 3;
@@ -80,6 +86,7 @@ public class GameManager : MonoBehaviour
         currentHealth = maxHealth;
         healthText.text = healthAmount + " / " + maxHealth;
 
+        InitializeRewards();
         InitializeDeck();
         SetStartSlots();
         SummonEnemies();
@@ -87,7 +94,32 @@ public class GameManager : MonoBehaviour
         DrawHand();
         displayTurn.text = "Player's Turn";
     }
+    private void InitializeRewards()
+    {
+        Card[] cardPrefabs = Resources.LoadAll<Card>("Cards");
+        List<Card> selectedRewards = new List<Card>();
 
+        while (selectedRewards.Count < 3)
+        {
+            Card potentialReward = cardPrefabs[Random.Range(0, cardPrefabs.Length)];
+            if (!selectedRewards.Contains(potentialReward))
+            {
+                selectedRewards.Add(potentialReward);
+            }
+        }
+        for (int i = 0; i < selectedRewards.Count; i++)
+        {
+            if (availableRewardSlots[i])
+            {
+                // Instantiate the reward card prefab and set its parent to the rewardsContainer
+                GameObject rewardInstance = Instantiate(selectedRewards[i].gameObject, rewardSlots[i].position, Quaternion.identity, rewardsContainer.transform);
+                rewardInstance.transform.rotation = rewardSlots[i].rotation;
+                availableRewardSlots[i] = false;
+                selectedRewards[i].isRewardSceneCard = true;
+            }
+        }
+        rewardCards = selectedRewards;
+    }
     private void InitializeDeck()
     {
         Card[] cardsInHierarchy = GameObject.Find("Cards").GetComponentsInChildren<Card>(true);

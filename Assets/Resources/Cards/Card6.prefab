@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8087694594754018774}
-  - component: {fileID: 3012416785908764918}
-  - component: {fileID: 6300893864080805910}
-  - component: {fileID: 4506784070648471551}
+  - component: {fileID: 1264991052304831449}
+  - component: {fileID: 7115249822477629115}
+  - component: {fileID: 6288460739451352277}
   m_Layer: 0
-  m_Name: Card3
+  m_Name: Card6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &3012416785908764918
+--- !u!61 &1264991052304831449
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,7 +79,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 8.455409, y: 11.88414}
   m_EdgeRadius: 0
---- !u!114 &6300893864080805910
+--- !u!114 &7115249822477629115
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,17 +91,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56585d2eb68daef4090ebdc17eed203a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3152381134883614920, guid: 340b77b1162054f418278bca0da18d73, type: 3}
-  cardIndex: 2
+  bulletPrefab: {fileID: 4666303176568890302, guid: 5790d607ba4681246a96e4aa518898bf, type: 3}
+  spriteRenderer: {fileID: 0}
+  cardIndex: 5
   handIndex: 0
   cardName: 
   cardType: 0
   element: 0
   rarity: 0
-  elementCombo: 0
+  isRewardSceneCard: 0
   baseSortingOrder: 0
   targetEnemy: {fileID: 0}
---- !u!212 &4506784070648471551
+--- !u!212 &6288460739451352277
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

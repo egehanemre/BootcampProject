@@ -4,7 +4,7 @@ public class Card : MonoBehaviour
 {
     public GameObject bulletPrefab;
     private GameManager _gameManager;
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
 
     public int cardIndex;
     public int handIndex;
@@ -12,6 +12,7 @@ public class Card : MonoBehaviour
     public CardType cardType;
     public Element element;
     public Rarity rarity;
+    public bool isRewardSceneCard = false;
     public enum CardType 
     {
         Bullet,
@@ -65,8 +66,25 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown()
     {
-        PlayCard();
+        if (!isRewardSceneCard)
+        {
+            PlayCard();
+        }
+        else if (isRewardSceneCard)
+        {
+            isRewardSceneCard = false;
+            transform.SetParent(_gameManager.cardsContainer.transform);
+            _gameManager.deck.Add(this);
+
+            foreach (Transform child in _gameManager.rewardsContainer.transform)
+            {
+                    Destroy(child.gameObject);
+            }
+
+            gameObject.SetActive(false);
+        }
     }
+
     void PlayCard()
     {
         _gameManager.bulletIndex = cardIndex;
