@@ -5,6 +5,7 @@ using UnityEngine;
 public class Map
 {
     public Node[,] nodeArray;
+    public Node finalNode;
     public List<Connection> connections = new List<Connection>();
 
 

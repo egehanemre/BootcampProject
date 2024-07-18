@@ -15,6 +15,8 @@ public class Generator : MonoBehaviour
 
     public int pathCount = 3;
 
+    //public bool canStartFromSamePath = false;
+
     public Map currentMap;
 
 
@@ -29,10 +31,16 @@ public class Generator : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GenerateMap();
-
             showcaser.map = currentMap;
             showcaser.ShowMap();
         }
+    }
+
+    public void ShowMapOnStart() 
+    { 
+        GenerateMap();
+        showcaser.map = currentMap;
+        showcaser.ShowMap();
     }
 
 
@@ -50,6 +58,24 @@ public class Generator : MonoBehaviour
 
         CreateLastRoomAndConnect();
 
+
+        MakeFirstRoomsAbleToGoTo();
+
+        ///////////////NODE DATA INSERTION/////////////////////
+        GetComponent<NodeDataInserter>().InsertRandomDataToAllNodes();
+    }
+
+
+
+    private void MakeFirstRoomsAbleToGoTo()
+    {
+        for (int y = 0; y < GRID_HEIGHT; y++)
+        {
+            if (currentMap.nodeArray[0, y].isVisited)
+            {
+                currentMap.nodeArray[0, y].canMoveTo = true;
+            }
+        }
     }
 
 
@@ -79,7 +105,6 @@ public class Generator : MonoBehaviour
                 break; // Break if no connections can be made to avoid infinite loop
             }
         }
-        Debug.Log($"Path Completed: {pathCompleted} Loop Count: {loopCount}");
     }
 
     private bool AttemptToConnectAdjacentNodes(ref Vector2Int currentArrayPos)
@@ -118,7 +143,7 @@ public class Generator : MonoBehaviour
     private void CreateLastRoomAndConnect()
     {
         // The new room will be placed at GRID_WIDTH (to the right of the last column).
-        Node lastRoom = new Node(new Vector2Int(GRID_WIDTH, GRID_HEIGHT / 2)); // Adjusted for consistency.
+        Node lastRoom = new Node(new Vector2Int(GRID_WIDTH + 1, GRID_HEIGHT / 2)); // Adjusted for consistency.
 
         for (int y = 0; y < GRID_HEIGHT; y++)
         {
@@ -126,6 +151,7 @@ public class Generator : MonoBehaviour
             {
                 Node roomToConnect = currentMap.nodeArray[GRID_WIDTH - 1, y]; // This is now the last room in each row.
                 ConnectRooms(roomToConnect, lastRoom);
+                currentMap.finalNode = lastRoom; // This is now the last room in the map.
             }
 
 

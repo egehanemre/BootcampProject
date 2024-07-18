@@ -8,6 +8,20 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public Canvas mainCanvas;
+    public Canvas startCanvas;
+    public Canvas mapCanvas;
+    public Canvas transparentPanel; 
+
+    [SerializeField] private Generator _generator;
+    [SerializeField] private Showcaser _showcaser;
+    public static GameManager Instance { get; private set; }
+
+    public GameObject battleDisplay;
+
+    public GameObject enemiesContainer; // Assign in the inspector
+    public NodeData currentNodeData;
+
     public List<Card> deck = new List<Card>();
     public List<Card> hand = new List<Card>();
     public List<Card> discardPile = new List<Card>();
@@ -68,23 +82,105 @@ public class GameManager : MonoBehaviour
     public GameObject rewardsContainer;
     public GameObject cardsContainer;
 
+    public static bool startComplete = false;
 
     public int maxMana = 6;
     public int currentMana = 3;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        _generator = FindObjectOfType<Generator>();
+        mainCanvas.enabled = false;
+        battleDisplay.SetActive(false);
+        startCanvas.enabled = true;
+        mapCanvas.enabled = true;
+        transparentPanel.enabled = false;
+    }
+
+    public void SetCurrentNodeData(NodeData nodeData)
+    {
+        currentNodeData = nodeData;
+        SpawnEnemiesFromNodeData();
+    }
+
+
+    private void SpawnEnemiesFromNodeData()
+    {
+        Debug.Log("Spawning enemies from node data.");
+
+        if (enemiesContainer == null)
+        {
+            Debug.LogError("Enemies container is not assigned.");
+            return;
+        }
+
+        if (currentNodeData == null)
+        {
+            Debug.LogError("Current node data or enemy prefabs are null.");
+            return;
+        }
+        if (currentNodeData.enemyPrefabs == null)
+        {
+            Debug.LogError("enemy prefabs are null.");
+            return;
+        }
+
+        foreach (GameObject enemyPrefab in currentNodeData.enemyPrefabs)
+        {
+            GameObject enemy = Instantiate(enemyPrefab, enemiesContainer.transform);
+            enemies.Add(enemy.GetComponent<Enemy>());
+            Debug.Log($"Spawned {enemy.name} as child of {enemiesContainer.name}");
+        }
+    }
+
     private void Start()
     {
-        InitializeGame();
+        _generator.ShowMapOnStart();
     }
+
+    public void StartGameAfterMapClick()
+    {
+        StartCoroutine(StartGameAfterDelay(1.5f));
+    }
+
+    public void setupStartMap()
+    {
+        mainCanvas.enabled = false;
+        battleDisplay.SetActive(false);
+        startCanvas.enabled = true;
+        mapCanvas.enabled = true;
+        _generator.ShowMapOnStart();
+    }
+
     void Update()
     {
         UpdateDeckCount();
+
+        if (startComplete)
+        {
+            StartGameAfterMapClick();
+            startComplete = false;
+        }
     }
     #region Initialization
     private void InitializeGame()
     {
         currentHealth = maxHealth;
-        healthText.text = healthAmount + " / " + maxHealth;
+        healthText.text = $"{healthAmount} / {maxHealth}";
+
+        mainCanvas.enabled = true;
+        battleDisplay.SetActive(true);
+        startCanvas.enabled = false;
 
         InitializeRewards();
         InitializeDeck();
@@ -94,6 +190,7 @@ public class GameManager : MonoBehaviour
         DrawHand();
         displayTurn.text = "Player's Turn";
     }
+
     private void InitializeRewards()
     {
         Card[] cardPrefabs = Resources.LoadAll<Card>("Cards");
@@ -400,6 +497,7 @@ public class GameManager : MonoBehaviour
     {
         // Shuffle the spawn slots list
         List<Transform> shuffledSpawnSlots = new List<Transform>(enemiesSpawnSlots);
+
         for (int i = 0; i < shuffledSpawnSlots.Count; i++)
         {
             Transform temp = shuffledSpawnSlots[i];
@@ -419,6 +517,9 @@ public class GameManager : MonoBehaviour
             EnemySelection(enemy);
         }
     }
+
+
+
     public void EnemySelection(Enemy enemy)
     {
         selectedEnemy = enemy;
@@ -435,4 +536,18 @@ public class GameManager : MonoBehaviour
         healthText.text = healthAmount + " / " + maxHealth;
     }
 
+    private IEnumerator StartGameAfterDelay(float delay)
+    {
+        // Optionally disable user interactions here (e.g., disable buttons, ignore clicks)
+        transparentPanel.enabled = true;
+        // Wait for the specified delay
+        yield return new WaitForSeconds(delay);
+
+        // Re-enable user interactions if they were disabled
+        transparentPanel.enabled = false;
+
+        // Continue with showing the map change animation and initializing the game
+        _showcaser.ToggleMapForGameScene();
+        InitializeGame();
+    }
 }
