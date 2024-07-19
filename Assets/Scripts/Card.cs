@@ -1,43 +1,118 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    public int cardIndex;
-
-    public bool hasBeenPlayed;
-    public int handIndex;
-
+    public GameObject bulletPrefab;
     private GameManager _gameManager;
+    public SpriteRenderer spriteRenderer;
+
+    public int cardIndex;
+    public int handIndex;
+    public string cardName;
+    public CardType cardType;
+    public Element element;
+    public Rarity rarity;
+    public bool isRewardSceneCard = false;
+    public enum CardType 
+    {
+        Bullet,
+        Spell,
+        Augment 
+    }
+    public enum Element
+    {
+        EmptyElement,
+        Hellfire,
+        Soulfire,
+        Thunder,
+        Silver,
+        Blood,
+        Holy,
+        Dark,
+        Inferno,
+        Explosion,
+        HolyFlame,
+        BloodFlame,
+        BlackFlame,
+        Plasma,
+        SpiritStorm,
+        QuickSilver,
+        RedLightning,
+        PureSilver,
+        Sacrifice,
+        Unholy,
+        Curse,
+    }
+    public enum Rarity
+    {
+        Common,
+        Rare,
+    }
+
+    public int baseSortingOrder = 0;
+
+    public Enemy targetEnemy;
 
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
+    private void Update()
+    {
+        spriteRenderer.sortingOrder = baseSortingOrder;
+    }
+
     private void OnMouseDown()
     {
-        if (!hasBeenPlayed)
+        if (!isRewardSceneCard)
         {
-            _gameManager.bulletIndex = cardIndex;
-            bool bulletAdded = _gameManager.AddBullet();
+            PlayCard();
+        }
+        else if (isRewardSceneCard)
+        {
+            isRewardSceneCard = false;
+            transform.SetParent(_gameManager.cardsContainer.transform);
+            _gameManager.deck.Add(this);
 
-            if (bulletAdded)
+            foreach (Transform child in _gameManager.rewardsContainer.transform)
             {
-                hasBeenPlayed = true;
-                _gameManager.availableCardSlots[handIndex] = true;
-                Invoke("MoveToDiscard", 0.2f);
+                    Destroy(child.gameObject);
             }
-            else
-            {
-                Debug.Log("Failed to add bullet. Card will not be played.");
-            }
+
+            gameObject.SetActive(false);
         }
     }
 
-    void MoveToDiscard()
+    void PlayCard()
     {
+        _gameManager.bulletIndex = cardIndex;
+
+        bool bulletAdded = _gameManager.AddBullet();
+
+        if (bulletAdded)
+        {
+            _gameManager.availableCardSlots[handIndex] = true;
+
+            Invoke("MoveToDiscard", 0.2f);
+        }
+        else
+        {
+            Debug.Log("Failed to add bullet. Card will not be played.");
+        }
+    }
+    public void MoveToDiscard()
+    {
+        _gameManager.hand.Remove(this);
         _gameManager.discardPile.Add(this);
+        transform.position = _gameManager.discardPileTransform.position;
         gameObject.SetActive(false);
+        ResetCardState();
+    }
+    public void ResetCardState()
+    {
+        handIndex = -1; // Reset hand index to an invalid state
+        baseSortingOrder = 0;
     }
 }

@@ -88,4 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90bd5ca0f846b6468fbc444b154220d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletName: VioletteDark
   bulletIndex: 7
+  targetEnemy: {fileID: 0}
