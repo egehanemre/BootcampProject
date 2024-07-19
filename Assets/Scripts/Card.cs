@@ -5,6 +5,7 @@ public class Card : MonoBehaviour
     public GameObject bulletPrefab;
     private GameManager _gameManager;
     public SpriteRenderer spriteRenderer;
+    private Canvas childCanvas;
 
     public int cardIndex;
     public int handIndex;
@@ -53,6 +54,13 @@ public class Card : MonoBehaviour
 
     public Enemy targetEnemy;
 
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        // Automatically find the Canvas component on the child GameObject
+        childCanvas = GetComponentInChildren<Canvas>();
+    }
+
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
@@ -61,7 +69,15 @@ public class Card : MonoBehaviour
 
     private void Update()
     {
-        spriteRenderer.sortingOrder = baseSortingOrder;
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sortingOrder = baseSortingOrder;
+        }
+
+        if (childCanvas != null)
+        {
+            childCanvas.sortingOrder = baseSortingOrder;
+        }
     }
 
     private void OnMouseDown()

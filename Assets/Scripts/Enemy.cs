@@ -14,8 +14,27 @@ public class Enemy : MonoBehaviour
     public Image healthBar;
 
     public Sprite hellfireSprite;
-    public Sprite explosionSprite;
+    public Sprite soulfireSprite;
     public Sprite thunderSprite;
+    public Sprite silverSprite;
+    public Sprite bloodSprite;
+    public Sprite holySprite;
+    public Sprite darkSprite;
+
+    public Sprite infernoSprite;
+    public Sprite explosionSprite;
+    public Sprite holyFlameSprite;
+    public Sprite bloodFlameSprite;
+    public Sprite blackFlameSprite;
+    public Sprite plasmaSprite;
+    public Sprite spiritStormSprite;
+    public Sprite quickSilverSprite;
+    public Sprite redLightningSprite;
+    public Sprite pureSilverSprite;
+    public Sprite sacrificeSprite;
+    public Sprite unholySprite;
+    public Sprite curseSprite;
+
 
     public TextMeshProUGUI healthText;
 
@@ -85,10 +104,32 @@ public class Enemy : MonoBehaviour
     }
     void Die()
     {
-        gameObject.SetActive(false);
+        // Remove this enemy from the list
+        gameManager.enemies.Remove(this);
+
+        if (gameManager.enemies.Count > 0)
+        {
+            // If there are still enemies left, select another one as the target
+            gameManager.selectedEnemy = gameManager.enemies[0]; // Example: select the first one in the list
+            gameManager.EnemySelection(gameManager.selectedEnemy);
+        }
+        else
+        {
+            // If this was the last enemy, log the message and perform necessary actions
+            gameManager.isAllEnemiesDefeated = true;
+            gameManager.selectedEnemy = null; // Clear the selected enemy
+                                              // Optionally, hide the enemy selection indicator
+            if (gameManager.selectedEnemyContainerImage != null)
+            {
+                gameManager.selectedEnemyContainerImage.SetActive(false);
+            }
+        }
+
+        // Destroy the enemy GameObject
+        Destroy(gameObject);
     }
 
-    #region Effects
+    #region Manage Effects
     public void AddEffect(Effect newEffect)
     {
         // Check if the effect of the same type already exists
@@ -112,47 +153,6 @@ public class Enemy : MonoBehaviour
         activeEffects.Remove(effect);
         UpdateDebuffDisplays();
     }
-
-    public void AddHellfire(int stackCount)
-    {
-        for (int i = 0; i < stackCount; i++)
-        {
-            // Create a new instance each time
-            AddEffect(new Effect(EffectType.Hellfire, 1, 1)); // Use the same parameters as the original Hellfire instance
-        }
-        UpdateDebuffDisplays();
-    }
-    public void AddThunder(int stackCount)
-    {
-        for (int i = 0; i < stackCount; i++)
-        {
-            // Create a new instance each time
-            AddEffect(new Effect(EffectType.Thunder, 1, 1)); // Use the same parameters as the original Thunder instance
-        }
-        UpdateDebuffDisplays();
-    }
-    public void CreateExplosion()
-    {
-        Effect hellfireEffect = activeEffects.FirstOrDefault(e => e.effectType == EffectType.Hellfire);
-        Effect thunderEffect = activeEffects.FirstOrDefault(e => e.effectType == EffectType.Thunder);
-
-        if (hellfireEffect != null && thunderEffect != null)
-        {
-            int totalExplosionStacks = hellfireEffect.stackCount * thunderEffect.stackCount;
-
-            // Assuming you want to add a single Explosion effect with the total stack count
-            Effect explosionEffect = new Effect(EffectType.Explosion, totalExplosionStacks, 5); // Adjust the damagePerTurn as needed
-            AddEffect(explosionEffect);
-
-            hellfireEffect.stackCount = 0;
-            thunderEffect.stackCount = 0;
-            // Optionally, remove the Hellfire and Thunder effects after creating the Explosion
-            activeEffects.RemoveAll(e => e.effectType == EffectType.Hellfire || e.effectType == EffectType.Thunder); 
-        }
-
-        UpdateDebuffDisplays();
-    }
-
     public void UpdateDebuffDisplays()
     {
         // Clear existing debuff displays
@@ -182,6 +182,75 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
+    #endregion
+
+    #region Add Effects
+    public void AddHellfire(int stackCount)
+    {
+        AddEffect(new Effect(EffectType.Hellfire, stackCount, 1)); // Adjust damagePerTurn as needed
+        UpdateDebuffDisplays();
+    }
+
+    public void AddSoulfire(int stackCount)
+    {
+        AddEffect(new Effect(EffectType.Soulfire, stackCount, 1)); // Adjust damagePerTurn as needed
+        UpdateDebuffDisplays();
+    }
+
+    public void AddThunder(int stackCount)
+    {
+        AddEffect(new Effect(EffectType.Thunder, stackCount, 1)); // Adjust damagePerTurn as needed
+        UpdateDebuffDisplays();
+    }
+
+    public void AddSilver(int stackCount)
+    {
+        AddEffect(new Effect(EffectType.Silver, stackCount, 1)); // Adjust damagePerTurn as needed
+        UpdateDebuffDisplays();
+    }
+
+    public void AddBlood(int stackCount)
+    {
+        AddEffect(new Effect(EffectType.Blood, stackCount, 1)); // Adjust damagePerTurn as needed
+        UpdateDebuffDisplays();
+    }
+
+    public void AddHoly(int stackCount)
+    {
+        AddEffect(new Effect(EffectType.Holy, stackCount, 1)); // Adjust damagePerTurn as needed
+        UpdateDebuffDisplays();
+    }
+
+    public void AddDark(int stackCount)
+    {
+        AddEffect(new Effect(EffectType.Dark, stackCount, 1)); // Adjust damagePerTurn as needed
+        UpdateDebuffDisplays();
+    }
+    #endregion
+
+    #region Combined Create Effects
+    public void CreateExplosion()
+    {
+        Effect hellfireEffect = activeEffects.FirstOrDefault(e => e.effectType == EffectType.Hellfire);
+        Effect thunderEffect = activeEffects.FirstOrDefault(e => e.effectType == EffectType.Thunder);
+
+        if (hellfireEffect != null && thunderEffect != null)
+        {
+            int totalExplosionStacks = hellfireEffect.stackCount * thunderEffect.stackCount;
+
+            // Assuming you want to add a single Explosion effect with the total stack count
+            Effect explosionEffect = new Effect(EffectType.Explosion, totalExplosionStacks, 5); // Adjust the damagePerTurn as needed
+            AddEffect(explosionEffect);
+
+            hellfireEffect.stackCount = 0;
+            thunderEffect.stackCount = 0;
+            // Optionally, remove the Hellfire and Thunder effects after creating the Explosion
+            activeEffects.RemoveAll(e => e.effectType == EffectType.Hellfire || e.effectType == EffectType.Thunder);
+        }
+
+        UpdateDebuffDisplays();
+    }
 
     #endregion
 }

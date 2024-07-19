@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public Canvas mapCanvas;
     public Canvas transparentPanel; 
 
+    public bool isAllEnemiesDefeated = false;
+
     [SerializeField] private Generator _generator;
     [SerializeField] private Showcaser _showcaser;
     public static GameManager Instance { get; private set; }
@@ -21,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject enemiesContainer; // Assign in the inspector
     public NodeData currentNodeData;
+
+    public bool isCardsFirstTime = true;
 
     public List<Card> deck = new List<Card>();
     public List<Card> hand = new List<Card>();
@@ -80,6 +84,7 @@ public class GameManager : MonoBehaviour
     public Enemy selectedEnemy;
     public GameObject selectedEnemyContainerImage;
     public GameObject rewardsContainer;
+    public GameObject rewardsMenu;
     public GameObject cardsContainer;
 
     public static bool startComplete = false;
@@ -98,13 +103,45 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        transparentPanel.enabled = false;
+
 
         _generator = FindObjectOfType<Generator>();
+        SetVisualsToMapSelect();
+    }
+
+    public void SetVisualsToMapSelect()
+    {
+        rewardsMenu.SetActive(false);
         mainCanvas.enabled = false;
         battleDisplay.SetActive(false);
         startCanvas.enabled = true;
         mapCanvas.enabled = true;
         transparentPanel.enabled = false;
+    }
+
+    public void SetVisualsToBattleScene()
+    {
+        rewardsMenu.SetActive(false);
+        mainCanvas.enabled = true;
+        battleDisplay.SetActive(true);
+        startCanvas.enabled = false;
+        mapCanvas.enabled = false;
+    }
+
+    public void ToggleRewardSelection()
+    {
+            mainCanvas.enabled = false;
+            battleDisplay.SetActive(false);
+            startCanvas.enabled = false;
+            mapCanvas.enabled = false;
+            rewardsMenu.SetActive(true);
+    }
+
+    public void Continue()
+    {
+        SetVisualsToMapSelect();
+        _showcaser.ToggleMapForGameScene();
     }
 
     public void SetCurrentNodeData(NodeData nodeData)
@@ -171,6 +208,13 @@ public class GameManager : MonoBehaviour
             StartGameAfterMapClick();
             startComplete = false;
         }
+
+        if(isAllEnemiesDefeated == true)
+        {
+            ToggleRewardSelection();
+            isAllEnemiesDefeated = false;
+        }
+
     }
     #region Initialization
     private void InitializeGame()
@@ -178,9 +222,7 @@ public class GameManager : MonoBehaviour
         currentHealth = maxHealth;
         healthText.text = $"{healthAmount} / {maxHealth}";
 
-        mainCanvas.enabled = true;
-        battleDisplay.SetActive(true);
-        startCanvas.enabled = false;
+        SetVisualsToBattleScene();
 
         InitializeRewards();
         InitializeDeck();
@@ -219,14 +261,18 @@ public class GameManager : MonoBehaviour
     }
     private void InitializeDeck()
     {
-        Card[] cardsInHierarchy = GameObject.Find("Cards").GetComponentsInChildren<Card>(true);
-        deck.AddRange(cardsInHierarchy);
-        bulletObjects.Clear();
-        foreach (Card card in deck)
+        if (isCardsFirstTime)
         {
-            if (card.bulletPrefab != null && !bulletObjects.Contains(card.bulletPrefab))
+            isCardsFirstTime = false;
+            Card[] cardsInHierarchy = GameObject.Find("Cards").GetComponentsInChildren<Card>(true);
+            deck.AddRange(cardsInHierarchy);
+            bulletObjects.Clear();
+            foreach (Card card in deck)
             {
-                bulletObjects.Add(card.bulletPrefab);
+                if (card.bulletPrefab != null && !bulletObjects.Contains(card.bulletPrefab))
+                {
+                    bulletObjects.Add(card.bulletPrefab);
+                }
             }
         }
     }
@@ -277,10 +323,14 @@ public class GameManager : MonoBehaviour
 
     public void DrawHand()
     {
-        for (int i = 0; i < 5; i++)
+        if ( isAllEnemiesDefeated == false)
         {
-            DrawCard();
+            for (int i = 0; i < 5; i++)
+            {
+                DrawCard();
+            }
         }
+        
     }
     public void DrawCard()
     {
@@ -312,21 +362,33 @@ public class GameManager : MonoBehaviour
     }
 
     public void EndTurn()
-    {
+    { 
         DiscardHand();
-        if (deck.Count < 5)
         {
-            ShuffleCards();
+            if (deck.Count < 5)
+            {
+                ShuffleCards();
+            }
+            shootIndex = 0;
+            ShootTheMagazine();
+            displayTurn.text = "Enemy's Turn";
+
+            if (selectedEnemy != null)
+            {
+                selectedEnemy.CreateExplosion();
+                selectedEnemy.UpdateDebuffDisplays();
+                Invoke("StartEnemyTurn", 2f);
+                Invoke("StartTurn", 4f);
+            }
+            else
+            {
+                Debug.Log("AllEnemiesAreDead");
+                isAllEnemiesDefeated = true;
+                ToggleRewardSelection();
+                //SetVisualsToMapSelect();
+                //_showcaser.ToggleMapForGameScene();
+            }
         }
-        shootIndex = 0;
-        ShootTheMagazine();
-        displayTurn.text = "Enemy's Turn";
-
-        selectedEnemy.CreateExplosion();
-        selectedEnemy.UpdateDebuffDisplays();
-
-        Invoke("StartEnemyTurn", 2f);
-        Invoke("StartTurn", 4f);
     }
     public void DiscardHand()
     {
@@ -368,11 +430,15 @@ public class GameManager : MonoBehaviour
     }
     public void EnemyAction()
     {
-        foreach (Enemy enemy in enemies)
-        {
-            enemy.UpdateEffects();
-            enemy.DoAction();
-        }
+            foreach (Enemy enemy in enemies)
+            {
+                if (enemies != null)
+                {
+                enemy.UpdateEffects();
+                enemy.DoAction();
+                }
+            }
+        
     }
    
     public void UpdateDeckCount()
