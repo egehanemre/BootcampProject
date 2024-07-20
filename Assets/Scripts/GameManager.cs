@@ -577,11 +577,13 @@ public class GameManager : MonoBehaviour
                 break;
             case "Black":
                 TargetEnemy.EnemyTakeDamage(20);
-                //TargetEnemy.UpdateDebuffDisplays();
+                TargetEnemy.AddHellfire(3);
+                TargetEnemy.UpdateDebuffDisplays();
                 break;
             case "VioletteDark":
                 TargetEnemy.EnemyTakeDamage(20);
-                //TargetEnemy.UpdateDebuffDisplays();
+                TargetEnemy.AddThunder(3);
+                TargetEnemy.UpdateDebuffDisplays();
                 break;
         }
     }
