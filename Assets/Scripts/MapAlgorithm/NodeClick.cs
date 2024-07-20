@@ -12,8 +12,6 @@ public class NodeClick : MonoBehaviour, IPointerDownHandler
     private MapMovement mapMovement;
 
     public NodeData nodeData; // Assign this in the inspector
-
-
     private void Awake()
     {
         manager = GameObject.Find("Manager");

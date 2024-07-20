@@ -477,7 +477,7 @@ MonoBehaviour:
   soulfireSprite: {fileID: 0}
   thunderSprite: {fileID: -2009966577, guid: 93b54aa10df854849a805c73ea94e201, type: 3}
   silverSprite: {fileID: 0}
-  bloodSprite: {fileID: 0}
+  bloodSprite: {fileID: 1195175240, guid: 93b54aa10df854849a805c73ea94e201, type: 3}
   holySprite: {fileID: 0}
   darkSprite: {fileID: 0}
   infernoSprite: {fileID: 0}

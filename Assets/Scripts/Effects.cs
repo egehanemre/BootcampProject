@@ -45,7 +45,7 @@ public class Effect
 
     // Check if the effect is still active
 
-    public void ApplyEffect(Enemy enemy)
+    public void ApplyDamageEffect(Enemy enemy)
     {
         enemy.EnemyTakeDamage(damagePerTurn);
         stackCount--;

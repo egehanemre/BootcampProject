@@ -18,14 +18,10 @@ public class Generator : MonoBehaviour
     //public bool canStartFromSamePath = false;
 
     public Map currentMap;
-
-
     private void Awake()
     {
         showcaser = GetComponent<Showcaser>();
     }
-
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -35,7 +31,6 @@ public class Generator : MonoBehaviour
             showcaser.ShowMap();
         }
     }
-
     public void ShowMapOnStart() 
     { 
         GenerateMap();

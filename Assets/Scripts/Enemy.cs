@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
 {
     private GameManager gameManager;
     public Image healthBar;
+    public bool isDead = false;
 
     public Sprite hellfireSprite;
     public Sprite soulfireSprite;
@@ -59,74 +60,105 @@ public class Enemy : MonoBehaviour
             { EffectType.Hellfire, hellfireSprite },
             { EffectType.Explosion, explosionSprite },
             { EffectType.Thunder, thunderSprite },
-            // Add other effects as needed
+            { EffectType.Silver, silverSprite },
+            { EffectType.Blood, bloodSprite },
+            { EffectType.Holy, holySprite },
+            { EffectType.Dark, darkSprite },
+            { EffectType.BlackFlame, blackFlameSprite },
+            { EffectType.BloodFlame, bloodFlameSprite },
+            { EffectType.Curse, curseSprite },
+            { EffectType.HolyFlame, holyFlameSprite },
+            { EffectType.Inferno, infernoSprite },
+            { EffectType.Plasma, plasmaSprite },
+            { EffectType.PureSilver, pureSilverSprite },
+            { EffectType.QuickSilver, quickSilverSprite },
+            { EffectType.RedLightning, redLightningSprite },
+            { EffectType.Sacrifice, sacrificeSprite },
+            { EffectType.SpiritStorm, spiritStormSprite },
+            { EffectType.Unholy, unholySprite }
         };
 
     }
     public void UpdateEffects()
     {
-        CreateExplosion();
+        CreateComboEffects();
         UpdateDebuffDisplays();
 
         foreach (Effect effect in activeEffects)
         {
             if (effect.IsActive())
             {
-                effect.ApplyEffect(this);
+                effect.ApplyDamageEffect(this);
             }
+            CheckIsDead();
         }
 
         UpdateDebuffDisplays();
     }
-    public void UpdateHealthBar()
+    public void CreateComboEffects()
+    {
+        CreateExplosion();
+    }
+    public void UpdateEnemyHealthBar()
     {
         healthBar.fillAmount = currentHealth / maxHealth;
         healthText.text = currentHealth + " / " + maxHealth;
     }
+
+    //we'll modify do action
     public void DoAction()
     {
         gameManager.PlayerTakeDamage(10);
     }
 
+    //select enemy with mouse click
     public void OnMouseDown()
     {
-        gameManager.EnemySelection(this);  // Pass the current enemy instance
+        gameManager.TargetEnemy = this;
+        gameManager.selectedEnemyContainerImage.transform.position = gameManager.TargetEnemy.transform.position;
+
     }
     public void EnemyTakeDamage(float damage)
     {
-        currentHealth -= damage;
-        UpdateHealthBar();
-
-        if (currentHealth <= 0)
+        if (gameManager.TargetEnemy != null)
         {
-            Die();
+            currentHealth -= damage;
+            UpdateEnemyHealthBar();
         }
     }
-    void Die()
+    public void CheckIsDead()
     {
-        // Remove this enemy from the list
-        gameManager.enemies.Remove(this);
-
-        if (gameManager.enemies.Count > 0)
+        if (currentHealth <= 0)
         {
-            // If there are still enemies left, select another one as the target
-            gameManager.selectedEnemy = gameManager.enemies[0]; // Example: select the first one in the list
-            gameManager.EnemySelection(gameManager.selectedEnemy);
+            isDead = true;
         }
-        else
+        if (isDead)
         {
-            // If this was the last enemy, log the message and perform necessary actions
-            gameManager.isAllEnemiesDefeated = true;
-            gameManager.selectedEnemy = null; // Clear the selected enemy
-                                              // Optionally, hide the enemy selection indicator
-            if (gameManager.selectedEnemyContainerImage != null)
+            UnityEngine.Debug.Log("Enemy is dead");  
             {
-                gameManager.selectedEnemyContainerImage.SetActive(false);
+                //clear all effects
+                foreach (Effect effect in activeEffects)
+                {
+                    effect.stackCount = 0;
+                }
+
+                gameManager.enemies.Remove(this);
+                Destroy(gameObject);
+
+                if (gameManager.enemies.Count > 0)
+                {
+                    gameManager.TargetEnemy = gameManager.enemies[0]; // Example: select the first one in the list
+                    gameManager.EnemySelection();
+                }
+                else
+                {
+                    UnityEngine.Debug.Log("all enemies are dead");
+                    gameManager.isAllEnemiesDefeated = true;
+                    gameManager.TargetEnemy = null; 
+                    gameManager.selectedEnemyContainerImage.SetActive(false);
+                }
             }
         }
-
-        // Destroy the enemy GameObject
-        Destroy(gameObject);
     }
 
     #region Manage Effects
@@ -155,29 +187,32 @@ public class Enemy : MonoBehaviour
     }
     public void UpdateDebuffDisplays()
     {
-        // Clear existing debuff displays
-        foreach (Transform child in debuffDisplays.transform)
+        if (gameManager.TargetEnemy != null)
         {
-            Destroy(child.gameObject);
-        }
-
-        // Create new debuff displays only for active effects with stackCount > 0
-        foreach (Effect effect in activeEffects.Where(e => e.stackCount > 0))
-        {
-            GameObject newElement = Instantiate(gridElementPrefab, debuffDisplays.transform);
-            Image elementImage = newElement.GetComponent<Image>();
-
-            // Update the sprite for the effect
-            if (elementImage != null && effectSprites.ContainsKey(effect.effectType))
+            // Clear existing debuff displays
+            foreach (Transform child in debuffDisplays.transform)
             {
-                elementImage.sprite = effectSprites[effect.effectType];
+                Destroy(child.gameObject);
             }
 
-            // Access the TextMeshProUGUI component and update it with the stackCount
-            TextMeshProUGUI stackText = newElement.GetComponentInChildren<TextMeshProUGUI>();
-            if (stackText != null)
+            // Create new debuff displays only for active effects with stackCount > 0
+            foreach (Effect effect in activeEffects.Where(e => e.stackCount > 0))
             {
-                stackText.text = effect.stackCount.ToString();
+                GameObject newElement = Instantiate(gridElementPrefab, debuffDisplays.transform);
+                Image elementImage = newElement.GetComponent<Image>();
+
+                // Update the sprite for the effect
+                if (elementImage != null && effectSprites.ContainsKey(effect.effectType))
+                {
+                    elementImage.sprite = effectSprites[effect.effectType];
+                }
+
+                // Access the TextMeshProUGUI component and update it with the stackCount
+                TextMeshProUGUI stackText = newElement.GetComponentInChildren<TextMeshProUGUI>();
+                if (stackText != null)
+                {
+                    stackText.text = effect.stackCount.ToString();
+                }
             }
         }
     }
@@ -212,7 +247,7 @@ public class Enemy : MonoBehaviour
 
     public void AddBlood(int stackCount)
     {
-        AddEffect(new Effect(EffectType.Blood, stackCount, 1)); // Adjust damagePerTurn as needed
+        AddEffect(new Effect(EffectType.Blood, stackCount, 10)); // Adjust damagePerTurn as needed
         UpdateDebuffDisplays();
     }
 

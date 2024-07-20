@@ -9,11 +9,16 @@ public class Card : MonoBehaviour
 
     public int cardIndex;
     public int handIndex;
-    public string cardName;
-    public CardType cardType;
-    public Element element;
-    public Rarity rarity;
+
+    [SerializeField] private string cardName;
+    [SerializeField] private CardType cardType;
+    [SerializeField] private Element element;
+    [SerializeField] private Rarity rarity;
     public bool isRewardSceneCard = false;
+
+    public int baseSortingOrder = 0;
+
+    public Enemy targetEnemy;
     public enum CardType 
     {
         Bullet,
@@ -50,21 +55,14 @@ public class Card : MonoBehaviour
         Rare,
     }
 
-    public int baseSortingOrder = 0;
-
-    public Enemy targetEnemy;
-
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        // Automatically find the Canvas component on the child GameObject
         childCanvas = GetComponentInChildren<Canvas>();
     }
-
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -86,6 +84,7 @@ public class Card : MonoBehaviour
         {
             PlayCard();
         }
+        //check if this card is shown for reward
         else if (isRewardSceneCard)
         {
             isRewardSceneCard = false;
@@ -94,9 +93,9 @@ public class Card : MonoBehaviour
 
             foreach (Transform child in _gameManager.rewardsContainer.transform)
             {
-                    Destroy(child.gameObject);
+                Destroy(child.gameObject);
             }
-
+            _gameManager.rewardCards.Clear();
             gameObject.SetActive(false);
         }
     }
@@ -110,8 +109,7 @@ public class Card : MonoBehaviour
         if (bulletAdded)
         {
             _gameManager.availableCardSlots[handIndex] = true;
-
-            Invoke("MoveToDiscard", 0.2f);
+            MoveToDiscard();
         }
         else
         {

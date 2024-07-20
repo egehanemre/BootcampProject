@@ -39,12 +39,10 @@ public class MapMovement : MonoBehaviour
 
     }
 
-
-
     public void MoveToNode(Node node)
     {
 
-        GameManager.startComplete = true;
+        GameManager.isPlayerDoneSelectingThePointToMove = true;
 
         if (currentNode != null)
         {

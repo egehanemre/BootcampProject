@@ -18,7 +18,6 @@ public class RewardSelection : MonoBehaviour
         for (int i = 0; i < rewardCards.Count; i++)
         {
             cardImages[i].sprite = rewardCards[i].spriteRenderer.sprite; // Assuming Card has a Sprite property for its image
-                                                              // You might also want to set up any other visual elements here
         }
     }
     public void OnCardSelected(int index)

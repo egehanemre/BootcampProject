@@ -8,89 +8,93 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    // Singleton Instance
+    public static GameManager Instance { get; private set; }
+    public static bool isPlayerDoneSelectingThePointToMove = false;
+
+    //UI Elements
     public Canvas mainCanvas;
     public Canvas startCanvas;
     public Canvas mapCanvas;
-    public Canvas transparentPanel; 
+    public Canvas transparentPanel;
 
-    public bool isAllEnemiesDefeated = false;
-
-    [SerializeField] private Generator _generator;
-    [SerializeField] private Showcaser _showcaser;
-    public static GameManager Instance { get; private set; }
-
-    public GameObject battleDisplay;
-
-    public GameObject enemiesContainer; // Assign in the inspector
-    public NodeData currentNodeData;
-
-    public bool isCardsFirstTime = true;
-
-    public List<Card> deck = new List<Card>();
-    public List<Card> hand = new List<Card>();
-    public List<Card> discardPile = new List<Card>();
-    public List<Card> rewardCards = new List<Card>();
-
-    public List<GameObject> bulletObjects = new List<GameObject>();
-
-    public List<Transform> enemiesSpawnSlots = new List<Transform>();
-    public List<Enemy> enemies = new List<Enemy>();
-
-    public Transform[] cardSlots;
-    public Transform[] rewardSlots;
-    public Image[] bulletSlots;
-
-    public bool[] availableCardSlots;
-    public bool[] availableRewardSlots;
-    public bool[] availableBulletSlots;
-
-    public Queue<Bullet> BulletQueue = new Queue<Bullet>();
-    public Queue<Enemy> TargetEnemyQueue = new Queue<Enemy>();
-
-    public GameObject cylinder;
-    public Button fireButton;
-
-    public Image healthBar;
-    public float healthAmount = 100f;
-
-    public Transform discardPileTransform;
-
-    public TextMeshProUGUI deckSizeText;
-    public TextMeshProUGUI discardPileText;
-    public TextMeshProUGUI displayTurn;
-
-    public int maxHealth = 100;
-    public int currentHealth;
-    public TextMeshProUGUI healthText;
-
-    public GameObject bulletToAdd;
-    public GameObject closedBulletSlot;
-
-    public int bulletIndex;
-
-    public Bullet firedBullet;
-    public Bullet bullet;
-
-    public float rotationSpeed = 120f;
-    public bool isRotating = false;
-    public Quaternion targetRotation;
-    public float rotationTime = 0.5f;
-
-    public int arrayIndex = 0;
-    public int shootIndex = 0;
-    public string firedName;
-    public GameObject firedBulletObject;
-
-    public Enemy selectedEnemy;
     public GameObject selectedEnemyContainerImage;
     public GameObject rewardsContainer;
     public GameObject rewardsMenu;
     public GameObject cardsContainer;
 
-    public static bool startComplete = false;
+    public TextMeshProUGUI deckSizeText;
+    public TextMeshProUGUI discardPileText;
+    public TextMeshProUGUI displayTurn;
+    public TextMeshProUGUI healthText;
+
+    //Game State
+    public bool isAllEnemiesDefeated = false;
+    public bool isCardsFirstTime = true;
+
+    //GameData
+    public Queue<Bullet> BulletQueue = new Queue<Bullet>();
+    public Queue<Enemy> TargetEnemyQueue = new Queue<Enemy>();
+
+    public List<Card> deck = new List<Card>();
+    public List<Card> hand = new List<Card>();
+    public List<Card> discardPile = new List<Card>();
+    public List<Card> rewardCards = new List<Card>();
+    public List<Transform> enemiesSpawnSlots = new List<Transform>();
+    public List<Enemy> enemies = new List<Enemy>();
+    public List<GameObject> bulletObjects = new List<GameObject>();
+    public NodeData currentNodeData;
+    public Enemy TargetEnemy;
+    public Enemy selectedEnemy;
+
+    public Bullet firedBullet;
+    public Bullet bullet;
+
+    //Gaem Object and Transforms
+    public GameObject bulletToAdd;
+    public GameObject closedBulletSlot;
+    public GameObject enemiesContainer; // Assign in the inspector
+    public GameObject battleDisplay;
+    public GameObject firedBulletObject;
+    public Transform[] cardSlots;
+    public Transform[] rewardSlots;
+    public Transform discardPileTransform;
+
+    //Gameplay Variables
+    public int arrayIndex = 0;
+    public int shootIndex = 0;
+
+    public int turnCount = 0;
 
     public int maxMana = 6;
     public int currentMana = 3;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public int bulletIndex;
+
+    [SerializeField] private Generator _generator;
+    [SerializeField] private Showcaser _showcaser;
+
+    //Others
+
+    public Image[] bulletSlots;
+    public bool[] availableCardSlots;
+    public bool[] availableRewardSlots;
+    public bool[] availableBulletSlots;
+
+    public GameObject cylinder;
+    public Button fireButton;
+    public Image healthBar;
+    public float healthAmount = 100f;
+
+    public string firedName;
+
+    #region Unity Default Methods
+    private void Start()
+    {
+        // Create and shot the map on start
+        _generator.ShowMapOnStart();
+    }
 
     private void Awake()
     {
@@ -110,6 +114,26 @@ public class GameManager : MonoBehaviour
         SetVisualsToMapSelect();
     }
 
+    void Update()
+    {
+        UpdateDeckCount();
+
+        if (isPlayerDoneSelectingThePointToMove)
+        {
+            StartGameAfterMapClick();
+            isPlayerDoneSelectingThePointToMove = false;
+        }
+
+        if (isAllEnemiesDefeated == true)
+        {
+            ToggleRewardSelection();
+            isAllEnemiesDefeated = false;
+        }
+    }
+
+    #endregion
+
+    #region Visual Modifiers
     public void SetVisualsToMapSelect()
     {
         rewardsMenu.SetActive(false);
@@ -131,17 +155,22 @@ public class GameManager : MonoBehaviour
 
     public void ToggleRewardSelection()
     {
-            mainCanvas.enabled = false;
-            battleDisplay.SetActive(false);
-            startCanvas.enabled = false;
-            mapCanvas.enabled = false;
-            rewardsMenu.SetActive(true);
+        startCanvas.enabled = false;
+        mainCanvas.enabled = false;
+        battleDisplay.SetActive(false);
+        startCanvas.enabled = false;
+        mapCanvas.enabled = false;
+        rewardsMenu.SetActive(true);
     }
 
     public void Continue()
     {
+        isAllEnemiesDefeated = false;
         SetVisualsToMapSelect();
         _showcaser.ToggleMapForGameScene();
+        InitializeRewards();
+        SetStartSlotsToEmpty();
+        ResetRewardSlots();
     }
 
     public void SetCurrentNodeData(NodeData nodeData)
@@ -149,8 +178,7 @@ public class GameManager : MonoBehaviour
         currentNodeData = nodeData;
         SpawnEnemiesFromNodeData();
     }
-
-
+    #endregion
     private void SpawnEnemiesFromNodeData()
     {
         Debug.Log("Spawning enemies from node data.");
@@ -179,18 +207,12 @@ public class GameManager : MonoBehaviour
             Debug.Log($"Spawned {enemy.name} as child of {enemiesContainer.name}");
         }
     }
-
-    private void Start()
-    {
-        _generator.ShowMapOnStart();
-    }
-
     public void StartGameAfterMapClick()
     {
+        // initializes game
         StartCoroutine(StartGameAfterDelay(1.5f));
     }
-
-    public void setupStartMap()
+    public void SetupStartMap()
     {
         mainCanvas.enabled = false;
         battleDisplay.SetActive(false);
@@ -199,43 +221,28 @@ public class GameManager : MonoBehaviour
         _generator.ShowMapOnStart();
     }
 
-    void Update()
-    {
-        UpdateDeckCount();
-
-        if (startComplete)
-        {
-            StartGameAfterMapClick();
-            startComplete = false;
-        }
-
-        if(isAllEnemiesDefeated == true)
-        {
-            ToggleRewardSelection();
-            isAllEnemiesDefeated = false;
-        }
-
-    }
     #region Initialization
     private void InitializeGame()
     {
         currentHealth = maxHealth;
         healthText.text = $"{healthAmount} / {maxHealth}";
 
+        //show the battle scene
         SetVisualsToBattleScene();
-
         InitializeRewards();
         InitializeDeck();
-        SetStartSlots();
+        SetStartSlotsToEmpty();
         SummonEnemies();
-        EnemySelection(selectedEnemy);
+        EnemySelection();
         DrawHand();
-        displayTurn.text = "Player's Turn";
+        displayTurn.text = "Player's Turn:  " + turnCount + ".";
+        turnCount++;
     }
 
     private void InitializeRewards()
     {
-        Card[] cardPrefabs = Resources.LoadAll<Card>("Cards");
+        //we'll load the cards from resources folder
+        Card[] cardPrefabs = Resources.LoadAll<Card>("RewardCards");
         List<Card> selectedRewards = new List<Card>();
 
         while (selectedRewards.Count < 3)
@@ -258,6 +265,14 @@ public class GameManager : MonoBehaviour
             }
         }
         rewardCards = selectedRewards;
+    }
+
+    private void ResetRewardSlots()
+    {
+       for (int i = 0; i < availableRewardSlots.Length; i++)
+        {
+            availableRewardSlots[i] = true;
+        }
     }
     private void InitializeDeck()
     {
@@ -285,7 +300,7 @@ public class GameManager : MonoBehaviour
         cylinder.transform.rotation = Quaternion.Euler(0, 0, 0);
         //make animations for this later
     }
-    public void SetStartSlots()
+    public void SetStartSlotsToEmpty()
     {
         availableBulletSlots = new bool[bulletSlots.Length];
         for (int i = 0; i < currentMana; i++)
@@ -305,7 +320,6 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < availableCardSlots.Length; i++)
         {
             availableCardSlots[i] = true;
-
         }
 
     }
@@ -318,6 +332,7 @@ public class GameManager : MonoBehaviour
         bulletSlots[currentMana - 1].sprite = null;
         bulletSlots[currentMana - 1].color = Color.clear;
     }
+
     #endregion
     #region Card Management
 
@@ -357,8 +372,12 @@ public class GameManager : MonoBehaviour
     public void StartTurn()
     {
         EnableAllSlots();
-        DrawHand();
-        displayTurn.text = "Player's Turn";
+        if(rewardsMenu.activeSelf == false)
+        {
+            DrawHand();
+        }
+        displayTurn.text = "Player's Turn:  " + turnCount + ".";
+        turnCount++;
     }
 
     public void EndTurn()
@@ -371,12 +390,13 @@ public class GameManager : MonoBehaviour
             }
             shootIndex = 0;
             ShootTheMagazine();
-            displayTurn.text = "Enemy's Turn";
+            displayTurn.text = "Enemy's Turn:  " + turnCount + ".";
+            turnCount++;
 
-            if (selectedEnemy != null)
+            if (TargetEnemy != null)
             {
-                selectedEnemy.CreateExplosion();
-                selectedEnemy.UpdateDebuffDisplays();
+                TargetEnemy.CreateExplosion();
+                TargetEnemy.UpdateDebuffDisplays();
                 Invoke("StartEnemyTurn", 2f);
                 Invoke("StartTurn", 4f);
             }
@@ -385,6 +405,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("AllEnemiesAreDead");
                 isAllEnemiesDefeated = true;
                 ToggleRewardSelection();
+                DiscardHand();
                 //SetVisualsToMapSelect();
                 //_showcaser.ToggleMapForGameScene();
             }
@@ -408,7 +429,10 @@ public class GameManager : MonoBehaviour
     }
     public void StartEnemyTurn()
     {
-        EnemyAction();
+        if (TargetEnemy != null)
+        {
+            EnemyAction();
+        }
     }
 
 
@@ -430,17 +454,16 @@ public class GameManager : MonoBehaviour
     }
     public void EnemyAction()
     {
-            foreach (Enemy enemy in enemies)
-            {
-                if (enemies != null)
-                {
-                enemy.UpdateEffects();
-                enemy.DoAction();
-                }
-            }
-        
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].UpdateEffects();
+        }
+        for(int j = 0; j < enemies.Count; j++)
+        {
+            enemies[j].DoAction();
+        }
     }
-   
+
     public void UpdateDeckCount()
     {
         deckSizeText.text = "" + deck.Count;
@@ -466,7 +489,7 @@ public class GameManager : MonoBehaviour
 
                 BulletQueue.Enqueue(bulletToAdd.GetComponent<Bullet>());
 
-                TargetEnemyQueue.Enqueue(selectedEnemy);
+                TargetEnemyQueue.Enqueue(TargetEnemy);
 
                 availableBulletSlots[i] = false;
                 bulletAdded = true;
@@ -487,10 +510,10 @@ public class GameManager : MonoBehaviour
     }
     public void FireBullet()
     {
-        if (BulletQueue.Count > 0 && selectedEnemy != null)
+        if (BulletQueue.Count > 0)
         {
             firedBullet = BulletQueue.Dequeue();
-            selectedEnemy = TargetEnemyQueue.Peek();
+            TargetEnemy = TargetEnemyQueue.Dequeue();
 
             for (int i = shootIndex ; i < bulletSlots.Length; i++)
             {
@@ -506,9 +529,14 @@ public class GameManager : MonoBehaviour
 
                     UseBulletEffect();
 
-                    TargetEnemyQueue.Dequeue();
-
                     break;
+                }
+            }
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i] != null)
+                {
+                    enemies[i].CheckIsDead();
                 }
             }
         }
@@ -522,38 +550,38 @@ public class GameManager : MonoBehaviour
         switch (firedName)
         {
             case "Pink":
-                selectedEnemy.EnemyTakeDamage(10);
+            {
+                TargetEnemy.AddBlood(3);
+                TargetEnemy.UpdateDebuffDisplays();
+            }
                 break;
             case "Red":
-                selectedEnemy.EnemyTakeDamage(25);
-
+                TargetEnemy.EnemyTakeDamage(20);
+                //TargetEnemy.UpdateDebuffDisplays();
                 break;
             case "Yellow":
-                selectedEnemy.EnemyTakeDamage(10);
+                TargetEnemy.EnemyTakeDamage(20);
+                //TargetEnemy.UpdateDebuffDisplays();
                 break;
             case "Green":
-                selectedEnemy.EnemyTakeDamage(5);
-
+                TargetEnemy.EnemyTakeDamage(20);
+                //TargetEnemy.UpdateDebuffDisplays();
                 break;
             case "Blue":
-                selectedEnemy.EnemyTakeDamage(5);
-
+                TargetEnemy.EnemyTakeDamage(20);
+                //TargetEnemy.UpdateDebuffDisplays();
                 break;
             case "Gray":
-                selectedEnemy.EnemyTakeDamage(1);
-
+                TargetEnemy.EnemyTakeDamage(20);
+                //TargetEnemy.UpdateDebuffDisplays();
                 break;
             case "Black":
-                selectedEnemy.AddThunder(2);
-                selectedEnemy.UpdateDebuffDisplays();
-
-
+                TargetEnemy.EnemyTakeDamage(20);
+                //TargetEnemy.UpdateDebuffDisplays();
                 break;
             case "VioletteDark":
-                selectedEnemy.AddHellfire(2);
-                selectedEnemy.UpdateDebuffDisplays();
-
-
+                TargetEnemy.EnemyTakeDamage(20);
+                //TargetEnemy.UpdateDebuffDisplays();
                 break;
         }
     }
@@ -580,19 +608,23 @@ public class GameManager : MonoBehaviour
             enemy.transform.position = spawnSlot.position;
             enemy.gameObject.SetActive(true);
 
-            EnemySelection(enemy);
+            EnemySelection();
         }
     }
 
-
-
-    public void EnemySelection(Enemy enemy)
+    public void EnemySelection()
     {
-        selectedEnemy = enemy;
-        if(selectedEnemy != null)
+        if (enemies.Count > 0)
         {
-            selectedEnemyContainerImage.transform.position = enemy.transform.position;
+            TargetEnemy = enemies[0];
+            selectedEnemyContainerImage.transform.position = TargetEnemy.transform.position;
             selectedEnemyContainerImage.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("No enemies available to select.");
+            TargetEnemy = null;
+            selectedEnemyContainerImage.SetActive(false);
         }
     }
     public void PlayerTakeDamage(int damage)
@@ -604,16 +636,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartGameAfterDelay(float delay)
     {
-        // Optionally disable user interactions here (e.g., disable buttons, ignore clicks)
         transparentPanel.enabled = true;
-        // Wait for the specified delay
         yield return new WaitForSeconds(delay);
-
-        // Re-enable user interactions if they were disabled
         transparentPanel.enabled = false;
-
         // Continue with showing the map change animation and initializing the game
         _showcaser.ToggleMapForGameScene();
+        //Do the everything related to game initialization here
         InitializeGame();
     }
 }
