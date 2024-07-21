@@ -90,3 +90,13 @@ We finished the most of the playable prototype, mechanics are mostly working as 
 ## Sprint 2
 
 - **Estimated Points to Complete in the Sprint**: 14 Points
+
+-**Sprint Review**: Since our other members were not active during the sprint, we only had 2 people working on the project for this sprint, we drew most of our card and element sprites, connected them to game through code to create scriptable cards, turn system, combat manager, map algorithm, enemy ai etc. game is in playable state but needs adjustments to establish a DEMO version.
+
+- **Sprint Retrospective:**
+- Team and Role Management: Two members were mostly inactive for the entire sprint, they failed to establish task given to them even when those were considered easier tasks, One member had to do others tasks to meet the requirements for the sprint by overworking himself. Artist and Programmer done their part.
+
+- **Sprint board update**:
+- ![Backlog 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Miro.PNG) 
+- **State of the game**:
+- ![Screenshot 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CurrentState.PNG)
