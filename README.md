@@ -87,3 +87,6 @@ We finished the most of the playable prototype, mechanics are mostly working as 
   - Team Changes and Role Adjustments: We experienced team changes with 2 members leaving and 1 new member joining. Accordingly, roles were adjusted, and the Scrum Master was changed.
   - Task Distribution Reorganization: It was decided to reorganize the task distribution within the team for the upcoming sprint to ensure more effective collaboration and workload balance.
  
+## Sprint 2
+
+- **Estimated Points to Complete in the Sprint**: 14 Points
