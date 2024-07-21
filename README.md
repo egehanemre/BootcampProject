@@ -97,9 +97,9 @@ We finished the most of the playable prototype, mechanics are mostly working as 
 - Team and Role Management: Two members were mostly inactive for the entire sprint, they failed to establish task given to them even when those were considered easier tasks, One member had to do others tasks to meet the requirements for the sprint by overworking himself. Artist and Programmer done their part.
 
 - **Sprint board update**:
-- ![Backlog 2](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Miro2.PNG)
+  ![Backlog 2](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Miro2.PNG)
 - **State of the game**:
-- ![Screenshot 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CurrentGameState.PNG)
-- ![Screenshot 2](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/PathAlgorithm.jpg)
-- ![Screenshot 3](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CardsTexts.jpg)
-- ![Screenshot 4](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/elementler_ortal.png)
+  ![Screenshot 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CurrentGameState.PNG)
+  ![Screenshot 2](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/PathAlgorithm.jpg)
+  ![Screenshot 3](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CardsTexts.jpg)
+  ![Screenshot 4](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/elementler_ortal.png)
