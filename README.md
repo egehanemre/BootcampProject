@@ -102,3 +102,4 @@ We finished the most of the playable prototype, mechanics are mostly working as 
 - ![Screenshot 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CurrentGameState.PNG)
 - ![Screenshot 2](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/PathAlgorithm.jpg)
 - ![Screenshot 3](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CardsTexts.jpg)
+- ![Screenshot 4](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/elementler_ortal.png)
