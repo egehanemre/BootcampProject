@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Card : MonoBehaviour
@@ -22,9 +23,8 @@ public class Card : MonoBehaviour
     public enum CardType 
     {
         Bullet,
-        Spell,
-        Augment 
-    }
+        Incantation,
+    } 
     public enum Element
     {
         EmptyElement,
@@ -80,9 +80,21 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if(cardName == "HardShot")
+        {
+            _gameManager.DrawCard();
+        }
+
         if (!isRewardSceneCard)
         {
-            PlayCard();
+            if(cardType == CardType.Bullet)
+            {
+                PlayCard();
+            }
+            if (cardType == CardType.Incantation)
+            {
+                PlaySpell();
+            }
         }
         //check if this card is shown for reward
         else if (isRewardSceneCard)
@@ -98,6 +110,13 @@ public class Card : MonoBehaviour
             _gameManager.rewardCards.Clear();
             gameObject.SetActive(false);
         }
+    }
+
+    void PlaySpell()
+    {
+        _gameManager.spellName = bulletPrefab.name;
+        _gameManager.UseSpellEffect();
+        MoveToDiscard();
     }
 
     void PlayCard()

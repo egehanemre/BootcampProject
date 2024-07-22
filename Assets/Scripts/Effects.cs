@@ -50,6 +50,11 @@ public class Effect
         enemy.EnemyTakeDamage(damagePerTurn);
         stackCount--;
     }
+    public void ApplyBloodDamageEffect(Enemy enemy)
+    {
+        enemy.EnemyTakeDamage(stackCount);
+        stackCount--;
+    }
     public bool IsActive()
     {
         return stackCount > 0;

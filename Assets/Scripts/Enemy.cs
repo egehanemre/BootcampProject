@@ -88,8 +88,16 @@ public class Enemy : MonoBehaviour
         {
             if (effect.IsActive())
             {
-                effect.ApplyDamageEffect(this);
+                if(effect.effectType != EffectType.Blood)
+                {
+                    effect.ApplyDamageEffect(this);
+                }
+                if (effect.effectType == EffectType.Blood)
+                {
+                    effect.ApplyBloodDamageEffect(this);
+                }
             }
+            
             CheckIsDead();
         }
 
@@ -247,7 +255,7 @@ public class Enemy : MonoBehaviour
 
     public void AddBlood(int stackCount)
     {
-        AddEffect(new Effect(EffectType.Blood, stackCount, 10)); // Adjust damagePerTurn as needed
+        AddEffect(new Effect(EffectType.Blood, stackCount, 1)); // Adjust damagePerTurn as needed
         UpdateDebuffDisplays();
     }
 

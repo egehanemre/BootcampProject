@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aca65da58e30fa41877000e74a3aa1e, type: 3}
   m_Name: NodeData 1
   m_EditorClassIdentifier: 
-  sprite: {fileID: -1168088812, guid: 93b54aa10df854849a805c73ea94e201, type: 3}
-  enemyPrefabs:
-  - {fileID: 5091113461585161028, guid: 0f01d4084476f0b40a93068f0718c3f8, type: 3}
+  sprite: {fileID: 0}
+  enemyPrefabs: []

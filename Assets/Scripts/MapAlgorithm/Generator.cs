@@ -22,15 +22,6 @@ public class Generator : MonoBehaviour
     {
         showcaser = GetComponent<Showcaser>();
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GenerateMap();
-            showcaser.map = currentMap;
-            showcaser.ShowMap();
-        }
-    }
     public void ShowMapOnStart() 
     { 
         GenerateMap();
@@ -57,7 +48,7 @@ public class Generator : MonoBehaviour
         MakeFirstRoomsAbleToGoTo();
 
         ///////////////NODE DATA INSERTION/////////////////////
-        GetComponent<NodeDataInserter>().InsertRandomDataToAllNodes();
+        GetComponent<NodeDataInserter>().InsertDatas();
     }
 
 

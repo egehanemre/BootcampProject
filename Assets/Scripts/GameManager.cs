@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
     //Others
 
     public Image[] bulletSlots;
+    public Image[] buffSlots;
     public bool[] availableCardSlots;
     public bool[] availableRewardSlots;
     public bool[] availableBulletSlots;
@@ -88,6 +89,7 @@ public class GameManager : MonoBehaviour
     public float healthAmount = 100f;
 
     public string firedName;
+    public string spellName;
 
     #region Unity Default Methods
     private void Start()
@@ -504,6 +506,7 @@ public class GameManager : MonoBehaviour
         }
         return bulletAdded;
     }
+
     public void Fire()
     {
         int bulletsToFire = BulletQueue.Count;
@@ -512,6 +515,11 @@ public class GameManager : MonoBehaviour
     {
         if (BulletQueue.Count > 0)
         {
+            foreach (Bullet bullet in BulletQueue)
+            {
+                Debug.Log("Firing bullet: " + bullet.name);
+            }
+
             firedBullet = BulletQueue.Dequeue();
             TargetEnemy = TargetEnemyQueue.Dequeue();
 
@@ -549,41 +557,33 @@ public class GameManager : MonoBehaviour
     {
         switch (firedName)
         {
-            case "Pink":
-            {
-                TargetEnemy.AddBlood(3);
-                TargetEnemy.UpdateDebuffDisplays();
-            }
-                break;
-            case "Red":
-                TargetEnemy.EnemyTakeDamage(20);
-                //TargetEnemy.UpdateDebuffDisplays();
-                break;
-            case "Yellow":
-                TargetEnemy.EnemyTakeDamage(20);
-                //TargetEnemy.UpdateDebuffDisplays();
-                break;
-            case "Green":
-                TargetEnemy.EnemyTakeDamage(20);
-                //TargetEnemy.UpdateDebuffDisplays();
-                break;
-            case "Blue":
-                TargetEnemy.EnemyTakeDamage(20);
-                //TargetEnemy.UpdateDebuffDisplays();
-                break;
-            case "Gray":
-                TargetEnemy.EnemyTakeDamage(20);
-                //TargetEnemy.UpdateDebuffDisplays();
-                break;
-            case "Black":
-                TargetEnemy.EnemyTakeDamage(20);
-                TargetEnemy.AddHellfire(3);
+            case "Bullet":
+                TargetEnemy.EnemyTakeDamage(5);
                 TargetEnemy.UpdateDebuffDisplays();
                 break;
-            case "VioletteDark":
-                TargetEnemy.EnemyTakeDamage(20);
-                TargetEnemy.AddThunder(3);
+            case "HellfireBullet":
+                TargetEnemy.AddHellfire(2);
                 TargetEnemy.UpdateDebuffDisplays();
+                break;
+            case "SpikedBullet":
+                TargetEnemy.EnemyTakeDamage(4);
+                TargetEnemy.AddBlood(2);
+                TargetEnemy.UpdateDebuffDisplays();
+                break;
+            case "HardShot":
+                TargetEnemy.EnemyTakeDamage(11);
+                TargetEnemy.AddBlood(2);
+                TargetEnemy.UpdateDebuffDisplays();
+                break;
+        }
+    }
+
+    public void UseSpellEffect()
+    {
+        switch(spellName)
+        {
+            case "BloodPactSpell":
+                TargetEnemy.AddBlood(5);
                 break;
         }
     }
