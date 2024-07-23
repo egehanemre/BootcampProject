@@ -91,6 +91,15 @@ We finished the most of the playable prototype, mechanics are mostly working as 
 
 - **Estimated Points to Complete in the Sprint**: 14 Points
 
+- **How to complete points**: We have a total of 40 points worth of backlog that need to be completed throughout the project. In first sprint we finished 13 story point worth of content. When divided into 3 sprints, it was decided that the second sprint should have 14 points.
+
+**Daily Scrum**: Our Daily Scrum meetings were held on Discord but we decide to do sprints on text format and only have meetings when important stuff happens. Examples of Daily Scrum meetings are shared below:
+
+![image](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Meetings2.PNG)
+![image](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/dagilimlar.PNG)
+
+
+
 -**Sprint Review**: Since our other members were not active during the sprint, we only had 2 people working on the project for this sprint, we drew most of our card and element sprites, connected them to game through code to create scriptable cards, turn system, combat manager, map algorithm, enemy ai etc. game is in playable state but needs adjustments to establish a DEMO version.
 
 - **Sprint Retrospective:**
