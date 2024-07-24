@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     private GameManager gameManager;
     public Image healthBar;
     public bool isDead = false;
+    public int coinDrop = 10;
 
     public Sprite hellfireSprite;
     public Sprite soulfireSprite;
@@ -96,6 +97,9 @@ public class Enemy : MonoBehaviour
                 {
                     effect.ApplyBloodDamageEffect(this);
                 }
+                if(effect.effectType == EffectType.Sacrifice)
+                {
+                }
             }
             
             CheckIsDead();
@@ -106,6 +110,7 @@ public class Enemy : MonoBehaviour
     public void CreateComboEffects()
     {
         CreateExplosion();
+        CreateSacrifice();
     }
     public void UpdateEnemyHealthBar()
     {
@@ -142,11 +147,16 @@ public class Enemy : MonoBehaviour
         }
         if (isDead)
         {
+            gameManager.coin += coinDrop;
             UnityEngine.Debug.Log("Enemy is dead");  
             {
                 //clear all effects
                 foreach (Effect effect in activeEffects)
                 {
+                    if(effect.effectType == EffectType.Sacrifice)
+                    {
+                        gameManager.maxHealth += gameManager.maxHealth / 100 * 5;
+                    }
                     effect.stackCount = 0;
                 }
 
@@ -290,6 +300,28 @@ public class Enemy : MonoBehaviour
             thunderEffect.stackCount = 0;
             // Optionally, remove the Hellfire and Thunder effects after creating the Explosion
             activeEffects.RemoveAll(e => e.effectType == EffectType.Hellfire || e.effectType == EffectType.Thunder);
+        }
+
+        UpdateDebuffDisplays();
+    }
+
+    public void CreateSacrifice()
+    {
+        Effect holyEffect = activeEffects.FirstOrDefault(e => e.effectType == EffectType.Holy);
+        Effect bloodEffect = activeEffects.FirstOrDefault(e => e.effectType == EffectType.Blood);
+
+        if (holyEffect != null && bloodEffect != null)
+        {
+            int totalSacrificeStacks = (holyEffect.stackCount + bloodEffect.stackCount) / 2;
+
+            // Assuming you want to add a single Sacrifice effect with the total stack count
+            Effect sacrificeEffect = new Effect(EffectType.Sacrifice, totalSacrificeStacks, 0); // Adjust the damagePerTurn as needed
+            AddEffect(sacrificeEffect);
+
+            holyEffect.stackCount = 0;
+            bloodEffect.stackCount = 0;
+            // Optionally, remove the Hope and Blood effects after creating the Sacrifice
+            activeEffects.RemoveAll(e => e.effectType == EffectType.Holy || e.effectType == EffectType.Blood);
         }
 
         UpdateDebuffDisplays();

@@ -2,9 +2,12 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static MapMovement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +15,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public static bool isPlayerDoneSelectingThePointToMove = false;
 
+    public MapMovement mapMovement;
     //UI Elements
     public Canvas mainCanvas;
     public Canvas startCanvas;
@@ -20,11 +24,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject selectedEnemyContainerImage;
     public GameObject rewardsContainer;
+    public GameObject shopContainer;
     public GameObject rewardsMenu;
     public GameObject cardsContainer;
 
     public TextMeshProUGUI deckSizeText;
     public TextMeshProUGUI discardPileText;
+    public TextMeshProUGUI coinText;
     public TextMeshProUGUI displayTurn;
     public TextMeshProUGUI healthText;
 
@@ -40,6 +46,7 @@ public class GameManager : MonoBehaviour
     public List<Card> hand = new List<Card>();
     public List<Card> discardPile = new List<Card>();
     public List<Card> rewardCards = new List<Card>();
+    public List<Card> ShopCards = new List<Card>();
     public List<Transform> enemiesSpawnSlots = new List<Transform>();
     public List<Enemy> enemies = new List<Enemy>();
     public List<GameObject> bulletObjects = new List<GameObject>();
@@ -57,6 +64,7 @@ public class GameManager : MonoBehaviour
     public GameObject battleDisplay;
     public GameObject firedBulletObject;
     public Transform[] cardSlots;
+    public Transform[] shopSlots;
     public Transform[] rewardSlots;
     public Transform discardPileTransform;
 
@@ -66,6 +74,7 @@ public class GameManager : MonoBehaviour
 
     public int turnCount = 0;
 
+    public int coin = 0;
     public int maxMana = 6;
     public int currentMana = 3;
     public int maxHealth = 100;
@@ -81,6 +90,7 @@ public class GameManager : MonoBehaviour
     public Image[] buffSlots;
     public bool[] availableCardSlots;
     public bool[] availableRewardSlots;
+    public bool[] availableShopSlots;
     public bool[] availableBulletSlots;
 
     public GameObject cylinder;
@@ -90,6 +100,9 @@ public class GameManager : MonoBehaviour
 
     public string firedName;
     public string spellName;
+
+    public GameObject shop;
+
 
     #region Unity Default Methods
     private void Start()
@@ -114,6 +127,8 @@ public class GameManager : MonoBehaviour
 
         _generator = FindObjectOfType<Generator>();
         SetVisualsToMapSelect();
+
+        mapMovement = FindAnyObjectByType<MapMovement>();
     }
 
     void Update()
@@ -144,6 +159,7 @@ public class GameManager : MonoBehaviour
         startCanvas.enabled = true;
         mapCanvas.enabled = true;
         transparentPanel.enabled = false;
+        shop.SetActive(false);
     }
 
     public void SetVisualsToBattleScene()
@@ -160,9 +176,18 @@ public class GameManager : MonoBehaviour
         startCanvas.enabled = false;
         mainCanvas.enabled = false;
         battleDisplay.SetActive(false);
-        startCanvas.enabled = false;
         mapCanvas.enabled = false;
         rewardsMenu.SetActive(true);
+    }
+
+    public void ToggleShop()
+    {
+        mainCanvas.enabled = false;
+        battleDisplay.SetActive(false);
+        startCanvas.enabled = false;
+        mapCanvas.enabled = false;
+        rewardsMenu.SetActive(false);
+        shop.SetActive(true);
     }
 
     public void Continue()
@@ -171,8 +196,16 @@ public class GameManager : MonoBehaviour
         SetVisualsToMapSelect();
         _showcaser.ToggleMapForGameScene();
         InitializeRewards();
+        InitializeShop();
         SetStartSlotsToEmpty();
         ResetRewardSlots();
+        ResetShopSlots();
+
+        enemies.Clear();
+        foreach (Transform child in enemiesContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     public void SetCurrentNodeData(NodeData nodeData)
@@ -233,6 +266,7 @@ public class GameManager : MonoBehaviour
         SetVisualsToBattleScene();
         InitializeRewards();
         InitializeDeck();
+        InitializeShop();
         SetStartSlotsToEmpty();
         SummonEnemies();
         EnemySelection();
@@ -269,6 +303,34 @@ public class GameManager : MonoBehaviour
         rewardCards = selectedRewards;
     }
 
+    private void InitializeShop()
+    {
+        //we'll load the cards from resources folder
+        Card[] cardPrefabs = Resources.LoadAll<Card>("ShopCards");
+        List<Card> selectedShops = new List<Card>();
+
+        while (selectedShops.Count < 5)
+        {
+            Card potentialShop = cardPrefabs[Random.Range(0, cardPrefabs.Length)];
+            if (!selectedShops.Contains(potentialShop))
+            {
+                selectedShops.Add(potentialShop);
+            }
+        }
+        for (int i = 0; i < selectedShops.Count; i++)
+        {
+            if (availableShopSlots[i])
+            {
+                // Instantiate the reward card prefab and set its parent to the rewardsContainer
+                GameObject ShopInstance = Instantiate(selectedShops[i].gameObject, shopSlots[i].position, Quaternion.identity, shopContainer.transform);
+                ShopInstance.transform.rotation = shopSlots[i].rotation;
+                availableShopSlots[i] = false;
+                selectedShops[i].isRewardSceneCard = true;
+            }
+        }
+        ShopCards = selectedShops;
+    }
+
     private void ResetRewardSlots()
     {
        for (int i = 0; i < availableRewardSlots.Length; i++)
@@ -276,6 +338,14 @@ public class GameManager : MonoBehaviour
             availableRewardSlots[i] = true;
         }
     }
+    private void ResetShopSlots()
+    {
+        for (int i = 0; i < availableShopSlots.Length; i++)
+        {
+            availableShopSlots[i] = true;
+        }
+    }
+
     private void InitializeDeck()
     {
         if (isCardsFirstTime)
@@ -293,6 +363,9 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    
+
     public void ResetCylinder()
     {
         arrayIndex = 0;
@@ -470,6 +543,7 @@ public class GameManager : MonoBehaviour
     {
         deckSizeText.text = "" + deck.Count;
         discardPileText.text = "" + discardPile.Count;
+        coinText.text = "Coin: " + coin;
     }
 
     #endregion
@@ -584,6 +658,17 @@ public class GameManager : MonoBehaviour
         {
             case "BloodPactSpell":
                 TargetEnemy.AddBlood(5);
+                TargetEnemy.UpdateDebuffDisplays();
+                break;
+            case "HopeSpell":
+                TargetEnemy.AddHoly(3);
+                TargetEnemy.UpdateDebuffDisplays();
+                break;
+            case "OpportunitySpell":
+                healthAmount += 5;
+                healthBar.fillAmount = healthAmount / 100f;
+                healthText.text = healthAmount + " / " + maxHealth;
+                DrawCard();
                 break;
         }
     }
@@ -591,6 +676,7 @@ public class GameManager : MonoBehaviour
     #endregion
     public void SummonEnemies()
     {
+     
         // Shuffle the spawn slots list
         List<Transform> shuffledSpawnSlots = new List<Transform>(enemiesSpawnSlots);
 
@@ -641,9 +727,20 @@ public class GameManager : MonoBehaviour
         transparentPanel.enabled = true;
         yield return new WaitForSeconds(delay);
         transparentPanel.enabled = false;
-        // Continue with showing the map change animation and initializing the game
-        _showcaser.ToggleMapForGameScene();
-        //Do the everything related to game initialization here
-        InitializeGame();
+
+        if (mapMovement.currentNode.nodeData.isShop == true)
+        {
+            EnemySelection();
+            Debug.Log("Shop Node");
+            _showcaser.ToggleMapForGameScene();
+            ToggleShop();
+        }
+        else
+        {
+            _showcaser.ToggleMapForGameScene();
+            //Do the everything related to game initialization here
+
+            InitializeGame();
+        }
     }
 }

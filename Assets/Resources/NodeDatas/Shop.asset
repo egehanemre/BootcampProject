@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Shop
   m_EditorClassIdentifier: 
   sprite: {fileID: 1535703135, guid: 1845b5c93de49f849bedce091ad96412, type: 3}
-  enemyPrefabs: []
+  enemyPrefabs:
+  - {fileID: 6835508752107402791, guid: 611a241cf7bfd134080f1074359065c3, type: 3}
+  isShop: 1

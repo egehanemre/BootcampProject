@@ -116,6 +116,7 @@ public class Card : MonoBehaviour
     {
         _gameManager.spellName = bulletPrefab.name;
         _gameManager.UseSpellEffect();
+        _gameManager.availableCardSlots[handIndex] = true;
         MoveToDiscard();
     }
 

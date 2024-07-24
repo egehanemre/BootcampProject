@@ -213,9 +213,10 @@ public class Showcaser : MonoBehaviour
             lineRenderer.SetPosition(0, startPosition);
             lineRenderer.SetPosition(1, endPosition);
 
-            lineRenderer.startWidth = 0.1f;
-            lineRenderer.endWidth = 0.1f;
+            lineRenderer.startWidth = 0.05f;
+            lineRenderer.endWidth = 0.05f;
 
+            lineRenderer.sortingOrder = -1;
             // Adjust based on your canvas type
             lineRenderer.useWorldSpace = true; // Change to false if using Screen Space - Camera or World Space canvas
 
