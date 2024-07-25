@@ -118,7 +118,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.008738041, y: -0.00031137466}
+  m_Offset: {x: 0.036882877, y: -0.0155181885}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -129,7 +129,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.732804, y: 14.073964}
+  m_Size: {x: 9.519904, y: 13.556921}
   m_EdgeRadius: 0
 --- !u!114 &7789621724658017819
 MonoBehaviour:
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56585d2eb68daef4090ebdc17eed203a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shopCost: 0
   bulletPrefab: {fileID: 3515185738146821544, guid: f8a50a480a0ca8e4398443cc2f1e48bd, type: 3}
   spriteRenderer: {fileID: 0}
   cardIndex: 2
@@ -152,5 +153,11 @@ MonoBehaviour:
   element: 0
   rarity: 0
   isRewardSceneCard: 0
+  isShopCard: 0
   baseSortingOrder: 0
   targetEnemy: {fileID: 0}
+  shakeDuration: 0.5
+  shakeMagnitude: 0.1
+  hoverScaleFactor: 1.2
+  hoverYOffset: 0.5
+  hoverAnimationDuration: 0.2

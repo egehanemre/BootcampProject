@@ -26,6 +26,11 @@ public class Card : MonoBehaviour
 
     [SerializeField] private float shakeDuration = 0.5f;
     [SerializeField] private float shakeMagnitude = 0.1f;
+    [SerializeField] private float hoverScaleFactor = 1.2f;
+    [SerializeField] private float hoverYOffset = 0.5f;
+
+    private Vector3 originalScale;
+    private Vector3 originalPosition;
 
     public enum CardType
     {
@@ -66,7 +71,10 @@ public class Card : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         childCanvas = GetComponentInChildren<Canvas>();
+        originalScale = transform.localScale;
+        originalPosition = transform.position; // Ensure original position is set in Awake
     }
+
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
@@ -87,6 +95,9 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown()
     {
+        // Reset position and scale before playing the card
+        ResetPositionAndScale();
+
         if (cardName == "HardShot")
         {
             _gameManager.DrawCard();
@@ -132,12 +143,36 @@ public class Card : MonoBehaviour
         }
     }
 
+    private void OnMouseEnter()
+    {
+        if (isShopCard || isRewardSceneCard) return; // Skip hover effects if the card is in the shop or reward scene
+
+        originalPosition = transform.position; // Store the original position
+
+        transform.localScale = originalScale * hoverScaleFactor;
+        transform.position = originalPosition + new Vector3(0, hoverYOffset, 0);
+    }
+
+    private void OnMouseExit()
+    {
+        if (isShopCard || isRewardSceneCard) return; // Skip hover effects if the card is in the shop or reward scene
+
+        ResetPositionAndScale();
+    }
+
+    private void ResetPositionAndScale()
+    {
+        transform.position = originalPosition;
+        transform.localScale = originalScale;
+    }
+
     void BuyCard()
     {
         transform.SetParent(_gameManager.cardsContainer.transform);
         _gameManager.deck.Add(this);
         _gameManager.availableCardSlots[handIndex] = true;
         isShopCard = false;
+        isRewardSceneCard = false;
         gameObject.SetActive(false);
     }
 
@@ -165,6 +200,7 @@ public class Card : MonoBehaviour
             Debug.Log("Failed to add bullet. Card will not be played.");
         }
     }
+
     public void MoveToDiscard()
     {
         _gameManager.hand.Remove(this);
@@ -173,6 +209,7 @@ public class Card : MonoBehaviour
         gameObject.SetActive(false);
         ResetCardState();
     }
+
     public void ResetCardState()
     {
         handIndex = -1; // Reset hand index to an invalid state
