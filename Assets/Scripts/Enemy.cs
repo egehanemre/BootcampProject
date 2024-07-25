@@ -147,7 +147,7 @@ public class Enemy : MonoBehaviour
         }
         if (isDead)
         {
-            gameManager.coin += coinDrop;
+            gameManager.coin += this.coinDrop;
             UnityEngine.Debug.Log("Enemy is dead");  
             {
                 //clear all effects

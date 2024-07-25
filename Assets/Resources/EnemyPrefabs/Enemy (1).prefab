@@ -487,7 +487,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 148405221030027848}
   isDead: 0
-  coinDrop: 0
+  coinDrop: 10
   hellfireSprite: {fileID: 1858535894, guid: 93b54aa10df854849a805c73ea94e201, type: 3}
   soulfireSprite: {fileID: 0}
   thunderSprite: {fileID: -2009966577, guid: 93b54aa10df854849a805c73ea94e201, type: 3}

@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public Canvas startCanvas;
     public Canvas mapCanvas;
     public Canvas transparentPanel;
+    public Canvas topBar;
 
     public GameObject selectedEnemyContainerImage;
     public GameObject rewardsContainer;
@@ -245,7 +246,7 @@ public class GameManager : MonoBehaviour
     public void StartGameAfterMapClick()
     {
         // initializes game
-        StartCoroutine(StartGameAfterDelay(1.5f));
+        StartCoroutine(StartGameAfterDelay(0.5f));
     }
     public void SetupStartMap()
     {

@@ -1,8 +1,10 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections;
 
 public class Card : MonoBehaviour
 {
+    public int shopCost;
     public GameObject bulletPrefab;
     private GameManager _gameManager;
     public SpriteRenderer spriteRenderer;
@@ -16,15 +18,20 @@ public class Card : MonoBehaviour
     [SerializeField] private Element element;
     [SerializeField] private Rarity rarity;
     public bool isRewardSceneCard = false;
+    public bool isShopCard = false;
 
     public int baseSortingOrder = 0;
 
     public Enemy targetEnemy;
-    public enum CardType 
+
+    [SerializeField] private float shakeDuration = 0.5f;
+    [SerializeField] private float shakeMagnitude = 0.1f;
+
+    public enum CardType
     {
         Bullet,
         Incantation,
-    } 
+    }
     public enum Element
     {
         EmptyElement,
@@ -80,14 +87,14 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(cardName == "HardShot")
+        if (cardName == "HardShot")
         {
             _gameManager.DrawCard();
         }
 
         if (!isRewardSceneCard)
         {
-            if(cardType == CardType.Bullet)
+            if (cardType == CardType.Bullet)
             {
                 PlayCard();
             }
@@ -97,7 +104,7 @@ public class Card : MonoBehaviour
             }
         }
         //check if this card is shown for reward
-        else if (isRewardSceneCard)
+        else if (isRewardSceneCard && !isShopCard)
         {
             isRewardSceneCard = false;
             transform.SetParent(_gameManager.cardsContainer.transform);
@@ -110,6 +117,28 @@ public class Card : MonoBehaviour
             _gameManager.rewardCards.Clear();
             gameObject.SetActive(false);
         }
+        else if (isRewardSceneCard && isShopCard)
+        {
+            if (_gameManager.coin >= shopCost)
+            {
+                _gameManager.coin -= shopCost;
+                _gameManager.UpdateDeckCount();
+                StartCoroutine(ShowPurchaseFeedback());
+            }
+            else
+            {
+                StartCoroutine(ShowInsufficientCoinsFeedback());
+            }
+        }
+    }
+
+    void BuyCard()
+    {
+        transform.SetParent(_gameManager.cardsContainer.transform);
+        _gameManager.deck.Add(this);
+        _gameManager.availableCardSlots[handIndex] = true;
+        isShopCard = false;
+        gameObject.SetActive(false);
     }
 
     void PlaySpell()
@@ -148,5 +177,52 @@ public class Card : MonoBehaviour
     {
         handIndex = -1; // Reset hand index to an invalid state
         baseSortingOrder = 0;
+    }
+
+    private IEnumerator ShowInsufficientCoinsFeedback()
+    {
+        Color originalColor = spriteRenderer.color;
+        spriteRenderer.color = Color.red;
+
+        Vector3 originalPosition = transform.position;
+        float elapsed = 0.0f;
+
+        while (elapsed < shakeDuration)
+        {
+            float x = Random.Range(-1f, 1f) * shakeMagnitude;
+            float y = Random.Range(-1f, 1f) * shakeMagnitude;
+
+            transform.position = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        transform.position = originalPosition;
+        spriteRenderer.color = originalColor;
+    }
+
+    private IEnumerator ShowPurchaseFeedback()
+    {
+        Color originalColor = spriteRenderer.color;
+        spriteRenderer.color = Color.green;
+
+        Vector3 originalScale = transform.localScale;
+        Vector3 targetScale = originalScale * 1.2f;
+        float animationDuration = 0.4f;
+        float elapsed = 0.0f;
+
+        while (elapsed < animationDuration)
+        {
+            transform.localScale = Vector3.Lerp(originalScale, targetScale, elapsed / animationDuration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localScale = originalScale;
+        spriteRenderer.color = originalColor;
+
+        BuyCard();
     }
 }
