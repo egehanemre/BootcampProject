@@ -13,6 +13,8 @@ public class Card : MonoBehaviour
     public int cardIndex;
     public int handIndex;
 
+    public bool isAnimating = false;
+
     [SerializeField] private string cardName;
     [SerializeField] private CardType cardType;
     [SerializeField] private Element element;
@@ -31,6 +33,10 @@ public class Card : MonoBehaviour
 
     private Vector3 originalScale;
     private Vector3 originalPosition;
+
+    private Vector3 initialScale;
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
 
     public enum CardType
     {
@@ -78,6 +84,9 @@ public class Card : MonoBehaviour
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        initialScale = transform.localScale;
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
     }
 
     private void Update()
@@ -95,6 +104,8 @@ public class Card : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (isAnimating) return; // Prevent clicking if the card is animating
+
         // Reset position and scale before playing the card
         ResetPositionAndScale();
 
@@ -145,7 +156,7 @@ public class Card : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (isShopCard || isRewardSceneCard) return; // Skip hover effects if the card is in the shop or reward scene
+        if (isShopCard || isRewardSceneCard || isAnimating) return; // Skip hover effects if the card is in the shop, reward scene, or animating
 
         originalPosition = transform.position; // Store the original position
 
@@ -155,13 +166,16 @@ public class Card : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (isShopCard || isRewardSceneCard) return; // Skip hover effects if the card is in the shop or reward scene
+        if (isShopCard || isRewardSceneCard || isAnimating) return; // Skip hover effects if the card is in the shop, reward scene, or animating
 
         ResetPositionAndScale();
     }
 
+
     private void ResetPositionAndScale()
     {
+        if (isAnimating) return;
+
         transform.position = originalPosition;
         transform.localScale = originalScale;
     }
@@ -186,6 +200,8 @@ public class Card : MonoBehaviour
 
     void PlayCard()
     {
+        if (isAnimating) return;
+
         _gameManager.bulletIndex = cardIndex;
 
         bool bulletAdded = _gameManager.AddBullet();
@@ -203,13 +219,28 @@ public class Card : MonoBehaviour
 
     public void MoveToDiscard()
     {
+        if (isAnimating) return; // Prevent moving to discard if the card is animating
+
         _gameManager.hand.Remove(this);
         _gameManager.discardPile.Add(this);
-        transform.position = _gameManager.discardPileTransform.position;
-        gameObject.SetActive(false);
-        ResetCardState();
+        baseSortingOrder = 200; // Set the sorting order to be on top 
+
+        // Start the discard animation coroutine
+        StartCoroutine(_gameManager.AnimateCardToDiscard(transform, _gameManager.discardPileTransform, this, 0.5f));
+
+        // Set the card's position to the discard pile after the animation
+        StartCoroutine(SetCardInactiveAfterAnimation());
     }
 
+    private IEnumerator SetCardInactiveAfterAnimation()
+    {
+        yield return new WaitForSeconds(0.5f); // Wait for the animation to complete
+        gameObject.SetActive(false);
+        ResetCardState();
+        transform.localScale = initialScale; // Reset the scale to initial value
+        transform.position = initialPosition; // Reset the position to initial value
+        transform.rotation = initialRotation; // Reset the rotation to initial value
+    }
     public void ResetCardState()
     {
         handIndex = -1; // Reset hand index to an invalid state

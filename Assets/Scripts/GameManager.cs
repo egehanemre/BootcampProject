@@ -35,6 +35,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI displayTurn;
     public TextMeshProUGUI healthText;
 
+    public Transform deckPileTransform;
+    public Transform discardPileTransform;
+
     //Game State
     public bool isAllEnemiesDefeated = false;
     public bool isCardsFirstTime = true;
@@ -52,6 +55,7 @@ public class GameManager : MonoBehaviour
     public List<Enemy> enemies = new List<Enemy>();
     public List<GameObject> bulletObjects = new List<GameObject>();
     public NodeData currentNodeData;
+    public PlayerManager playerManager;
     public Enemy TargetEnemy;
     public Enemy selectedEnemy;
 
@@ -67,7 +71,6 @@ public class GameManager : MonoBehaviour
     public Transform[] cardSlots;
     public Transform[] shopSlots;
     public Transform[] rewardSlots;
-    public Transform discardPileTransform;
 
     //Gameplay Variables
     public int arrayIndex = 0;
@@ -125,7 +128,7 @@ public class GameManager : MonoBehaviour
         }
         transparentPanel.enabled = false;
 
-
+        playerManager = FindObjectOfType<PlayerManager>();
         _generator = FindObjectOfType<Generator>();
         SetVisualsToMapSelect();
 
@@ -365,17 +368,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
-
-    public void ResetCylinder()
+    private IEnumerator ResetCylinderAnimation(float duration)
     {
+        float startRotation = cylinder.transform.rotation.eulerAngles.z;
+        float endRotation = (startRotation + 720f) - startRotation;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+            float zRotation = Mathf.Lerp(startRotation, endRotation, t);
+            cylinder.transform.rotation = Quaternion.Euler(0f, 0f, zRotation);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final rotation is set
+        cylinder.transform.rotation = Quaternion.Euler(0f, 0f, endRotation % 360f);
+    }
+
+    public IEnumerator ResetCylinder(float duration)
+    {
+        // Start the reset rotation coroutine
+        yield return StartCoroutine(ResetCylinderAnimation(duration));
+
         arrayIndex = 0;
         shootIndex = 0;
         firedName = null;
         bulletToAdd = null;
-        cylinder.transform.rotation = Quaternion.Euler(0, 0, 0);
-        //make animations for this later
     }
+
     public void SetStartSlotsToEmpty()
     {
         availableBulletSlots = new bool[bulletSlots.Length];
@@ -411,22 +433,48 @@ public class GameManager : MonoBehaviour
 
     #endregion
     #region Card Management
-
     public void DrawHand()
     {
-        if ( isAllEnemiesDefeated == false)
+        if (!isAllEnemiesDefeated)
         {
-            for (int i = 0; i < 5; i++)
-            {
-                DrawCard();
-            }
+            Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
+            Cursor.visible = false; // Hide the cursor
+            StartCoroutine(DrawHandWithAnimation());
         }
-        
     }
+
+    private IEnumerator DrawHandWithAnimation()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            DrawCard();
+            yield return new WaitForSeconds(0.5f); // Wait for the animation to complete before drawing the next card
+        }
+        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+        Cursor.visible = true; // Show the cursor
+    }
+
+    private void DrawSingleCard()
+    {
+        Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
+        Cursor.visible = false; // Hide the cursor
+        StartCoroutine(DrawSingleCardWithAnimation());
+    }
+
+    private IEnumerator DrawSingleCardWithAnimation()
+    {
+        DrawCard();
+        yield return new WaitForSeconds(0.5f); // Wait for the animation to complete before drawing the next card
+
+        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+        Cursor.visible = true; // Show the cursor
+    }
+
     public void DrawCard()
     {
         if (deck.Count > 0)
         {
+
             Card randCard = deck[Random.Range(0, deck.Count)];
             for (int i = 0; i < availableCardSlots.Length; i++)
             {
@@ -436,8 +484,9 @@ public class GameManager : MonoBehaviour
                     randCard.gameObject.SetActive(true);
                     randCard.handIndex = i;
                     randCard.baseSortingOrder = i;
-                    randCard.transform.position = cardSlots[i].position;
-                    randCard.transform.rotation = cardSlots[i].rotation;
+
+                    StartCoroutine(AnimateCardMovement(deckPileTransform, cardSlots[i], randCard, 0.5f));
+
                     availableCardSlots[i] = false;
                     deck.Remove(randCard);
                     break;
@@ -445,11 +494,43 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    //public void DrawSingleCard()
+    //{
+    //    if (deck.Count > 0)
+    //    {
+    //        Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
+    //        Cursor.visible = false; // Hide the cursor
+
+    //        Card randCard = deck[Random.Range(0, deck.Count)];
+    //        for (int i = 0; i < availableCardSlots.Length; i++)
+    //        {
+    //            if (availableCardSlots[i])
+    //            {
+    //                hand.Add(randCard);
+    //                randCard.gameObject.SetActive(true);
+    //                randCard.handIndex = i;
+    //                randCard.baseSortingOrder = i;
+
+    //                StartCoroutine(AnimateCardMovement(deckPileTransform, cardSlots[i], randCard, 0.5f));
+
+    //                availableCardSlots[i] = false;
+    //                deck.Remove(randCard);
+    //                break;
+    //            }
+    //        }
+
+    //        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+    //        Cursor.visible = true; // Show the cursor
+    //    }
+    //}
+
     public void StartTurn()
     {
         EnableAllSlots();
         if(rewardsMenu.activeSelf == false)
         {
+            StartCoroutine(ResetCylinder(0.3f));
             DrawHand();
         }
         displayTurn.text = "Player's Turn:  " + turnCount + ".";
@@ -465,7 +546,7 @@ public class GameManager : MonoBehaviour
                 ShuffleCards();
             }
             shootIndex = 0;
-            ShootTheMagazine();
+            StartCoroutine(ShootTheMagazine()); ;
             displayTurn.text = "Enemy's Turn:  " + turnCount + ".";
             turnCount++;
 
@@ -510,15 +591,13 @@ public class GameManager : MonoBehaviour
             EnemyAction();
         }
     }
-
-
-    public void ShootTheMagazine()
+    public IEnumerator ShootTheMagazine()
     {
         int shootAmount = BulletQueue.Count;
 
         for (int x = 0; x < shootAmount; x++)
         {
-            FireBullet();
+            yield return StartCoroutine(FireBullet());
         }
     }
     public void EnableAllSlots()
@@ -586,8 +665,12 @@ public class GameManager : MonoBehaviour
     {
         int bulletsToFire = BulletQueue.Count;
     }
-    public void FireBullet()
+    public IEnumerator FireBullet()
     {
+        playerManager.TogglePlayerShootAnimation();
+
+        StartCoroutine(RotateCylinder(60f, 0.5f));
+
         if (BulletQueue.Count > 0)
         {
             foreach (Bullet bullet in BulletQueue)
@@ -627,6 +710,23 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("No bullets in queue to fire or cylinder is rotating.");
         }
+        yield return new WaitForSeconds(0.5f);
+    }
+
+    private IEnumerator RotateCylinder(float angle, float duration)
+    {
+        Quaternion startRotation = cylinder.transform.rotation;
+        Quaternion endRotation = startRotation * Quaternion.Euler(0, 0, angle);
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            cylinder.transform.rotation = Quaternion.Slerp(startRotation, endRotation, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        cylinder.transform.rotation = endRotation;
     }
     public void UseBulletEffect()
     {
@@ -669,7 +769,7 @@ public class GameManager : MonoBehaviour
                 healthAmount += 5;
                 healthBar.fillAmount = healthAmount / 100f;
                 healthText.text = healthAmount + " / " + maxHealth;
-                DrawCard();
+                DrawSingleCard();
                 break;
         }
     }
@@ -744,4 +844,46 @@ public class GameManager : MonoBehaviour
             InitializeGame();
         }
     }
+    public IEnumerator AnimateCardMovement(Transform from, Transform to, Card card, float duration)
+    {
+        card.isAnimating = true; // Set the flag to true at the start of the animation
+        float elapsedTime = 0f;
+        Vector3 startingPos = from.position;
+        Vector3 endingPos = to.position;
+
+        while (elapsedTime < duration)
+        {
+            card.transform.position = Vector3.Lerp(startingPos, endingPos, (elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        card.transform.position = endingPos;
+        card.isAnimating = false; // Set the flag to false at the end of the animation
+    }
+
+    public IEnumerator AnimateCardToDiscard(Transform from, Transform to, Card card, float duration)
+    {
+        card.isAnimating = true; // Set the flag to true at the start of the animation
+        float elapsedTime = 0f;
+        Vector3 startingPos = from.position;
+        Vector3 endingPos = to.position;
+        Vector3 startingScale = card.transform.localScale;
+        Vector3 endingScale = Vector3.zero; // Scale down to zero
+
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+            card.transform.position = Vector3.Lerp(startingPos, endingPos, t);
+            card.transform.localScale = Vector3.Lerp(startingScale, endingScale, t);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        card.transform.position = endingPos;
+        card.transform.localScale = endingScale;
+        card.isAnimating = false; // Set the flag to false at the end of the animation
+    }
+
+    
 }

@@ -1024,6 +1024,8 @@ GameObject:
   m_Component:
   - component: {fileID: 195451527}
   - component: {fileID: 195451526}
+  - component: {fileID: 195451528}
+  - component: {fileID: 195451529}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1072,8 +1074,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.023584902, g: 1, b: 0.18126264, a: 1}
+  m_Sprite: {fileID: -1050949035, guid: 5929b2559a893954fac22ecbb5f8a53d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1092,12 +1094,47 @@ Transform:
   m_GameObject: {fileID: 195451525}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.92, y: -1.67, z: -0.030812616}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -3.92, y: -1.86, z: -0.030812616}
+  m_LocalScale: {x: 0.23102, y: 0.23102, z: 0.23102}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1927869942}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &195451528
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195451525}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1727485fc03aa954796ad93f3ca1e0aa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &195451529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195451525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41c0738ffcae0e47bd79a414493b3ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 195451528}
+  x: 0
 --- !u!4 &245288501 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8087694594754018774, guid: d6bdca125c1af5a4ba7e6515f0b8dde3, type: 3}
@@ -2178,6 +2215,8 @@ MonoBehaviour:
   coinText: {fileID: 2035506808}
   displayTurn: {fileID: 1378471600}
   healthText: {fileID: 1583089288}
+  deckPileTransform: {fileID: 906893168}
+  discardPileTransform: {fileID: 1358858540}
   isAllEnemiesDefeated: 0
   isCardsFirstTime: 1
   deck: []
@@ -2193,6 +2232,7 @@ MonoBehaviour:
   enemies: []
   bulletObjects: []
   currentNodeData: {fileID: 0}
+  playerManager: {fileID: 0}
   TargetEnemy: {fileID: 0}
   selectedEnemy: {fileID: 0}
   firedBullet: {fileID: 0}
@@ -2218,7 +2258,6 @@ MonoBehaviour:
   - {fileID: 1156160220}
   - {fileID: 40666956}
   - {fileID: 1326994168}
-  discardPileTransform: {fileID: 906893168}
   arrayIndex: 0
   shootIndex: 0
   turnCount: 0
@@ -4919,7 +4958,7 @@ Transform:
   m_GameObject: {fileID: 1304972565}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -860.29, y: -626.84, z: 7.605897}
+  m_LocalPosition: {x: -868.22, y: -630.79, z: 7.605897}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
