@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aca65da58e30fa41877000e74a3aa1e, type: 3}
+  m_Name: BasicEnemyCultist
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 384347565, guid: 1845b5c93de49f849bedce091ad96412, type: 3}
+  enemyPrefabs:
+  - {fileID: 5091113461585161028, guid: 0f01d4084476f0b40a93068f0718c3f8, type: 3}
+  isShop: 0

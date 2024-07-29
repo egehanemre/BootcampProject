@@ -8,4 +8,5 @@ public class NodeData : ScriptableObject
 {
     public Sprite sprite;
     public GameObject[] enemyPrefabs; // Array of enemy prefabs for this node
+    public bool isShop = false;
 }
