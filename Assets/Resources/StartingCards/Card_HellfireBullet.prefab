@@ -146,8 +146,9 @@ MonoBehaviour:
   shopCost: 0
   bulletPrefab: {fileID: 3515185738146821544, guid: f8a50a480a0ca8e4398443cc2f1e48bd, type: 3}
   spriteRenderer: {fileID: 0}
-  cardIndex: 2
+  cardIndex: 1
   handIndex: 0
+  isAnimating: 0
   cardName: 
   cardType: 0
   element: 0
@@ -160,4 +161,3 @@ MonoBehaviour:
   shakeMagnitude: 0.1
   hoverScaleFactor: 1.2
   hoverYOffset: 0.5
-  hoverAnimationDuration: 0.2

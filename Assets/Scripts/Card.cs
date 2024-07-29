@@ -9,6 +9,7 @@ public class Card : MonoBehaviour
     private GameManager _gameManager;
     public SpriteRenderer spriteRenderer;
     private Canvas childCanvas;
+    private int originalSortingOrder;
 
     public int cardIndex;
     public int handIndex;
@@ -109,11 +110,6 @@ public class Card : MonoBehaviour
         // Reset position and scale before playing the card
         ResetPositionAndScale();
 
-        if (cardName == "HardShot")
-        {
-            _gameManager.DrawCard();
-        }
-
         if (!isRewardSceneCard)
         {
             if (cardType == CardType.Bullet)
@@ -128,16 +124,15 @@ public class Card : MonoBehaviour
         //check if this card is shown for reward
         else if (isRewardSceneCard && !isShopCard)
         {
+            Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
+            Cursor.visible = false; // Hide the cursor
             isRewardSceneCard = false;
             transform.SetParent(_gameManager.cardsContainer.transform);
             _gameManager.deck.Add(this);
+            StartCoroutine(ShowPurchaseFeedback());
 
-            foreach (Transform child in _gameManager.rewardsContainer.transform)
-            {
-                Destroy(child.gameObject);
-            }
-            _gameManager.rewardCards.Clear();
-            gameObject.SetActive(false);
+            Invoke("destroyOtherRewards", 0.45f);
+            
         }
         else if (isRewardSceneCard && isShopCard)
         {
@@ -154,11 +149,26 @@ public class Card : MonoBehaviour
         }
     }
 
+    private void destroyOtherRewards()
+    {
+        foreach (Transform child in _gameManager.rewardsContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        _gameManager.rewardCards.Clear();
+        gameObject.SetActive(false);
+
+        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+        Cursor.visible = true; // Show the cursor
+    }
+
     private void OnMouseEnter()
     {
         if (isShopCard || isRewardSceneCard || isAnimating) return; // Skip hover effects if the card is in the shop, reward scene, or animating
 
         originalPosition = transform.position; // Store the original position
+        originalSortingOrder = baseSortingOrder;
+        baseSortingOrder = 100; // Set the sorting order to be on top
 
         transform.localScale = originalScale * hoverScaleFactor;
         transform.position = originalPosition + new Vector3(0, hoverYOffset, 0);
@@ -169,6 +179,7 @@ public class Card : MonoBehaviour
         if (isShopCard || isRewardSceneCard || isAnimating) return; // Skip hover effects if the card is in the shop, reward scene, or animating
 
         ResetPositionAndScale();
+        baseSortingOrder = originalSortingOrder;
     }
 
 
@@ -195,6 +206,10 @@ public class Card : MonoBehaviour
         _gameManager.spellName = bulletPrefab.name;
         _gameManager.UseSpellEffect();
         _gameManager.availableCardSlots[handIndex] = true;
+        if(_gameManager.spellName == "OpportunitySpell")
+        {
+            _gameManager.DrawSingleCard();
+        }
         MoveToDiscard();
     }
 
@@ -291,6 +306,9 @@ public class Card : MonoBehaviour
         transform.localScale = originalScale;
         spriteRenderer.color = originalColor;
 
-        BuyCard();
+        if(isShopCard)
+        {
+            BuyCard();
+        }
     }
 }

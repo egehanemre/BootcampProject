@@ -12,9 +12,14 @@ using static MapMovement;
 public class GameManager : MonoBehaviour
 {
     // Singleton Instance
+    public GameObject gameCardHolder;
     public static GameManager Instance { get; private set; }
     public static bool isPlayerDoneSelectingThePointToMove = false;
 
+    public int gameState = 0;
+    public Canvas continueButton;
+
+    public GameObject topBarElementHelp;
     public MapMovement mapMovement;
     //UI Elements
     public Canvas mainCanvas;
@@ -22,6 +27,9 @@ public class GameManager : MonoBehaviour
     public Canvas mapCanvas;
     public Canvas transparentPanel;
     public Canvas topBar;
+    public Image backgroundCanvasImage;
+    public Sprite backgroundImageMap;
+    public Sprite backgroundImageBattle;
 
     public GameObject selectedEnemyContainerImage;
     public GameObject rewardsContainer;
@@ -38,6 +46,7 @@ public class GameManager : MonoBehaviour
     public Transform deckPileTransform;
     public Transform discardPileTransform;
 
+    public AudioManager audioManager;
     //Game State
     public bool isAllEnemiesDefeated = false;
     public bool isCardsFirstTime = true;
@@ -87,7 +96,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Generator _generator;
     [SerializeField] private Showcaser _showcaser;
-
     //Others
 
     public Image[] bulletSlots;
@@ -107,11 +115,22 @@ public class GameManager : MonoBehaviour
 
     public GameObject shop;
 
+    public Animator playerAnimator;
+    public GameObject Player;
+
 
     #region Unity Default Methods
     private void Start()
     {
-        // Create and shot the map on start
+        audioManager = FindObjectOfType<AudioManager>();
+
+        backgroundCanvasImage.sprite = backgroundImageMap;
+
+        if(maxHealth > 100)
+        {
+            maxHealth = 100;
+        }
+        playerAnimator = Player.GetComponent<Animator>();
         _generator.ShowMapOnStart();
     }
 
@@ -144,12 +163,6 @@ public class GameManager : MonoBehaviour
             StartGameAfterMapClick();
             isPlayerDoneSelectingThePointToMove = false;
         }
-
-        if (isAllEnemiesDefeated == true)
-        {
-            ToggleRewardSelection();
-            isAllEnemiesDefeated = false;
-        }
     }
 
     #endregion
@@ -157,6 +170,8 @@ public class GameManager : MonoBehaviour
     #region Visual Modifiers
     public void SetVisualsToMapSelect()
     {
+        backgroundCanvasImage.sprite = backgroundImageMap;
+
         rewardsMenu.SetActive(false);
         mainCanvas.enabled = false;
         battleDisplay.SetActive(false);
@@ -168,6 +183,7 @@ public class GameManager : MonoBehaviour
 
     public void SetVisualsToBattleScene()
     {
+        backgroundCanvasImage.sprite = backgroundImageBattle;
         rewardsMenu.SetActive(false);
         mainCanvas.enabled = true;
         battleDisplay.SetActive(true);
@@ -177,6 +193,7 @@ public class GameManager : MonoBehaviour
 
     public void ToggleRewardSelection()
     {
+        StartCoroutine(ResetCylinder(0f));
         startCanvas.enabled = false;
         mainCanvas.enabled = false;
         battleDisplay.SetActive(false);
@@ -196,11 +213,13 @@ public class GameManager : MonoBehaviour
 
     public void Continue()
     {
+        gameState = 0;
+
+        StartCoroutine(ResetCylinder(0f));
         isAllEnemiesDefeated = false;
         SetVisualsToMapSelect();
         _showcaser.ToggleMapForGameScene();
         InitializeRewards();
-        InitializeShop();
         SetStartSlotsToEmpty();
         ResetRewardSlots();
         ResetShopSlots();
@@ -250,6 +269,7 @@ public class GameManager : MonoBehaviour
     {
         // initializes game
         StartCoroutine(StartGameAfterDelay(0.5f));
+        gameState = 0;
     }
     public void SetupStartMap()
     {
@@ -270,9 +290,9 @@ public class GameManager : MonoBehaviour
         SetVisualsToBattleScene();
         InitializeRewards();
         InitializeDeck();
-        InitializeShop();
         SetStartSlotsToEmpty();
         SummonEnemies();
+        InitializeShop();
         EnemySelection();
         DrawHand();
         displayTurn.text = "Player's Turn:  " + turnCount + ".";
@@ -307,8 +327,15 @@ public class GameManager : MonoBehaviour
         rewardCards = selectedRewards;
     }
 
-    private void InitializeShop()
+    public void InitializeShop()
     {
+        ShopCards.Clear();
+
+        foreach (Transform child in shopContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         //we'll load the cards from resources folder
         Card[] cardPrefabs = Resources.LoadAll<Card>("ShopCards");
         List<Card> selectedShops = new List<Card>();
@@ -435,7 +462,7 @@ public class GameManager : MonoBehaviour
     #region Card Management
     public void DrawHand()
     {
-        if (!isAllEnemiesDefeated)
+        if (gameState == 0)
         {
             Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
             Cursor.visible = false; // Hide the cursor
@@ -447,6 +474,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
+            audioManager.PlaySfx(audioManager.drawCard);
             DrawCard();
             yield return new WaitForSeconds(0.5f); // Wait for the animation to complete before drawing the next card
         }
@@ -454,7 +482,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true; // Show the cursor
     }
 
-    private void DrawSingleCard()
+    public void DrawSingleCard()
     {
         Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
         Cursor.visible = false; // Hide the cursor
@@ -531,43 +559,56 @@ public class GameManager : MonoBehaviour
         if(rewardsMenu.activeSelf == false)
         {
             StartCoroutine(ResetCylinder(0.3f));
-            DrawHand();
+            if(isAllEnemiesDefeated == false)
+            {
+                DrawHand();
+            }
         }
         displayTurn.text = "Player's Turn:  " + turnCount + ".";
         turnCount++;
     }
 
     public void EndTurn()
-    { 
+    {
         DiscardHand();
+        if (deck.Count < 5)
         {
-            if (deck.Count < 5)
-            {
-                ShuffleCards();
-            }
-            shootIndex = 0;
-            StartCoroutine(ShootTheMagazine()); ;
-            displayTurn.text = "Enemy's Turn:  " + turnCount + ".";
-            turnCount++;
+            ShuffleCards();
+        }
+        shootIndex = 0;
+        StartCoroutine(ShootTheMagazine());
+        displayTurn.text = "Enemy's Turn: " + turnCount + ".";
+        turnCount++;
 
-            if (TargetEnemy != null)
+        if (TargetEnemy != null && !isAllEnemiesDefeated)
+        {
+            TargetEnemy.UpdateDebuffDisplays();
+            if (gameState == 0)
             {
-                TargetEnemy.CreateExplosion();
-                TargetEnemy.UpdateDebuffDisplays();
-                Invoke("StartEnemyTurn", 2f);
-                Invoke("StartTurn", 4f);
-            }
-            else
-            {
-                Debug.Log("AllEnemiesAreDead");
-                isAllEnemiesDefeated = true;
-                ToggleRewardSelection();
-                DiscardHand();
-                //SetVisualsToMapSelect();
-                //_showcaser.ToggleMapForGameScene();
+                StartCoroutine(HandleEnemyTurn());
             }
         }
     }
+
+    private IEnumerator HandleEnemyTurn()
+    {
+        yield return StartCoroutine(StartEnemyTurnCoroutine());
+        yield return new WaitForSeconds(1); // Wait for 2 seconds before starting the player's turn
+        if(gameState == 0)
+        {
+            StartTurn();
+        }
+    }
+
+    private IEnumerator StartEnemyTurnCoroutine()
+    {
+        yield return new WaitForSeconds(1); // Wait for 2 seconds before starting the enemy's turn
+        StartEnemyTurn();
+        // If StartEnemyTurn is synchronous and completes instantly, 
+        // you might need to use a yield return null to wait for a frame.
+        yield return null;
+    }
+
     public void DiscardHand()
     {
         foreach (Card card in hand.ToArray())
@@ -613,10 +654,12 @@ public class GameManager : MonoBehaviour
         {
             enemies[i].UpdateEffects();
         }
-        for(int j = 0; j < enemies.Count; j++)
+        for (int j = 0; j < enemies.Count; j++)
         {
             enemies[j].DoAction();
+            playerAnimator.SetTrigger("HitTrigger");
         }
+        
     }
 
     public void UpdateDeckCount()
@@ -733,20 +776,18 @@ public class GameManager : MonoBehaviour
         switch (firedName)
         {
             case "Bullet":
+                TargetEnemy.PlayHitAnimation();
                 TargetEnemy.EnemyTakeDamage(5);
                 TargetEnemy.UpdateDebuffDisplays();
                 break;
             case "HellfireBullet":
+                TargetEnemy.PlayHitAnimation();
                 TargetEnemy.AddHellfire(2);
                 TargetEnemy.UpdateDebuffDisplays();
                 break;
             case "SpikedBullet":
+                TargetEnemy.PlayHitAnimation();
                 TargetEnemy.EnemyTakeDamage(4);
-                TargetEnemy.AddBlood(2);
-                TargetEnemy.UpdateDebuffDisplays();
-                break;
-            case "HardShot":
-                TargetEnemy.EnemyTakeDamage(11);
                 TargetEnemy.AddBlood(2);
                 TargetEnemy.UpdateDebuffDisplays();
                 break;
@@ -769,7 +810,6 @@ public class GameManager : MonoBehaviour
                 healthAmount += 5;
                 healthBar.fillAmount = healthAmount / 100f;
                 healthText.text = healthAmount + " / " + maxHealth;
-                DrawSingleCard();
                 break;
         }
     }
@@ -803,10 +843,10 @@ public class GameManager : MonoBehaviour
 
     public void EnemySelection()
     {
-        if (enemies.Count > 0)
+        if (enemies.Count > 0 && currentNodeData.isShop == false)
         {
             TargetEnemy = enemies[0];
-            selectedEnemyContainerImage.transform.position = TargetEnemy.transform.position;
+            selectedEnemyContainerImage.transform.position = TargetEnemy.enemySpriteChildren.transform.position;
             selectedEnemyContainerImage.SetActive(true);
         }
         else
@@ -885,5 +925,8 @@ public class GameManager : MonoBehaviour
         card.isAnimating = false; // Set the flag to false at the end of the animation
     }
 
-    
+    public void ToggleHelp()
+    {
+        topBarElementHelp.SetActive(!topBarElementHelp.activeSelf);
+    }
 }

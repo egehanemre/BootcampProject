@@ -10,10 +10,18 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
+    public string enemyName;
+    public SpriteRenderer enemyIntentImage;
+    public TextMeshProUGUI enemyIntentText;
+    public int nextAction;
+
     private GameManager gameManager;
     public Image healthBar;
     public bool isDead = false;
     public int coinDrop = 10;
+
+    public Animation hitAnimation;
+    public Animator animator;
 
     public Sprite hellfireSprite;
     public Sprite soulfireSprite;
@@ -37,6 +45,11 @@ public class Enemy : MonoBehaviour
     public Sprite unholySprite;
     public Sprite curseSprite;
 
+    public Sprite intentAttack;
+    public GameObject enemySpriteChildren;
+
+    private int nextActionDamage;
+    private Sprite nextActionSprite;
 
     public TextMeshProUGUI healthText;
 
@@ -50,8 +63,18 @@ public class Enemy : MonoBehaviour
     public float currentHealth;
 
     public List<Effect> activeEffects = new List<Effect>();
+
+    private void Awake()
+    {
+        enemySpriteChildren = transform.Find("Sprite").gameObject;
+        animator = enemySpriteChildren.GetComponent<Animator>();
+    }
     private void Start()
     {
+        enemySpriteChildren = transform.Find("Sprite").gameObject;
+        animator = enemySpriteChildren.GetComponent<Animator>();
+        AssignEnemyIntentText();
+
         gameManager = FindObjectOfType<GameManager>();
         currentHealth = maxHealth;
         healthText.text = currentHealth + " / " + maxHealth;
@@ -78,7 +101,21 @@ public class Enemy : MonoBehaviour
             { EffectType.SpiritStorm, spiritStormSprite },
             { EffectType.Unholy, unholySprite }
         };
+        SelectNextEnemyAction();
+    }
+    private void AssignEnemyIntentText()
+    {
+        enemyIntentImage = transform.Find("EnemyNextActionDisplay").GetComponent<SpriteRenderer>();
 
+        Transform intentCanvas = transform.Find("EnemyNextActionDisplay/IntentCanvas");
+        if (intentCanvas != null)
+        {
+            Transform intentTextTransform = intentCanvas.Find("IntentText");
+            if (intentTextTransform != null)
+            {
+                enemyIntentText = intentTextTransform.GetComponent<TextMeshProUGUI>();
+            }
+        }
     }
     public void UpdateEffects()
     {
@@ -92,12 +129,19 @@ public class Enemy : MonoBehaviour
                 if(effect.effectType != EffectType.Blood)
                 {
                     effect.ApplyDamageEffect(this);
+                    animator.SetTrigger("HitTrigger");
                 }
                 if (effect.effectType == EffectType.Blood)
                 {
                     effect.ApplyBloodDamageEffect(this);
+                    animator.SetTrigger("HitTrigger");
                 }
-                if(effect.effectType == EffectType.Sacrifice)
+                if(effect.effectType == EffectType.BloodFlame)
+                {
+                    effect.ApplyBloodDamageEffect(this);
+                    animator.SetTrigger("HitTrigger");
+                }
+                if (effect.effectType == EffectType.Sacrifice)
                 {
                 }
             }
@@ -111,6 +155,7 @@ public class Enemy : MonoBehaviour
     {
         CreateExplosion();
         CreateSacrifice();
+        CreateBloodFlame();
     }
     public void UpdateEnemyHealthBar()
     {
@@ -121,15 +166,92 @@ public class Enemy : MonoBehaviour
     //we'll modify do action
     public void DoAction()
     {
-        gameManager.PlayerTakeDamage(10);
+        ApplyNextEnemyAction();
+        enemyIntentImage.sprite = null;
+        enemyIntentText.text = "";
+        Invoke("SelectNextEnemyAction",1f);
     }
+
+    public void PlayHitAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("HitTrigger");
+        }
+    }
+
+    public void SelectNextEnemyAction()
+    {
+        if (enemyName == "Cultist")
+        {
+            int randomAction = Random.Range(0, 2);
+
+            switch (randomAction)
+            {
+                case 0:
+                    nextActionDamage = 10;
+                    nextActionSprite = intentAttack;
+                    enemyIntentText.text = "7";
+                    break;
+                case 1:
+                    nextActionDamage = 20;
+                    nextActionSprite = intentAttack;
+                    enemyIntentText.text = "14";
+                    break;
+            }
+        }
+        else if (enemyName == "Goblin")
+        {
+            int randomAction = Random.Range(0, 2);
+
+            switch (randomAction)
+            {
+                case 0:
+                    nextActionDamage = 5;
+                    nextActionSprite = intentAttack;
+                    enemyIntentText.text = "5";
+                    break;
+                case 1:
+                    nextActionDamage = 15;
+                    nextActionSprite = intentAttack;
+                    enemyIntentText.text = "10";
+                    break;
+            }
+        }
+        else if (enemyName == "NecroMancer")
+        {
+            int randomAction = Random.Range(0, 2);
+
+            switch (randomAction)
+            {
+                case 0:
+                    nextActionDamage = 5;
+                    nextActionSprite = intentAttack;
+                    enemyIntentText.text = "12";
+                    break;
+                case 1:
+                    nextActionDamage = 15;
+                    nextActionSprite = intentAttack;
+                    enemyIntentText.text = "20";
+                    break;
+            }
+        }
+
+        // Update the UI with the next action details
+        enemyIntentImage.sprite = nextActionSprite;
+    }
+
+    private void ApplyNextEnemyAction()
+    {
+        gameManager.PlayerTakeDamage(nextActionDamage);
+    }
+
 
     //select enemy with mouse click
     public void OnMouseDown()
     {
         gameManager.TargetEnemy = this;
-        gameManager.selectedEnemyContainerImage.transform.position = gameManager.TargetEnemy.transform.position;
-
+        gameManager.selectedEnemyContainerImage.transform.position = gameManager.TargetEnemy.enemySpriteChildren.transform.position;
     }
     public void EnemyTakeDamage(float damage)
     {
@@ -144,6 +266,7 @@ public class Enemy : MonoBehaviour
         if (currentHealth <= 0)
         {
             isDead = true;
+            //animator.SetTrigger("DieTrigger");
         }
         if (isDead)
         {
@@ -170,7 +293,9 @@ public class Enemy : MonoBehaviour
                 }
                 else
                 {
-                    UnityEngine.Debug.Log("all enemies are dead");
+                    gameManager.gameState = 1;
+                    UnityEngine.Debug.Log("all enemies are dead");  
+                    gameManager.ToggleRewardSelection();
                     gameManager.isAllEnemiesDefeated = true;
                     gameManager.TargetEnemy = null; 
                     gameManager.selectedEnemyContainerImage.SetActive(false);
@@ -301,7 +426,6 @@ public class Enemy : MonoBehaviour
             // Optionally, remove the Hellfire and Thunder effects after creating the Explosion
             activeEffects.RemoveAll(e => e.effectType == EffectType.Hellfire || e.effectType == EffectType.Thunder);
         }
-
         UpdateDebuffDisplays();
     }
 
@@ -323,9 +447,27 @@ public class Enemy : MonoBehaviour
             // Optionally, remove the Hope and Blood effects after creating the Sacrifice
             activeEffects.RemoveAll(e => e.effectType == EffectType.Holy || e.effectType == EffectType.Blood);
         }
-
         UpdateDebuffDisplays();
     }
 
+    public void CreateBloodFlame()
+    {
+        Effect fireEffect = activeEffects.FirstOrDefault(e => e.effectType == EffectType.Hellfire);
+        Effect bloodEffect = activeEffects.FirstOrDefault(e => e.effectType == EffectType.Blood);
+
+        if (fireEffect != null && bloodEffect != null)
+        {
+            int totalBloodflameStacks = ((fireEffect.stackCount + bloodEffect.stackCount) * 3/2 );
+
+            Effect bloodflameEffect = new Effect(EffectType.BloodFlame, totalBloodflameStacks, 0); // Adjust the damagePerTurn as needed
+            AddEffect(bloodflameEffect);
+
+            fireEffect.stackCount = 0;
+            bloodEffect.stackCount = 0;
+            // Optionally, remove the Hope and Blood effects after creating the Sacrifice
+            activeEffects.RemoveAll(e => e.effectType == EffectType.Hellfire || e.effectType == EffectType.Blood);
+        }
+        UpdateDebuffDisplays();
+    }
     #endregion
 }

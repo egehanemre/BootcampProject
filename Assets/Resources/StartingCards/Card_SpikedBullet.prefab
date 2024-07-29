@@ -143,14 +143,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56585d2eb68daef4090ebdc17eed203a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shopCost: 0
   bulletPrefab: {fileID: 3515185738146821544, guid: 4c9a81cdc04772641868f002335cc172, type: 3}
   spriteRenderer: {fileID: 0}
-  cardIndex: 3
+  cardIndex: 2
   handIndex: 0
+  isAnimating: 0
   cardName: 
   cardType: 0
   element: 0
   rarity: 0
   isRewardSceneCard: 0
+  isShopCard: 0
   baseSortingOrder: 0
   targetEnemy: {fileID: 0}
+  shakeDuration: 0.5
+  shakeMagnitude: 0.1
+  hoverScaleFactor: 1.2
+  hoverYOffset: 0.5
