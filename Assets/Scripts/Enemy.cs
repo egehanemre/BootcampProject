@@ -355,6 +355,7 @@ public class Enemy : MonoBehaviour
                 if (stackText != null)
                 {
                     stackText.text = effect.stackCount.ToString();
+                    stackText.font = gameManager.font;
                 }
             }
         }

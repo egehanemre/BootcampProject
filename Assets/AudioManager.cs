@@ -8,9 +8,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource sfxSource;
 
     public AudioClip drawCard;
-    public AudioClip playCard;
+    public AudioClip playSpell;
     public AudioClip shoot;
     public AudioClip background;
+    public AudioClip addBullet;
+    public AudioClip revoReload;
 
     private void Start()
     {

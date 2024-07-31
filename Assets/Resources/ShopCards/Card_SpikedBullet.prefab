@@ -384,8 +384,9 @@ MonoBehaviour:
   shopCost: 24
   bulletPrefab: {fileID: 3515185738146821544, guid: 4c9a81cdc04772641868f002335cc172, type: 3}
   spriteRenderer: {fileID: 0}
-  cardIndex: 3
+  cardIndex: 2
   handIndex: 0
+  isAnimating: 0
   cardName: 
   cardType: 0
   element: 0
@@ -394,6 +395,10 @@ MonoBehaviour:
   isShopCard: 1
   baseSortingOrder: 0
   targetEnemy: {fileID: 0}
+  shakeDuration: 0.5
+  shakeMagnitude: 0.1
+  hoverScaleFactor: 1.2
+  hoverYOffset: 0.5
 --- !u!1 &8667558673553081184
 GameObject:
   m_ObjectHideFlags: 0

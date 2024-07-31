@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameCardHolder;
     public static GameManager Instance { get; private set; }
     public static bool isPlayerDoneSelectingThePointToMove = false;
+    public TMP_FontAsset font;
 
     public int gameState = 0;
     public Canvas continueButton;
@@ -156,6 +157,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+
         UpdateDeckCount();
 
         if (isPlayerDoneSelectingThePointToMove)
@@ -301,6 +303,7 @@ public class GameManager : MonoBehaviour
 
     private void InitializeRewards()
     {
+        rewardCards.Clear();
         //we'll load the cards from resources folder
         Card[] cardPrefabs = Resources.LoadAll<Card>("RewardCards");
         List<Card> selectedRewards = new List<Card>();
@@ -400,6 +403,12 @@ public class GameManager : MonoBehaviour
         float startRotation = cylinder.transform.rotation.eulerAngles.z;
         float endRotation = (startRotation + 720f) - startRotation;
         float elapsedTime = 0f;
+
+
+        if (gameState == 0 && battleDisplay.activeInHierarchy)
+        {
+            audioManager.PlaySfx(audioManager.revoReload);
+        }
 
         while (elapsedTime < duration)
         {
@@ -719,6 +728,12 @@ public class GameManager : MonoBehaviour
             foreach (Bullet bullet in BulletQueue)
             {
                 Debug.Log("Firing bullet: " + bullet.name);
+            }
+
+            if(gameState == 0)
+            {
+                audioManager.PlaySfx(audioManager.shoot);
+
             }
 
             firedBullet = BulletQueue.Dequeue();

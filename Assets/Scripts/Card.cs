@@ -107,6 +107,7 @@ public class Card : MonoBehaviour
     {
         if (isAnimating) return; // Prevent clicking if the card is animating
 
+
         // Reset position and scale before playing the card
         ResetPositionAndScale();
 
@@ -115,10 +116,13 @@ public class Card : MonoBehaviour
             if (cardType == CardType.Bullet)
             {
                 PlayCard();
+                _gameManager.audioManager.PlaySfx(_gameManager.audioManager.addBullet);
+
             }
             if (cardType == CardType.Incantation)
             {
                 PlaySpell();
+                _gameManager.audioManager.PlaySfx(_gameManager.audioManager.playSpell);
             }
         }
         //check if this card is shown for reward
@@ -208,7 +212,15 @@ public class Card : MonoBehaviour
         _gameManager.availableCardSlots[handIndex] = true;
         if(_gameManager.spellName == "OpportunitySpell")
         {
-            _gameManager.DrawSingleCard();
+            if(_gameManager.deck.Count > 0)
+            {
+                _gameManager.DrawSingleCard();
+            }
+            else
+            {
+                _gameManager.ShuffleCards();
+                _gameManager.DrawSingleCard();
+            }
         }
         MoveToDiscard();
     }
