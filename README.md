@@ -7,11 +7,10 @@ Unity-76
 ## Team Members
 - Egehan EMRE: Scrum Master / Product Owner / Developer
 - Dursun Can Aydın: Game Artist
-- Ayşe Pelin Seçim:
-- 
-## Gunslinger
 
---TBD--
+## Game Name
+
+- Gunslinger
 
 ## Product URL's
 
@@ -56,59 +55,54 @@ session feels fresh and engaging.
 
  This game is for those who enjoy: ***Strategy Games,*** ***Turn-Based Combat,*** and for our fellow ***Card Game Enthusiasts***.
 
-
-## Note For The Judges
-
--Not implemented yet-
-
 # Sprint Overview
 ## Sprint 1
 
-- **Estimated Points to Complete in the Sprint**: 13 Points
+ **Estimated Points to Complete in the Sprint**: 13 Points
 
-- **How to complete points**: We have a total of 40 points worth of backlog that need to be completed throughout the project. When divided into 3 sprints, it was decided that the first sprint should start with 13 points.
+ **How to complete points**: We have a total of 40 points worth of backlog that need to be completed throughout the project. When divided into 3 sprints, it was decided that the first sprint should start with 13 points.
 
-- **Daily Scrum**: Our Daily Scrum meetings were held on Discord. Examples of Daily Scrum meetings are shared below:
+ **Daily Scrum**: Our Daily Scrum meetings were held on Discord. Examples of Daily Scrum meetings are shared below:
 
  ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Discord2.PNG)
  ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/DiscordImg.PNG)-
 
-- **Sprint board update**:
+ **Sprint board update**:
   
 ![Backlog 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Miro.PNG) 
 
-- **State of the game**:
+ **State of the game**:
   
   ![Screenshot 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CurrentState.PNG)
 
 - **Sprint Review**: 
 We finished the most of the playable prototype, mechanics are mostly working as intended on the coding side of things, we haven't done much on the art side since it was in the prototyping stage. 
 
-- **Sprint Retrospective:**
+ **Sprint Retrospective:**
   - Team Changes and Role Adjustments: We experienced team changes with 2 members leaving and 1 new member joining. Accordingly, roles were adjusted, and the Scrum Master was changed.
   - Task Distribution Reorganization: It was decided to reorganize the task distribution within the team for the upcoming sprint to ensure more effective collaboration and workload balance.
  
 ## Sprint 2
 
-- **Estimated Points to Complete in the Sprint**: 14 Points
+ **Estimated Points to Complete in the Sprint**: 14 Points
 
-- **How to complete points**: We have a total of 40 points worth of backlog that need to be completed throughout the project. In first sprint we finished 13 story point worth of content. When divided into 3 sprints, it was decided that the second sprint should have 14 points.
+ **How to complete points**: We have a total of 40 points worth of backlog that need to be completed throughout the project. In first sprint we finished 13 story point worth of content. When divided into 3 sprints, it was decided that the second sprint should have 14 points.
 
-- **Daily Scrum**: Our Daily Scrum meetings were held on Discord but we decide to do sprints on text format and only have meetings when important stuff happens. Examples of Daily Scrum meetings are shared below:
+ **Daily Scrum**: Our Daily Scrum meetings were held on Discord but we decide to do sprints on text format and only have meetings when important stuff happens. Examples of Daily Scrum meetings are shared below:
 
 ![image](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Meetings2.PNG)
 ![image](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/dagilimlar.PNG)
 
-- **Sprint Review**: Since our other members were not active during the sprint, we only had 2 people working on the project for this sprint, we drew most of our card and element sprites, connected them to game through code to create scriptable cards, turn system, combat manager, map algorithm, enemy ai etc. game is in playable state but needs adjustments to establish a DEMO version.
+ **Sprint Review**: Since our other members were not active during the sprint, we only had 2 people working on the project for this sprint, we drew most of our card and element sprites, connected them to game through code to create scriptable cards, turn system, combat manager, map algorithm, enemy ai etc. game is in playable state but needs adjustments to establish a DEMO version.
 
-- **Sprint Retrospective:**
-- Team and Role Management: Two members were mostly inactive for the entire sprint, they failed to establish task given to them even when those were considered easier tasks, One member had to do others tasks to meet the requirements for the sprint by overworking himself. Artist and Programmer done their part.
+ **Sprint Retrospective:**
+ Team and Role Management: Two members were mostly inactive for the entire sprint, they failed to establish task given to them even when those were considered easier tasks, One member had to do others tasks to meet the requirements for the sprint by overworking himself. Artist and Programmer done their part.
 
-- **Sprint board update**:
+ **Sprint board update**:
   
   ![Backlog 2](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Miro2.PNG)
 
-- **State of the game**:
+ **State of the game**:
   
   ![Screenshot 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CurrentGameState.PNG)
   ![Screenshot 2](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/PathAlgorithm.jpg)
@@ -117,22 +111,23 @@ We finished the most of the playable prototype, mechanics are mostly working as 
 
   ## Sprint 3
 
-- **Estimated Points to Complete in the Sprint**: 13 Points
+ **Estimated Points to Complete in the Sprint**: 13 Points
 
-- **How to complete points**: We have a total backlog of 40 points to complete throughout the project. We completed 13 story points worth of content in the first sprint and 14 story points worth of content in the second sprint. When divided into 3 sprints, it was decided that the third sprint should have 14 points.
+ **How to complete points**: We have a total backlog of 40 points to complete throughout the project. We completed 13 story points worth of content in the first sprint and 14 story points worth of content in the second sprint. When divided into 3 sprints, it was decided that the third sprint should have 14 points.
 
-- **Daily Scrum**: In the previous sprint, we decided to hold our daily scrum meetings in text format on Discord and only meet when important things happened, we continued this. Examples of daily scrum meetings are shared below:
+ **Daily Scrum**: In the previous sprint, we decided to hold our daily scrum meetings in text format on Discord and only meet when important things happened, we continued this. Examples of daily scrum meetings are shared below:
   
  ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/dc1.png)
  ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/dc2.png)-
   
-- **Sprint board update**:
+ **Sprint board update**:
   
  ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/grafik.png)
   
-- **Sprint Review**: We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the bugs, made the necessary adjustments and finished the playable demo.
+ **Sprint Review**: We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the bugs, made the necessary adjustments and finished the playable demo.
   
-- **Final visuals of the game**:
+ **Final visuals of the game**:
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss1.png)
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss2.png)
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss3.png)
+
