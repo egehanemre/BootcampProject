@@ -2,8 +2,6 @@
 
 Unity-76
 
-# Product Information
-
 ## Team Members
 - Egehan EMRE: Scrum Master / Product Owner / Developer
 - Dursun Can Aydın: Game Artist
