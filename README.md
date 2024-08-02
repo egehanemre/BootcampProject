@@ -112,3 +112,12 @@ We finished the most of the playable prototype, mechanics are mostly working as 
   ![Screenshot 2](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/PathAlgorithm.jpg)
   ![Screenshot 3](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CardsTexts.jpg)
   ![Screenshot 4](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/elementler_ortal.png)
+
+  ## Sprint 1
+
+- **Estimated Points to Complete in the Sprint**: 13 Points
+
+- **How to complete points**: We have a total backlog of 40 points to complete throughout the project. We completed 13 story points worth of content in the first sprint and 14 story points worth of content in the second sprint. When divided into 3 sprints, it was decided that the third sprint should have 14 points.
+
+- **Daily Scrum**: In the previous sprint, we decided to hold our daily scrum meetings in text format on Discord and only meet when important things happened, we continued this. Examples of daily scrum meetings are shared below:
+
