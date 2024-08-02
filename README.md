@@ -75,7 +75,7 @@ session feels fresh and engaging.
   
   ![Screenshot 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CurrentState.PNG)
 
-- **Sprint Review**: 
+ **Sprint Review**: 
 We finished the most of the playable prototype, mechanics are mostly working as intended on the coding side of things, we haven't done much on the art side since it was in the prototyping stage. 
 
  **Sprint Retrospective:**
