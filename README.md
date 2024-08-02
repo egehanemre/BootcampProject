@@ -7,8 +7,8 @@ Unity-76
 ## Team Members
 - Egehan EMRE: Scrum Master / Product Owner / Developer
 - Dursun Can Aydın: Game Artist
-- Ayşe Pelin Seçim: Developer
-
+- Ayşe Pelin Seçim:
+- 
 ## Gunslinger
 
 --TBD--
