@@ -27,14 +27,14 @@ RectTransform:
   m_GameObject: {fileID: 1581990475184652426}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.009764592, y: 0.009764592, z: 0.009764592}
+  m_LocalScale: {x: 0.0070315343, y: 0.0070315343, z: 0.0070315343}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8620279142704490829}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -571.5257, y: -322.91516}
+  m_AnchoredPosition: {x: -571.4975, y: -322.91516}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9174725485431146952
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 425356125, guid: 93b54aa10df854849a805c73ea94e201, type: 3}
+  m_Sprite: {fileID: 488364279, guid: 1eb385c035956ce45aae9eb6d02a381d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -356,8 +356,9 @@ MonoBehaviour:
   shopCost: 15
   bulletPrefab: {fileID: 3515185738146821544, guid: f8a50a480a0ca8e4398443cc2f1e48bd, type: 3}
   spriteRenderer: {fileID: 0}
-  cardIndex: 2
+  cardIndex: 1
   handIndex: 0
+  isAnimating: 0
   cardName: 
   cardType: 0
   element: 0
@@ -366,6 +367,10 @@ MonoBehaviour:
   isShopCard: 1
   baseSortingOrder: 0
   targetEnemy: {fileID: 0}
+  shakeDuration: 0.5
+  shakeMagnitude: 0.1
+  hoverScaleFactor: 1.2
+  hoverYOffset: 0.5
 --- !u!1 &7446007086089732916
 GameObject:
   m_ObjectHideFlags: 0

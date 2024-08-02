@@ -107,6 +107,7 @@ public class Card : MonoBehaviour
     {
         if (isAnimating) return; // Prevent clicking if the card is animating
 
+
         // Reset position and scale before playing the card
         ResetPositionAndScale();
 
@@ -115,41 +116,48 @@ public class Card : MonoBehaviour
             if (cardType == CardType.Bullet)
             {
                 PlayCard();
+                _gameManager.audioManager.PlaySfx(_gameManager.audioManager.addBullet);
+
             }
             if (cardType == CardType.Incantation)
             {
                 PlaySpell();
+                _gameManager.audioManager.PlaySfx(_gameManager.audioManager.playSpell);
             }
         }
         //check if this card is shown for reward
         else if (isRewardSceneCard && !isShopCard)
         {
-            Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
-            Cursor.visible = false; // Hide the cursor
+            _gameManager.audioManager.PlaySfx(_gameManager.audioManager.playSpell);
+
+            
             isRewardSceneCard = false;
             transform.SetParent(_gameManager.cardsContainer.transform);
             _gameManager.deck.Add(this);
-            StartCoroutine(ShowPurchaseFeedback());
-
+            StartCoroutine(ShowPurchaseFeedbackOnRewards());
+            disableOtherRewards();
             Invoke("destroyOtherRewards", 0.45f);
             
         }
         else if (isRewardSceneCard && isShopCard)
         {
+
             if (_gameManager.coin >= shopCost)
             {
                 _gameManager.coin -= shopCost;
                 _gameManager.UpdateDeckCount();
                 StartCoroutine(ShowPurchaseFeedback());
+                _gameManager.audioManager.PlaySfx(_gameManager.audioManager.purchaseCard);
             }
             else
             {
                 StartCoroutine(ShowInsufficientCoinsFeedback());
+                _gameManager.audioManager.PlaySfx(_gameManager.audioManager.noMoney);
             }
         }
     }
 
-    private void destroyOtherRewards()
+    public void destroyOtherRewards()
     {
         foreach (Transform child in _gameManager.rewardsContainer.transform)
         {
@@ -157,9 +165,14 @@ public class Card : MonoBehaviour
         }
         _gameManager.rewardCards.Clear();
         gameObject.SetActive(false);
+    }
 
-        Cursor.lockState = CursorLockMode.None; // Unlock the cursor
-        Cursor.visible = true; // Show the cursor
+    private void disableOtherRewards()
+    {
+        foreach (Transform child in _gameManager.rewardsContainer.transform)
+        {
+            child.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        }
     }
 
     private void OnMouseEnter()
@@ -198,6 +211,7 @@ public class Card : MonoBehaviour
         _gameManager.availableCardSlots[handIndex] = true;
         isShopCard = false;
         isRewardSceneCard = false;
+        baseSortingOrder = 0;
         gameObject.SetActive(false);
     }
 
@@ -208,7 +222,15 @@ public class Card : MonoBehaviour
         _gameManager.availableCardSlots[handIndex] = true;
         if(_gameManager.spellName == "OpportunitySpell")
         {
-            _gameManager.DrawSingleCard();
+            if(_gameManager.deck.Count > 0)
+            {
+                _gameManager.DrawSingleCard();
+            }
+            else
+            {
+                _gameManager.ShuffleCards();
+                _gameManager.DrawSingleCard();
+            }
         }
         MoveToDiscard();
     }
@@ -250,11 +272,11 @@ public class Card : MonoBehaviour
     private IEnumerator SetCardInactiveAfterAnimation()
     {
         yield return new WaitForSeconds(0.5f); // Wait for the animation to complete
-        gameObject.SetActive(false);
         ResetCardState();
         transform.localScale = initialScale; // Reset the scale to initial value
         transform.position = initialPosition; // Reset the position to initial value
         transform.rotation = initialRotation; // Reset the rotation to initial value
+        gameObject.SetActive(false);
     }
     public void ResetCardState()
     {
@@ -307,6 +329,28 @@ public class Card : MonoBehaviour
         spriteRenderer.color = originalColor;
 
         if(isShopCard)
+        {
+            BuyCard();
+        }
+    }
+
+    private IEnumerator ShowPurchaseFeedbackOnRewards()
+    {
+        Color originalColor = spriteRenderer.color;
+        spriteRenderer.color = Color.green;
+
+        float animationDuration = 0.4f;
+        float elapsed = 0.0f;
+
+        while (elapsed < animationDuration)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        spriteRenderer.color = originalColor;
+
+        if (isShopCard)
         {
             BuyCard();
         }

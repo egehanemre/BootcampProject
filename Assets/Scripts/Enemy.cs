@@ -191,12 +191,12 @@ public class Enemy : MonoBehaviour
                 case 0:
                     nextActionDamage = 10;
                     nextActionSprite = intentAttack;
-                    enemyIntentText.text = "7";
+                    enemyIntentText.text = "10";
                     break;
                 case 1:
                     nextActionDamage = 20;
                     nextActionSprite = intentAttack;
-                    enemyIntentText.text = "14";
+                    enemyIntentText.text = "20";
                     break;
             }
         }
@@ -214,7 +214,7 @@ public class Enemy : MonoBehaviour
                 case 1:
                     nextActionDamage = 15;
                     nextActionSprite = intentAttack;
-                    enemyIntentText.text = "10";
+                    enemyIntentText.text = "15";
                     break;
             }
         }
@@ -227,12 +227,30 @@ public class Enemy : MonoBehaviour
                 case 0:
                     nextActionDamage = 5;
                     nextActionSprite = intentAttack;
-                    enemyIntentText.text = "12";
+                    enemyIntentText.text = "5";
                     break;
                 case 1:
                     nextActionDamage = 15;
                     nextActionSprite = intentAttack;
-                    enemyIntentText.text = "20";
+                    enemyIntentText.text = "15";
+                    break;
+            }
+        }
+        else if (enemyName == "NecroMancerEnd")
+        {
+            int randomAction = Random.Range(0, 2);
+
+            switch (randomAction)
+            {
+                case 0:
+                    nextActionDamage = 99;
+                    nextActionSprite = intentAttack;
+                    enemyIntentText.text = "99";
+                    break;
+                case 1:
+                    nextActionDamage = 99;
+                    nextActionSprite = intentAttack;
+                    enemyIntentText.text = "99";
                     break;
             }
         }
@@ -279,6 +297,8 @@ public class Enemy : MonoBehaviour
                     if(effect.effectType == EffectType.Sacrifice)
                     {
                         gameManager.maxHealth += gameManager.maxHealth / 100 * 5;
+                        healthBar.fillAmount = gameManager.healthAmount / 100f;
+                        healthText.text = gameManager.healthAmount + " / " + maxHealth;
                     }
                     effect.stackCount = 0;
                 }
@@ -294,7 +314,7 @@ public class Enemy : MonoBehaviour
                 else
                 {
                     gameManager.gameState = 1;
-                    UnityEngine.Debug.Log("all enemies are dead");  
+                    UnityEngine.Debug.Log("all enemies are dead");
                     gameManager.ToggleRewardSelection();
                     gameManager.isAllEnemiesDefeated = true;
                     gameManager.TargetEnemy = null; 
@@ -355,6 +375,7 @@ public class Enemy : MonoBehaviour
                 if (stackText != null)
                 {
                     stackText.text = effect.stackCount.ToString();
+                    stackText.font = gameManager.font;
                 }
             }
         }
@@ -366,7 +387,7 @@ public class Enemy : MonoBehaviour
     #region Add Effects
     public void AddHellfire(int stackCount)
     {
-        AddEffect(new Effect(EffectType.Hellfire, stackCount, 1)); // Adjust damagePerTurn as needed
+        AddEffect(new Effect(EffectType.Hellfire, stackCount, 3)); // Adjust damagePerTurn as needed
         UpdateDebuffDisplays();
     }
 

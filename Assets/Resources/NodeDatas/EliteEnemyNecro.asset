@@ -15,5 +15,4 @@ MonoBehaviour:
   sprite: {fileID: 1496327113, guid: 1845b5c93de49f849bedce091ad96412, type: 3}
   enemyPrefabs:
   - {fileID: 6835508752107402791, guid: 5446f137339984d4c94f9d2cf02f728c, type: 3}
-  - {fileID: 5091113461585161028, guid: 0f01d4084476f0b40a93068f0718c3f8, type: 3}
   isShop: 0

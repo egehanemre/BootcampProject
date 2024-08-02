@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapMovement : MonoBehaviour
 {
 
+    public GameManager gameManager;
     private Showcaser showcaser;
 
 
@@ -22,6 +23,7 @@ public class MapMovement : MonoBehaviour
 
     private void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         // Example assignment to demonstrate automatic delegation
         nodeCheckDelegate = CheckIfNodeIsAvailableToMove;
     }
@@ -53,7 +55,7 @@ public class MapMovement : MonoBehaviour
 
 
         currentNode = node;
-        GameManager.Instance.SetCurrentNodeData(node.nodeData);
+        gameManager.SetCurrentNodeData(node.nodeData);
         Debug.Log(currentNode.arrayPos);
         showcaser.HighlightCurrentAndAbleNodes();
     }
