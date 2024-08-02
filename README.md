@@ -124,8 +124,16 @@ We finished the most of the playable prototype, mechanics are mostly working as 
 
 - **Daily Scrum**: In the previous sprint, we decided to hold our daily scrum meetings in text format on Discord and only meet when important things happened, we continued this. Examples of daily scrum meetings are shared below:
   
+ ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/dc1.png)
+ ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/dc2.png)-
+  
 - **Sprint board update**:
+  
+ ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/grafik.png)
   
 - **Sprint Review:** We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the bugs, made the necessary adjustments and finished the game.
   
 - **Final visuals of the game:**
+![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss1.png)
+![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss2.png)
+![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss3.png)
