@@ -136,7 +136,3 @@ We finished the most of the playable prototype, mechanics are mostly working as 
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss1.png)
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss2.png)
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss3.png)
-
-- **Gameplay Video**:
-  
- [![Gunslinger-Gameplay](https://img.youtube.com/vi/z-ZoC4LqZK4/0.jpg)](https://youtu.be/z-ZoC4LqZK4)
