@@ -1,0 +1,157 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7222575967904366582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 272861209558718490}
+  - component: {fileID: 3877018979503825080}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: GameManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &272861209558718490
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7222575967904366582}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.99, y: -4.06, z: 0.037698314}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3877018979503825080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7222575967904366582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2ad8460859b53a44927e578904c23c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneManager: {fileID: 0}
+  gameCardHolder: {fileID: 0}
+  settingsButton: {fileID: 0}
+  hints: {fileID: 0}
+  font: {fileID: 11400000, guid: 3502aea26e2dca04eb6b86c803919f48, type: 2}
+  gameState: 0
+  continueButton: {fileID: 0}
+  topBarElementHelp: {fileID: 0}
+  mapMovement: {fileID: 0}
+  mainCanvas: {fileID: 0}
+  startCanvas: {fileID: 0}
+  mapCanvas: {fileID: 0}
+  transparentPanel: {fileID: 0}
+  topBar: {fileID: 0}
+  backgroundCanvasImage: {fileID: 0}
+  backgroundImageMap: {fileID: 21300000, guid: 43a7d98bd4222b64e933596512dc09ad, type: 3}
+  backgroundImageBattle: {fileID: 21300000, guid: 3b0a66d118172cc43908a5dd1e376f4e, type: 3}
+  selectedEnemyContainerImage: {fileID: 0}
+  rewardsContainer: {fileID: 0}
+  shopContainer: {fileID: 0}
+  rewardsMenu: {fileID: 0}
+  cardsContainer: {fileID: 0}
+  deckSizeText: {fileID: 0}
+  discardPileText: {fileID: 0}
+  coinText: {fileID: 0}
+  displayTurn: {fileID: 0}
+  healthText: {fileID: 0}
+  deckPileTransform: {fileID: 0}
+  discardPileTransform: {fileID: 0}
+  audioManager: {fileID: 0}
+  isAllEnemiesDefeated: 0
+  isCardsFirstTime: 1
+  deck: []
+  hand: []
+  discardPile: []
+  rewardCards: []
+  ShopCards: []
+  enemiesSpawnSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemies: []
+  bulletObjects: []
+  currentNodeData: {fileID: 0}
+  playerManager: {fileID: 0}
+  TargetEnemy: {fileID: 0}
+  selectedEnemy: {fileID: 0}
+  firedBullet: {fileID: 0}
+  bullet: {fileID: 0}
+  bulletToAdd: {fileID: 0}
+  closedBulletSlot: {fileID: 3515185738146821544, guid: 7ffb6d46cccd3be4bbea650f0f6c946a, type: 3}
+  enemiesContainer: {fileID: 0}
+  battleDisplay: {fileID: 0}
+  firedBulletObject: {fileID: 0}
+  cardSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  shopSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  rewardSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  arrayIndex: 0
+  shootIndex: 0
+  turnCount: 0
+  coin: 0
+  maxMana: 6
+  currentMana: 3
+  maxHealth: 100
+  currentHealth: 0
+  bulletIndex: 0
+  _generator: {fileID: 0}
+  _showcaser: {fileID: 0}
+  bulletSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  buffSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  availableCardSlots: 0101010101
+  availableRewardSlots: 010101
+  availableShopSlots: 0101010101
+  availableBulletSlots: 010101010101
+  cylinder: {fileID: 0}
+  fireButton: {fileID: 0}
+  healthBar: {fileID: 0}
+  healthAmount: 100
+  firedName: 
+  spellName: 
+  shop: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  Player: {fileID: 0}
+  isPlayerDead: 0
+  gameIsGoing: 0

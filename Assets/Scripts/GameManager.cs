@@ -1,24 +1,24 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static MapMovement;
 
 public class GameManager : MonoBehaviour
 {
+    public SceneManager sceneManager;
     // Singleton Instance
     public GameObject gameCardHolder;
+    public Canvas settingsButton;
+    public GameObject hints;
+
+    private float lastSpamTime;
     public static GameManager Instance { get; private set; }
     public static bool isPlayerDoneSelectingThePointToMove = false;
     public TMP_FontAsset font;
 
     public int gameState = 0;
-    public Canvas continueButton;
+    public GameObject continueButton;
 
     public GameObject topBarElementHelp;
     public MapMovement mapMovement;
@@ -119,6 +119,8 @@ public class GameManager : MonoBehaviour
     public Animator playerAnimator;
     public GameObject Player;
 
+    public bool isPlayerDead = false;
+    public bool gameIsGoing = false;
 
     #region Unity Default Methods
     private void Start()
@@ -137,15 +139,19 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        sceneManager = FindObjectOfType<SceneManager>();
+
+        lastSpamTime = Time.time;
+
+        //if (Instance == null)
+        //{
+        //    Instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        //else
+        //{
+        //    Destroy(gameObject);
+        //}
         transparentPanel.enabled = false;
 
         playerManager = FindObjectOfType<PlayerManager>();
@@ -157,6 +163,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if(gameIsGoing && healthAmount <= 0)
+        {
+            gameIsGoing = false;
+            sceneManager.RestartGame();
+        }
 
         UpdateDeckCount();
 
@@ -181,6 +192,7 @@ public class GameManager : MonoBehaviour
         mapCanvas.enabled = true;
         transparentPanel.enabled = false;
         shop.SetActive(false);
+        hints.SetActive(true);
     }
 
     public void SetVisualsToBattleScene()
@@ -191,6 +203,7 @@ public class GameManager : MonoBehaviour
         battleDisplay.SetActive(true);
         startCanvas.enabled = false;
         mapCanvas.enabled = false;
+        hints.SetActive(false);
     }
 
     public void ToggleRewardSelection()
@@ -201,6 +214,14 @@ public class GameManager : MonoBehaviour
         battleDisplay.SetActive(false);
         mapCanvas.enabled = false;
         rewardsMenu.SetActive(true);
+        StartCoroutine(ActivateCanvasAfterDelay(1.5f));
+        hints.SetActive(false);
+    }
+
+    IEnumerator ActivateCanvasAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        continueButton.SetActive(true);
     }
 
     public void ToggleShop()
@@ -211,10 +232,12 @@ public class GameManager : MonoBehaviour
         mapCanvas.enabled = false;
         rewardsMenu.SetActive(false);
         shop.SetActive(true);
+        hints.SetActive(false);
     }
 
     public void Continue()
     {
+        continueButton.SetActive(false);
         gameState = 0;
 
         StartCoroutine(ResetCylinder(0f));
@@ -227,6 +250,7 @@ public class GameManager : MonoBehaviour
         ResetShopSlots();
 
         enemies.Clear();
+
         foreach (Transform child in enemiesContainer.transform)
         {
             Destroy(child.gameObject);
@@ -299,10 +323,18 @@ public class GameManager : MonoBehaviour
         DrawHand();
         displayTurn.text = "Player's Turn:  " + turnCount + ".";
         turnCount++;
+        gameIsGoing = true;
+
     }
 
     private void InitializeRewards()
     {
+        foreach (Transform child in rewardsContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        rewardCards.Clear();
+
         rewardCards.Clear();
         //we'll load the cards from resources folder
         Card[] cardPrefabs = Resources.LoadAll<Card>("RewardCards");
@@ -348,6 +380,7 @@ public class GameManager : MonoBehaviour
             Card potentialShop = cardPrefabs[Random.Range(0, cardPrefabs.Length)];
             if (!selectedShops.Contains(potentialShop))
             {
+                potentialShop.baseSortingOrder = 1;
                 selectedShops.Add(potentialShop);
             }
         }
@@ -471,6 +504,7 @@ public class GameManager : MonoBehaviour
     #region Card Management
     public void DrawHand()
     {
+        DiscardHand();
         if (gameState == 0)
         {
             Cursor.lockState = CursorLockMode.Locked; // Lock the cursor
@@ -564,6 +598,11 @@ public class GameManager : MonoBehaviour
 
     public void StartTurn()
     {
+        if(healthAmount <= 0)
+        {
+            return;
+        }
+
         EnableAllSlots();
         if(rewardsMenu.activeSelf == false)
         {
@@ -579,25 +618,30 @@ public class GameManager : MonoBehaviour
 
     public void EndTurn()
     {
-        DiscardHand();
-        if (deck.Count < 5)
+        if (Time.time >= lastSpamTime)
         {
-            ShuffleCards();
-        }
-        shootIndex = 0;
-        StartCoroutine(ShootTheMagazine());
-        displayTurn.text = "Enemy's Turn: " + turnCount + ".";
-        turnCount++;
-
-        if (TargetEnemy != null && !isAllEnemiesDefeated)
-        {
-            TargetEnemy.UpdateDebuffDisplays();
-            if (gameState == 0)
+            DiscardHand();
+            if (deck.Count < 5)
             {
-                StartCoroutine(HandleEnemyTurn());
+                ShuffleCards();
             }
+            shootIndex = 0;
+            StartCoroutine(ShootTheMagazine());
+            displayTurn.text = "Enemy's Turn: " + turnCount + ".";
+            turnCount++;
+
+            if (TargetEnemy != null && !isAllEnemiesDefeated)
+            {
+                TargetEnemy.UpdateDebuffDisplays();
+                if (gameState == 0)
+                {
+                    StartCoroutine(HandleEnemyTurn());
+                }
+            }
+            lastSpamTime = Time.time + 3f;
         }
     }
+        
 
     private IEnumerator HandleEnemyTurn()
     {
@@ -668,7 +712,6 @@ public class GameManager : MonoBehaviour
             enemies[j].DoAction();
             playerAnimator.SetTrigger("HitTrigger");
         }
-        
     }
 
     public void UpdateDeckCount()
@@ -733,7 +776,6 @@ public class GameManager : MonoBehaviour
             if(gameState == 0)
             {
                 audioManager.PlaySfx(audioManager.shoot);
-
             }
 
             firedBullet = BulletQueue.Dequeue();
@@ -823,6 +865,10 @@ public class GameManager : MonoBehaviour
                 break;
             case "OpportunitySpell":
                 healthAmount += 5;
+                if(healthAmount > maxHealth)
+                {
+                    healthAmount = maxHealth;
+                }
                 healthBar.fillAmount = healthAmount / 100f;
                 healthText.text = healthAmount + " / " + maxHealth;
                 break;
@@ -943,5 +989,18 @@ public class GameManager : MonoBehaviour
     public void ToggleHelp()
     {
         topBarElementHelp.SetActive(!topBarElementHelp.activeSelf);
+    }
+
+    public void ToggleSettings()
+    {
+        settingsButton.gameObject.SetActive(!settingsButton.gameObject.activeSelf);
+        Time.timeScale = settingsButton.gameObject.activeSelf ? 0 : 1;
+    }
+
+    public void BackToMenu()
+    {
+
+        Time.timeScale = 1;
+        sceneManager.RestartGameMenu();
     }
 }

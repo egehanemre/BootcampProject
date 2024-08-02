@@ -9,6 +9,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(MapMovement))]
 public class Showcaser : MonoBehaviour
 {
+    private Dictionary<GameObject, Coroutine> blinkingCoroutines = new Dictionary<GameObject, Coroutine>();
+
     public Map map;
 
     public GameObject NodePrefab;
@@ -234,8 +236,6 @@ public class Showcaser : MonoBehaviour
         InstantiatedConnections.Clear(); // Clear the list after destroying the objects
     }
 
-
-
     public void HighlightCurrentAndAbleNodes()
     {
         if (!firstMove)
@@ -243,7 +243,9 @@ public class Showcaser : MonoBehaviour
             foreach (GameObject node in InstantiatedNodes.Values)
             {
                 if (node != null)
+                {
                     node.GetComponent<NodeClick>().heldNode.canMoveTo = false;
+                }
             }
         }
         firstMove = false;
@@ -278,10 +280,21 @@ public class Showcaser : MonoBehaviour
                 if (nodeClick.heldNode.canMoveTo)
                 {
                     node.GetComponent<Image>().color = Color.green;
+                    if (!blinkingCoroutines.ContainsKey(node))
+                    {
+                        Coroutine blinkCoroutine = StartCoroutine(BlinkNode(node));
+                        blinkingCoroutines[node] = blinkCoroutine;
+                    }
                 }
                 else
                 {
                     node.GetComponent<Image>().color = Color.white;
+                    if (blinkingCoroutines.ContainsKey(node))
+                    {
+                        StopCoroutine(blinkingCoroutines[node]);
+                        blinkingCoroutines.Remove(node);
+                    }
+                    node.transform.localScale = Vector3.one; // Reset scale
                 }
                 if (nodeClick.heldNode.alreadyMoved)
                 {
@@ -295,7 +308,22 @@ public class Showcaser : MonoBehaviour
         }
     }
 
-
-
-
+    private IEnumerator BlinkNode(GameObject node)
+    {
+        while (true)
+        {
+            // Scale up
+            for (float t = 0; t < 1; t += Time.deltaTime)
+            {
+                node.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * 1.2f, t);
+                yield return null;
+            }
+            // Scale down
+            for (float t = 0; t < 1; t += Time.deltaTime)
+            {
+                node.transform.localScale = Vector3.Lerp(Vector3.one * 1.2f, Vector3.one, t);
+                yield return null;
+            }
+        }
+    }
 }
