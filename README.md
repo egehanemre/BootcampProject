@@ -6,9 +6,8 @@ Unity-76
 
 ## Team Members
 - Egehan EMRE: Scrum Master / Product Owner / Developer
-- Dursun Can Aydın: Developer / Game Artist
+- Dursun Can Aydın: Game Artist
 - Ayşe Pelin Seçim: Developer
-- Efe Ocal: Developer
 
 ## Gunslinger
 
@@ -18,7 +17,7 @@ Unity-76
 
 [Unity-76 Backlog](https://miro.com/app/board/uXjVK3nFc9k=/?share_link_id=787798622591)
 
-[Unity-76 GDD](https://docs.google.com/document/d/1-jOxitJ-poOserVJdOzUOjSWFCbPDeOtg3DQ2ZdOAFI/edit?usp=sharing)
+[Unity-76 GDD(Legacy)](https://docs.google.com/document/d/1-jOxitJ-poOserVJdOzUOjSWFCbPDeOtg3DQ2ZdOAFI/edit?usp=sharing)
 
 ## Brief Game Description
 
@@ -131,7 +130,7 @@ We finished the most of the playable prototype, mechanics are mostly working as 
   
  ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/grafik.png)
   
-- **Sprint Review:** We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the bugs, made the necessary adjustments and finished the game.
+- **Sprint Review:** We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the bugs, made the necessary adjustments and finished the playable demo.
   
 - **Final visuals of the game:**
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss1.png)
