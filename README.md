@@ -130,9 +130,13 @@ We finished the most of the playable prototype, mechanics are mostly working as 
   
  ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/grafik.png)
   
-- **Sprint Review:** We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the bugs, made the necessary adjustments and finished the playable demo.
+- **Sprint Review**: We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the bugs, made the necessary adjustments and finished the playable demo.
   
-- **Final visuals of the game:**
+- **Final visuals of the game**:
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss1.png)
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss2.png)
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss3.png)
+
+- **Gameplay Video**:
+  
+ [![Gunslinger-Gameplay](https://img.youtube.com/vi/z-ZoC4LqZK4/0.jpg)](https://youtu.be/z-ZoC4LqZK4)
