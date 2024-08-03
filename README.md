@@ -1,14 +1,16 @@
-# **Team Name**
-
-Unity-76
+# **Unity Team 76**
 
 ## Team Members
-- Egehan EMRE: Scrum Master / Product Owner / Developer
-- Dursun Can Aydın: Game Artist
+| Name - Surname    | Titles           |
+| ------------- |:-------------:|
+| Egehan EMRE        | Scrum Master / Product Owner / Developer |
+| Dursun Can AYDIN   | Game Artist | 
 
 ## Game Name
 
-- Gunslinger
+| GUNSLINGER   |
+| ------------- |
+
 
 ## Product URL's
 
@@ -18,30 +20,30 @@ Unity-76
 
 ## Brief Game Description
 
-<GameName> is a Roguelike, Turn-Based Card game. The game’s core gameplay revolves around
+Gunslinger is a Roguelike, Turn-Based Card game. The game’s core gameplay revolves around
 strategically managing a limited number of cards with different effects in your deck to defeat enemies in complex, turn-based
 battles and progress through map. As players progress, they can achieve different cards through combat and item drops to alter the gameplay loop for each run and future runs by unlocking new
 cards and weapons that permanently appear in subsequent runs to provide replayability.
 
 # Detailed Description
-<GameName> is a Roguelike, Turn-Based Card game that places players in a challenging and
+Gunslinger is a Roguelike, Turn-Based Card game that places players in a challenging and
 strategic enviroment where every decision can mean the difference between victory and defeat. The gameplay
 is centered around a unique bullet system integrated with card mechanics, creating complex, turn-based
 battles that require thoughtful planning and adaptability.
 ### Gameplay Overview
-In <GameName>, each card in your deck represents a specific action or bullet type which you must use
+In Gunsliner, each card in your deck represents a specific action or bullet type which you must use
 strategically to create chain combos and advance through levels. Players start with a basic deck, but as they progress, they can
 acquire new cards through combat and item drops and also unlock permanent unlocks for the next
 playthroughs. This deck-building mechanic allows for extensive customization, enabling players to
 develop unique strategies tailored to their playstyle.
 ### Turn-Based Combat
-Our approach for combat in <GameName> is turn-based, with a focus on anticipating and countering enemy actions. Each
-card played adds a bullet to your magazine, which is fired at the end of your turn. Observing the bullets
-in enemy magazines is crucial, as it allows you to place your own bullets strategically to counter
-their moves effectively. This layer of strategy distinguishes <GameName> from traditional card games,
+Our approach for combat in Gunslinger is turn-based, with a focus on anticipating and countering enemy actions. Each
+card played adds a bullet to your magazine, which is fired at the end of your turn. Observing the enemy intents
+is crucial as it allows you to place your own bullets strategically to counter
+their moves effectively. This layer of strategy distinguishes our product from traditional card games,
 adding depth and complexity to each encounter.
 ### Deck-Building Mechanics
-One of the standout features of <GameName> is it's approach to deck-building mechanics, we introduce different card types such as attack/counter/buff cards. Players start with a
+One of the standout features we have in our game is in it's approach to deck-building mechanics, we introduce different card types such as attack/effect/buff cards. Players start with a
 basic deck but can customize and enhance it by acquiring new cards through gameplay leading to insane chain combos if used right. This system not
 only allows for significant player choice and strategic depth but also includes a permanent unlock
 system. This means that new cards and weapons unlocked during runs will appear in future
@@ -111,7 +113,7 @@ We finished the most of the playable prototype, mechanics are mostly working as 
 
  **Estimated Points to Complete in the Sprint**: 13 Points
 
- **How to complete points**: We have a total backlog of 40 points to complete throughout the project. We completed 13 story points worth of content in the first sprint and 14 story points worth of content in the second sprint. When divided into 3 sprints, it was decided that the third sprint should have 14 points.
+ **How to complete points**: We have a total backlog of 40 points to complete throughout the project. We completed 13 story points worth of content in the first sprint and 14 story points worth of content in the second sprint. When divided into 3 sprints, it was decided that the third sprint should have 13 points.
 
  **Daily Scrum**: In the previous sprint, we decided to hold our daily scrum meetings in text format on Discord and only meet when important things happened, we continued this. Examples of daily scrum meetings are shared below:
   
@@ -122,10 +124,16 @@ We finished the most of the playable prototype, mechanics are mostly working as 
   
  ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/grafik.png)
   
- **Sprint Review**: We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the bugs, made the necessary adjustments and finished the playable demo.
   
  **Final visuals of the game**:
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss1.png)
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss2.png)
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss3.png)
 
+ **Sprint Review**: We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the major bugs, made the necessary adjustments and finished the playable demo.
+
+Sprint Retrospective:
+Art and Interface Completion: The focus on completing the art assets and structuring the interface was successful. The final visuals of the game are polished and cohesive.
+Animations and Audio Integration: Integrating animations and audio files added a layer of polish to the game.
+Bug Fixes and Adjustments: Major bugs were successfully addressed, and necessary adjustments were made to ensure a smooth and enjoyable gameplay experience.
+Playable Demo Completion: The team successfully completed the playable demo.
