@@ -75,10 +75,11 @@ session feels fresh and engaging.
   
   ![Screenshot 1](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/CurrentState.PNG)
 
- **Sprint Review**: 
-We finished the most of the playable prototype, mechanics are mostly working as intended on the coding side of things, we haven't done much on the art side since it was in the prototyping stage. 
+ ### Sprint Review: 
 
- **Sprint Retrospective:**
+ - We finished the most of the playable prototype, mechanics are mostly working as intended on the coding side of things, we haven't done much on the art side since it was in the prototyping stage. 
+
+ ### Sprint Retrospective:
   - Team Changes and Role Adjustments: We experienced team changes with 2 members leaving and 1 new member joining. Accordingly, roles were adjusted, and the Scrum Master was changed.
   - Task Distribution Reorganization: It was decided to reorganize the task distribution within the team for the upcoming sprint to ensure more effective collaboration and workload balance.
  
@@ -93,10 +94,11 @@ We finished the most of the playable prototype, mechanics are mostly working as 
 ![image](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/Meetings2.PNG)
 ![image](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/dagilimlar.PNG)
 
- **Sprint Review**: Since our other members were not active during the sprint, we only had 2 people working on the project for this sprint, we drew most of our card and element sprites, connected them to game through code to create scriptable cards, turn system, combat manager, map algorithm, enemy ai etc. game is in playable state but needs adjustments to establish a DEMO version.
+ ### Sprint Review: 
+- Since our other members were not active during the sprint, we only had 2 people working on the project for this sprint, we drew most of our card and element sprites, connected them to game through code to create scriptable cards, turn system, combat manager, map algorithm, enemy ai etc. game is in playable state but needs adjustments to establish a DEMO version.
 
- **Sprint Retrospective:**
- Team and Role Management: Two members were mostly inactive for the entire sprint, they failed to establish task given to them even when those were considered easier tasks, One member had to do others tasks to meet the requirements for the sprint by overworking himself. Artist and Programmer done their part.
+ ### Sprint Retrospective:
+- Team and Role Management: Two members were mostly inactive for the entire sprint, they failed to establish task given to them even when those were considered easier tasks, One member had to do others tasks to meet the requirements for the sprint by overworking himself. Artist and Programmer done their part.
 
  **Sprint board update**:
   
@@ -124,16 +126,16 @@ We finished the most of the playable prototype, mechanics are mostly working as 
   
  ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/grafik.png)
   
-  
  **Final visuals of the game**:
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss1.png)
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss2.png)
 ![Screenshot Daily](https://github.com/egehanemre/BootcampProject/blob/main/Sprint/game_ss3.png)
 
- **Sprint Review**: We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the major bugs, made the necessary adjustments and finished the playable demo.
+### Sprint Review: 
+- We focused on completing the art and structuring the interface. While doing this, we added the animations and audio files. Finally, we fixed the major bugs, made the necessary adjustments and finished the playable demo.
 
-Sprint Retrospective:
-Art and Interface Completion: The focus on completing the art assets and structuring the interface was successful. The final visuals of the game are polished and cohesive.
-Animations and Audio Integration: Integrating animations and audio files added a layer of polish to the game.
-Bug Fixes and Adjustments: Major bugs were successfully addressed, and necessary adjustments were made to ensure a smooth and enjoyable gameplay experience.
-Playable Demo Completion: The team successfully completed the playable demo.
+### Sprint Retrospective:
+- Art and Interface Completion: The focus on completing the art assets and structuring the interface was successful. The final visuals of the game are polished and cohesive.
+- Animations and Audio Integration: Integrating animations and audio files added a layer of polish to the game.
+- Bug Fixes and Adjustments: Major bugs were successfully addressed, and necessary adjustments were made to ensure a smooth and enjoyable gameplay experience.
+- Playable Demo Completion: The team successfully completed the playable demo.
